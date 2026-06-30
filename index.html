@@ -5,21 +5,36 @@
 <title>The Shadow Princess</title>
 
 <style>
+/* =========================
+   GLOBAL
+========================= */
 body {
     margin: 0;
     overflow: hidden;
-    background: #444;
+    background: black;
     font-family: serif;
 }
 
-/* STAGE */
+/* =========================
+   BOOK STAGE
+========================= */
 #book-stage {
     position: relative;
     width: 100vw;
     height: 100vh;
 }
 
-/* PAGE AREAS */
+/* STATIC BOOK IMAGE */
+#book-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* =========================
+   PAGE CONTAINERS (LOCKED)
+========================= */
 .page {
     position: absolute;
     top: 16%;
@@ -27,24 +42,58 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     padding: 14px;
-    color: white;
 }
 
-/* LEFT */
+/* LEFT PAGE (SIDE A) */
 #pageA {
     width: 21%;
     left: 28%;
-    background: rgba(255,255,255,0.05);
 }
 
-/* RIGHT */
+/* RIGHT PAGE (SIDE B) */
 #pageB {
     width: 19%;
     right: 30%;
-    background: rgba(255,255,255,0.05);
 }
 
-/* NAV */
+/* =========================
+   TYPOGRAPHY
+   (controlled ONLY by engine rendering)
+========================= */
+.chapter-number {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.chapter-title {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.chapter-text {
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: left;
+    white-space: normal;
+}
+
+/* IMAGE MODE */
+.page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* =========================
+   NAV BUTTONS
+========================= */
 .nav-btn {
     position: absolute;
     top: 50%;
@@ -55,6 +104,7 @@ body {
     color: white;
     cursor: pointer;
     z-index: 9999;
+    user-select: none;
 }
 
 #btnPrev { left: 20px; }
@@ -66,39 +116,26 @@ body {
 
 <div id="book-stage">
 
+    <!-- STATIC FRAME -->
+    <img id="book-page" src="images/Next Page.png" alt="Book Page">
+
+    <!-- NAVIGATION -->
     <button id="btnPrev" class="nav-btn">◀</button>
     <button id="btnNext" class="nav-btn">▶</button>
 
+    <!-- LEFT PAGE -->
     <div id="pageA" class="page"></div>
+
+    <!-- RIGHT PAGE -->
     <div id="pageB" class="page"></div>
 
 </div>
 
-<script>
-/*
-=========================
- INLINE ENGINE TEST
-=========================
-*/
-
-window.onload = function () {
-    console.log("INLINE ENGINE RUNNING");
-
-    document.getElementById("pageA").innerHTML =
-        "<h2>ENGINE WORKS A</h2><p>If you see this, JS is working.</p>";
-
-    document.getElementById("pageB").innerHTML =
-        "<h2>ENGINE WORKS B</h2><p>DOM injection confirmed.</p>";
-
-    document.getElementById("btnNext").onclick = function () {
-        alert("NEXT CLICKED");
-    };
-
-    document.getElementById("btnPrev").onclick = function () {
-        alert("PREV CLICKED");
-    };
-};
-</script>
+<!-- ENGINE SCRIPTS -->
+<script src="book/loader.js"></script>
+<script src="book/paginator.js"></script>
+<script src="book/renderer.js"></script>
+<script src="book/engine.js"></script>
 
 </body>
 </html>
