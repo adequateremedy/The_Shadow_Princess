@@ -1,30 +1,59 @@
 /*
 =========================================
+ REAL DATA LOADER
  The Shadow Princess
- Book Loader
 -----------------------------------------
 
- Responsibilities:
+ Now connects to actual repository files:
+ - data/chapters.json
+ - chapters/chapter-X.txt
 
- • Load chapter titles from:
-   data/chapters.json
-
- • Load chapter text from:
-   chapters/chapter-1.txt
-   chapters/chapter-2.txt
-   ...
-   chapters/chapter-13.txt
-
- This file ONLY loads data.
-
- It does NOT:
- - split text into pages
- - draw anything on screen
- - play animations
-
- Those jobs belong to:
- - paginator.js
- - renderer.js
- - animations.js
 =========================================
 */
+
+/**
+ * Load chapter index (titles + ordering)
+ */
+async function loadChapters() {
+    try {
+        const res = await fetch("data/chapters.json");
+        const data = await res.json();
+
+        return data.chapters;
+    } catch (err) {
+        console.error("Failed to load chapters.json:", err);
+        return [];
+    }
+}
+
+/**
+ * Load raw chapter text file
+ */
+async function loadChapterText(chapterNumber) {
+    try {
+        const res = await fetch(`chapters/chapter-${chapterNumber}.txt`);
+        const text = await res.text();
+
+        return text;
+    } catch (err) {
+        console.error(`Failed to load chapter-${chapterNumber}.txt`, err);
+        return "";
+    }
+}
+
+/**
+ * Load full chapter (metadata + text)
+ */
+async function loadFullChapter(chapterIndex) {
+    const chapters = await loadChapters();
+
+    const chapterMeta = chapters[chapterIndex];
+
+    const rawText = await loadChapterText(chapterMeta.number);
+
+    return {
+        chapterNumber: chapterMeta.number,
+        chapterTitle: chapterMeta.title,
+        text: rawText
+    };
+}
