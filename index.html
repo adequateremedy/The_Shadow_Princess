@@ -19,12 +19,13 @@ body {
     height: 100vh;
 }
 
-/* BOOK IMAGE */
+/* BOOK IMAGE (FORCE VISIBILITY TEST) */
 #book-page {
     position: absolute;
     width: 100%;
     height: 100%;
     object-fit: contain;
+    background: #111;
 }
 
 /* PAGE AREAS */
@@ -49,14 +50,19 @@ body {
     right: 30%;
 }
 
-/* TYPOGRAPHY */
+/* TEXT */
+.chapter-number,
+.chapter-title,
+.chapter-text {
+    color: white;
+}
+
 .chapter-number {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     display: block;
     margin-bottom: 4px;
-    color: white;
 }
 
 .chapter-title {
@@ -65,26 +71,15 @@ body {
     text-align: center;
     display: block;
     margin-bottom: 10px;
-    color: white;
 }
 
 .chapter-text {
     font-size: 12px;
     line-height: 1.6;
     text-align: left;
-    white-space: normal;
-    color: white;
 }
 
-/* IMAGE MODE */
-.page-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-/* ARROWS */
+/* NAV */
 .nav-btn {
     position: absolute;
     top: 50%;
@@ -106,16 +101,14 @@ body {
 
 <div id="book-stage">
 
-    <!-- BOOK BACKGROUND IMAGE -->
-    <img id="book-page"
-         src="https://github.com/adequateremedy/The_Shadow_Princess_Digital_Book/blob/main/images/Next%20Page.png?raw=true"
-         alt="Book Page">
+    <!-- TEST BACKGROUND (TEMPORARY LOCAL SAFE IMAGE) -->
+    <div id="book-page" style="background: #222;"></div>
 
     <!-- ARROWS -->
     <button id="btnPrev" class="nav-btn">◀</button>
     <button id="btnNext" class="nav-btn">▶</button>
 
-    <!-- PAGE CONTAINERS -->
+    <!-- PAGES -->
     <div id="pageA" class="page"></div>
     <div id="pageB" class="page"></div>
 
