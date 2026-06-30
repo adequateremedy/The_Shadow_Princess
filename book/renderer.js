@@ -1,108 +1,79 @@
 /*
 =========================================
+ RENDERER (DOM WIRED VERSION)
  The Shadow Princess
- Renderer Engine
 -----------------------------------------
 
- PURPOSE:
- This module takes "paged data" from the
- paginator and displays it on screen.
+ Takes paginated data and injects it into:
+ - pageA (left)
+ - pageB (right)
 
- IT IS RESPONSIBLE FOR:
+ Handles:
+ ✔ Chapter headers (left only)
+ ✔ Text rendering
+ ✔ Clean resets between pages
+ ✔ Image override mode (future-ready)
 
- • Writing chapter number + title (LEFT only)
- • Writing body text (LEFT + RIGHT)
- • Injecting images when required
- • Respecting page boundaries (Side A / B)
-
- ----------------------------------------
-
- PAGE TARGETS (FROM index.html):
-
- #pageA = LEFT PAGE (Side A)
- #pageB = RIGHT PAGE (Side B)
-
- ----------------------------------------
-
- RENDER RULES:
-
- LEFT PAGE (Side A):
- - Chapter Number (if chapter start)
- - Chapter Title (if chapter start)
- - Body text below
-
- RIGHT PAGE (Side B):
- - Body text only
- - NO chapter header allowed
-
- IMAGE RULE:
- - If page.type === "image"
-   → replace entire page content
-
- =========================================
+=========================================
 */
 
-// DOM targets (will connect later)
-const pageA = document.getElementById("pageA");
-const pageB = document.getElementById("pageB");
-
 /**
- * Clears a page before rendering new content
+ * MAIN RENDER FUNCTION
  */
-function clearPage(page) {
-    page.innerHTML = "";
+function renderPage(leftPage, rightPage) {
+
+    const pageA = document.getElementById("pageA");
+    const pageB = document.getElementById("pageB");
+
+    // SAFETY CLEAN
+    pageA.innerHTML = "";
+    pageB.innerHTML = "";
+
+    // Render LEFT (Side A)
+    if (leftPage) {
+        renderSinglePage(pageA, leftPage, true);
+    }
+
+    // Render RIGHT (Side B)
+    if (rightPage) {
+        renderSinglePage(pageB, rightPage, false);
+    }
 }
 
 /**
- * Renders a text page
+ * RENDER SINGLE PAGE
  */
-function renderText(page, data, isLeft) {
-    clearPage(page);
+function renderSinglePage(container, pageData, isLeft) {
 
-    // LEFT page can show chapter header
-    if (isLeft && data.chapterStart) {
+    // IMAGE MODE (future use)
+    if (pageData.image) {
+        const img = document.createElement("img");
+        img.src = pageData.image;
+        img.className = "page-image";
 
-        const number = document.createElement("div");
-        number.className = "chapter-number";
-        number.textContent = data.chapterNumber;
+        container.appendChild(img);
+        return;
+    }
+
+    // CHAPTER HEADER (LEFT SIDE ONLY + ONLY AT CHAPTER START)
+    if (isLeft && pageData.chapterStart) {
+
+        const num = document.createElement("div");
+        num.className = "chapter-number";
+        num.innerText = `Chapter ${pageData.chapterNumber}`;
 
         const title = document.createElement("div");
         title.className = "chapter-title";
-        title.textContent = data.chapterTitle;
+        title.innerText = pageData.chapterTitle;
 
-        page.appendChild(number);
-        page.appendChild(title);
+        container.appendChild(num);
+        container.appendChild(title);
     }
 
+    // BODY TEXT
     const text = document.createElement("div");
     text.className = "chapter-text";
-    text.textContent = data.text;
+    text.innerText = pageData.text;
 
-    page.appendChild(text);
-}
-
-/**
- * Renders an image page (FULL REPLACEMENT RULE)
- */
-function renderImage(page, imageSrc) {
-    clearPage(page);
-
-    const img = document.createElement("img");
-    img.className = "page-image";
-    img.src = imageSrc;
-
-    page.appendChild(img);
-}
-
-/**
- * Main render call (placeholder for now)
- */
-function renderPage(leftData, rightData) {
-    renderText(pageA, leftData, true);
-
-    if (rightData.type === "image") {
-        renderImage(pageB, rightData.src);
-    } else {
-        renderText(pageB, rightData, false);
-    }
+    container.appendChild(text);
 }
