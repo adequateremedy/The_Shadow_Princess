@@ -1,6 +1,6 @@
 console.log("RENDERER LOADED");
 
-function renderPage(leftPage, rightPage) {
+function renderPage(pageData) {
 
     const pageA = document.getElementById("pageA");
     const pageB = document.getElementById("pageB");
@@ -8,18 +8,11 @@ function renderPage(leftPage, rightPage) {
     pageA.innerHTML = "";
     pageB.innerHTML = "";
 
-    if (leftPage) {
-        renderSide(pageA, leftPage, true);
-    }
+    if (!pageData) return;
 
-    if (rightPage) {
-        renderSide(pageB, rightPage, false);
-    }
-}
+    // LEFT SIDE
+    if (pageData.left || pageData.chapterStart) {
 
-function renderSide(container, pageData, isLeft) {
-
-    if (isLeft) {
         const num = document.createElement("div");
         num.className = "chapter-number";
         num.innerText = `Chapter ${pageData.chapterNumber}`;
@@ -28,13 +21,20 @@ function renderSide(container, pageData, isLeft) {
         title.className = "chapter-title";
         title.innerText = pageData.chapterTitle;
 
-        container.appendChild(num);
-        container.appendChild(title);
+        pageA.appendChild(num);
+        pageA.appendChild(title);
     }
 
-    const text = document.createElement("div");
-    text.className = "chapter-text";
-    text.innerText = pageData.text;
+    const leftText = document.createElement("div");
+    leftText.className = "chapter-text";
+    leftText.innerText = pageData.left;
 
-    container.appendChild(text);
+    pageA.appendChild(leftText);
+
+    // RIGHT SIDE
+    const rightText = document.createElement("div");
+    rightText.className = "chapter-text";
+    rightText.innerText = pageData.right;
+
+    pageB.appendChild(rightText);
 }
