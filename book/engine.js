@@ -6,44 +6,28 @@ window.addEventListener("load", () => {
 });
 
 function loadChapter(chapterNumber) {
-    const path = `chapters/chapter-${chapterNumber}.txt`;
-
-    fetch(path)
-        .then(res => {
-            if (!res.ok) throw new Error("Chapter not found");
-            return res.text();
-        })
+    fetch(`chapters/chapter-${chapterNumber}.txt`)
+        .then(res => res.text())
         .then(text => {
-            renderChapter(chapterNumber, text);
-        })
-        .catch(err => {
-            console.error(err);
+
+            const chapter = {
+                chapterNumber,
+                chapterTitle: "The Shadows",
+                text
+            };
+
+            runPaginationPipeline(chapter);
         });
 }
 
-function renderChapter(chapterNumber, text) {
-    const pageA = document.getElementById("pageA");
-    const pageB = document.getElementById("pageB");
+function runPaginationPipeline(chapter) {
 
-    pageA.innerHTML = `
-        <div class="chapter-number">Chapter ${chapterNumber}</div>
-        <div class="chapter-title">The Shadows</div>
-        <div id="pageAtext" class="chapter-text"></div>
-    `;
+    // STEP 1: paginate (your pixel system)
+    const pages = paginateChapter(chapter);
 
-    pageB.innerHTML = `
-        <div id="pageBtext" class="chapter-text"></div>
-    `;
+    // STEP 2: render
+    const left = pages.find(p => p.side === "A") || null;
+    const right = pages.find(p => p.side === "B") || null;
 
-    paginateAndRender(text);
-}
-
-function paginateAndRender(text) {
-    const maxChars = 900;
-
-    const first = text.slice(0, maxChars);
-    const second = text.slice(maxChars);
-
-    document.getElementById("pageAtext").innerText = first;
-    document.getElementById("pageBtext").innerText = second;
+    renderPage(left, right);
 }
