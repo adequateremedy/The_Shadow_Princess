@@ -3,6 +3,7 @@ console.log("PAGINATOR LOADED");
 function paginateChapter(chapter) {
 
     const words = chapter.text.split(/\s+/);
+
     const pages = [];
 
     let currentText = "";
@@ -15,18 +16,19 @@ function paginateChapter(chapter) {
     measureBox.style.position = "absolute";
     measureBox.style.visibility = "hidden";
     measureBox.style.width = "100%";
-    measureBox.style.height = "auto";
     measureBox.style.fontSize = "12px";
     measureBox.style.lineHeight = "1.6";
 
     document.body.appendChild(measureBox);
 
     function flush() {
+
         pages.push({
-            side: isLeft ? "A" : "B",
+            left: isLeft ? currentText.trim() : "",
+            right: isLeft ? "" : currentText.trim(),
             chapterNumber: chapter.chapterNumber,
             chapterTitle: chapter.chapterTitle,
-            text: currentText.trim()
+            chapterStart: pages.length === 0
         });
 
         currentText = "";
@@ -36,6 +38,7 @@ function paginateChapter(chapter) {
     for (let word of words) {
 
         let testText = currentText + " " + word;
+
         measureBox.innerText = testText;
 
         const container = isLeft ? pageA : pageB;
