@@ -24,10 +24,7 @@ body {
     height: 100vh;
 }
 
-/* =========================
-   STATIC PAGE FRAME
-   (this is your "Next Page.png")
-========================= */
+/* STATIC BOOK IMAGE */
 #book-page {
     position: absolute;
     width: 100%;
@@ -36,17 +33,15 @@ body {
 }
 
 /* =========================
-   PAGE ZONES (LOCKED LAYOUT)
+   PAGE CONTAINERS (LOCKED)
 ========================= */
-
-/* COMMON PAGE SETTINGS */
 .page {
     position: absolute;
     top: 16%;
     height: 70%;
     box-sizing: border-box;
     overflow: hidden;
-    padding: 10px;
+    padding: 14px;
 }
 
 /* LEFT PAGE (SIDE A) */
@@ -63,25 +58,24 @@ body {
 
 /* =========================
    TYPOGRAPHY
+   (controlled ONLY by engine rendering)
 ========================= */
-
-/* Chapter Number (LEFT ONLY) */
 .chapter-number {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     display: block;
+    margin-bottom: 4px;
 }
 
-/* Chapter Title (LEFT ONLY) */
 .chapter-title {
     font-size: 15px;
     font-weight: bold;
     text-align: center;
     display: block;
+    margin-bottom: 10px;
 }
 
-/* Body Text (BOTH PAGES) */
 .chapter-text {
     font-size: 12px;
     line-height: 1.6;
@@ -89,15 +83,32 @@ body {
     white-space: normal;
 }
 
-/* =========================
-   IMAGE MODE (FULL REPLACE)
-========================= */
+/* IMAGE MODE */
 .page-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
 }
+
+/* =========================
+   NAV BUTTONS
+========================= */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 9999;
+    user-select: none;
+}
+
+#btnPrev { left: 20px; }
+#btnNext { right: 20px; }
 </style>
 </head>
 
@@ -105,43 +116,26 @@ body {
 
 <div id="book-stage">
 
-    <!-- STATIC BOOK FRAME -->
+    <!-- STATIC FRAME -->
     <img id="book-page" src="images/Next Page.png" alt="Book Page">
 
-    <!-- LEFT PAGE (SIDE A) -->
-    <div id="pageA" class="page">
+    <!-- NAVIGATION -->
+    <button id="btnPrev" class="nav-btn">◀</button>
+    <button id="btnNext" class="nav-btn">▶</button>
 
-        <div class="chapter-number">Chapter 1</div>
-        <div class="chapter-title">The Shadows</div>
+    <!-- LEFT PAGE -->
+    <div id="pageA" class="page"></div>
 
-        <div class="chapter-text">
-            Left page text goes here.
-        </div>
-
-        <!-- IMAGE MODE EXAMPLE (hidden until used later)
-        <img class="page-image" src="" />
-        -->
-
-    </div>
-
-    <!-- RIGHT PAGE (SIDE B) -->
-    <div id="pageB" class="page">
-
-        <!-- NO CHAPTER HEADER HERE BY DESIGN -->
-
-        <div class="chapter-text">
-            Right page continuation text goes here.
-        </div>
-
-        <!-- IMAGE MODE EXAMPLE (hidden until used later)
-        <img class="page-image" src="" />
-        -->
-
-    </div>
+    <!-- RIGHT PAGE -->
+    <div id="pageB" class="page"></div>
 
 </div>
 
-</body>
-</html>
+<!-- ENGINE SCRIPTS -->
+<script src="book/loader.js"></script>
+<script src="book/paginator.js"></script>
+<script src="book/renderer.js"></script>
+<script src="book/engine.js"></script>
+
 </body>
 </html>
