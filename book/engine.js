@@ -1,45 +1,121 @@
-console.log("ENGINE FILE LOADED");
+console.log("ENGINE LOADED");
 
-let currentPages = [];
-let currentPageIndex = 0;
+let bookPages = [];
+let currentSpread = 0;
+let currentChapter = 1;
 
 window.addEventListener("load", () => {
-    console.log("ENGINE START TRIGGERED");
-    loadChapter(1);
 
-    document.getElementById("btnNext")?.addEventListener("click", nextPage);
-    document.getElementById("btnPrev")?.addEventListener("click", prevPage);
+    console.log("ENGINE STARTED");
+
+    const prevButton = document.getElementById("btnPrev");
+    const nextButton = document.getElementById("btnNext");
+
+    if (prevButton) {
+        prevButton.addEventListener("click", previousSpread);
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener("click", nextSpread);
+    }
+
+    loadChapter(currentChapter);
+
 });
 
-function loadChapter(chapterNumber) {
+async function loadChapter(chapterNumber) {
 
-    fetch(`chapters/chapter-${chapterNumber}.txt`)
-        .then(res => res.text())
-        .then(text => {
+    currentChapter = chapterNumber;
 
-            const chapter = {
-                chapterNumber,
-                chapterTitle: "The Shadows",
-                text
-            };
+    try {
 
-            currentPages = paginateChapter(chapter);
-            currentPageIndex = 0;
+        const response = await fetch(`chapters/chapter-${chapterNumber}.txt`);
 
-            renderPage(currentPages[currentPageIndex]);
-        });
+        if (!response.ok) {
+            throw new Error(`Unable to load chapter ${chapterNumber}`);
+        }
+
+        const chapterText = await response.text();
+
+        const chapter = {
+
+            chapterNumber: chapterNumber,
+
+            chapterTitle: getChapterTitle(chapterNumber),
+
+            text: chapterText
+
+        };
+
+        bookPages = paginateChapter(chapter);
+
+        currentSpread = 0;
+
+        showCurrentSpread();
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+    }
+
 }
 
-function nextPage() {
-    if (currentPageIndex < currentPages.length - 1) {
-        currentPageIndex++;
-        renderPage(currentPages[currentPageIndex]);
+function showCurrentSpread() {
+
+    if (bookPages.length === 0) {
+        return;
     }
+
+    renderPage(bookPages[currentSpread]);
+
 }
 
-function prevPage() {
-    if (currentPageIndex > 0) {
-        currentPageIndex--;
-        renderPage(currentPages[currentPageIndex]);
+function nextSpread() {
+
+    if (currentSpread >= bookPages.length - 1) {
+        return;
     }
+
+    currentSpread++;
+
+    showCurrentSpread();
+
+}
+
+function previousSpread() {
+
+    if (currentSpread <= 0) {
+        return;
+    }
+
+    currentSpread--;
+
+    showCurrentSpread();
+
+}
+
+function getChapterTitle(chapterNumber) {
+
+    const titles = {
+
+        1: "The Shadows",
+        2: "Chapter Two",
+        3: "Chapter Three",
+        4: "Chapter Four",
+        5: "Chapter Five",
+        6: "Chapter Six",
+        7: "Chapter Seven",
+        8: "Chapter Eight",
+        9: "Chapter Nine",
+        10: "Chapter Ten",
+        11: "Chapter Eleven",
+        12: "Chapter Twelve",
+        13: "The Bridge"
+
+    };
+
+    return titles[chapterNumber] || `Chapter ${chapterNumber}`;
+
 }
