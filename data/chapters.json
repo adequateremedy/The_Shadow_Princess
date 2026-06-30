@@ -20,61 +20,61 @@
   {
     "id": 4,
     "number": "Chapter Four",
-    "title": "The Shadow Between Them",
+    "title": "The Lie Called Steam",
     "textFile": "chapter-4.txt"
   },
   {
     "id": 5,
     "number": "Chapter Five",
-    "title": "The Hunter's Path",
+    "title": "The Weight of Names",
     "textFile": "chapter-5.txt"
   },
   {
     "id": 6,
     "number": "Chapter Six",
-    "title": "The Price of Magic",
+    "title": "The Child Between Shadows",
     "textFile": "chapter-6.txt"
   },
   {
     "id": 7,
     "number": "Chapter Seven",
-    "title": "Echoes in the Forest",
+    "title": "The Last Autumn in Cogsbin",
     "textFile": "chapter-7.txt"
   },
   {
     "id": 8,
     "number": "Chapter Eight",
-    "title": "The Gathering Storm",
+    "title": "Hunters in the Rain",
     "textFile": "chapter-8.txt"
   },
   {
     "id": 9,
     "number": "Chapter Nine",
-    "title": "The Veil Grows Thin",
+    "title": "Leaving Cogsbin",
     "textFile": "chapter-9.txt"
   },
   {
     "id": 10,
     "number": "Chapter Ten",
-    "title": "The Fall of Silence",
+    "title": "SteelMills",
     "textFile": "chapter-10.txt"
   },
   {
     "id": 11,
     "number": "Chapter Eleven",
-    "title": "The Bridge",
+    "title": "The Road to Crudsder",
     "textFile": "chapter-11.txt"
   },
   {
     "id": 12,
     "number": "Chapter Twelve",
-    "title": "The Shadow Princess",
+    "title": "The Forest Gathers",
     "textFile": "chapter-12.txt"
   },
   {
     "id": 13,
     "number": "Chapter Thirteen",
-    "title": "The Beginning of the End",
+    "title": "The Bridge",
     "textFile": "chapter-13.txt"
   }
 ]
