@@ -7,45 +7,98 @@
 <style>
 body {
     margin: 0;
+    overflow: hidden;
     background: #444;
     font-family: serif;
-    overflow: hidden;
 }
 
-#pageA, #pageB {
+/* STAGE */
+#book-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* PAGE AREAS */
+.page {
     position: absolute;
-    top: 30%;
-    width: 40%;
-    height: 40%;
-    background: rgba(255,255,255,0.1);
-    color: white;
-    padding: 20px;
+    top: 16%;
+    height: 70%;
     box-sizing: border-box;
+    overflow: hidden;
+    padding: 14px;
+    color: white;
 }
 
-#pageA { left: 5%; }
-#pageB { right: 5%; }
+/* LEFT */
+#pageA {
+    width: 21%;
+    left: 28%;
+    background: rgba(255,255,255,0.05);
+}
 
+/* RIGHT */
+#pageB {
+    width: 19%;
+    right: 30%;
+    background: rgba(255,255,255,0.05);
+}
+
+/* NAV */
 .nav-btn {
     position: absolute;
-    top: 10%;
-    font-size: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 9999;
 }
-#btnPrev { left: 10px; }
-#btnNext { right: 10px; }
+
+#btnPrev { left: 20px; }
+#btnNext { right: 20px; }
 </style>
 </head>
 
 <body>
 
-<button id="btnPrev" class="nav-btn">◀</button>
-<button id="btnNext" class="nav-btn">▶</button>
+<div id="book-stage">
 
-<div id="pageA"></div>
-<div id="pageB"></div>
+    <button id="btnPrev" class="nav-btn">◀</button>
+    <button id="btnNext" class="nav-btn">▶</button>
 
-<!-- FORCE ENGINE LOAD -->
-<script src="book/engine.js"></script>
+    <div id="pageA" class="page"></div>
+    <div id="pageB" class="page"></div>
+
+</div>
+
+<script>
+/*
+=========================
+ INLINE ENGINE TEST
+=========================
+*/
+
+window.onload = function () {
+    console.log("INLINE ENGINE RUNNING");
+
+    document.getElementById("pageA").innerHTML =
+        "<h2>ENGINE WORKS A</h2><p>If you see this, JS is working.</p>";
+
+    document.getElementById("pageB").innerHTML =
+        "<h2>ENGINE WORKS B</h2><p>DOM injection confirmed.</p>";
+
+    document.getElementById("btnNext").onclick = function () {
+        alert("NEXT CLICKED");
+    };
+
+    document.getElementById("btnPrev").onclick = function () {
+        alert("PREV CLICKED");
+    };
+};
+</script>
 
 </body>
 </html>
