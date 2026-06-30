@@ -1,6 +1,6 @@
 console.log("RENDERER LOADED");
 
-function renderPage(pageData) {
+function renderPage(spread) {
 
     const pageA = document.getElementById("pageA");
     const pageB = document.getElementById("pageB");
@@ -8,33 +8,47 @@ function renderPage(pageData) {
     pageA.innerHTML = "";
     pageB.innerHTML = "";
 
-    if (!pageData) return;
-
-    // LEFT SIDE
-    if (pageData.left || pageData.chapterStart) {
-
-        const num = document.createElement("div");
-        num.className = "chapter-number";
-        num.innerText = `Chapter ${pageData.chapterNumber}`;
-
-        const title = document.createElement("div");
-        title.className = "chapter-title";
-        title.innerText = pageData.chapterTitle;
-
-        pageA.appendChild(num);
-        pageA.appendChild(title);
+    if (!spread) {
+        return;
     }
 
-    const leftText = document.createElement("div");
-    leftText.className = "chapter-text";
-    leftText.innerText = pageData.left;
+    renderLeftPage(pageA, spread);
 
-    pageA.appendChild(leftText);
+    renderRightPage(pageB, spread);
 
-    // RIGHT SIDE
-    const rightText = document.createElement("div");
-    rightText.className = "chapter-text";
-    rightText.innerText = pageData.right;
+}
 
-    pageB.appendChild(rightText);
+function renderLeftPage(container, spread) {
+
+    if (spread.chapterStart) {
+
+        const chapterNumber = document.createElement("div");
+        chapterNumber.className = "chapter-number";
+        chapterNumber.textContent = `Chapter ${spread.chapterNumber}`;
+
+        const chapterTitle = document.createElement("div");
+        chapterTitle.className = "chapter-title";
+        chapterTitle.textContent = spread.chapterTitle;
+
+        container.appendChild(chapterNumber);
+        container.appendChild(chapterTitle);
+
+    }
+
+    const body = document.createElement("div");
+    body.className = "chapter-text";
+    body.textContent = spread.left || "";
+
+    container.appendChild(body);
+
+}
+
+function renderRightPage(container, spread) {
+
+    const body = document.createElement("div");
+    body.className = "chapter-text";
+    body.textContent = spread.right || "";
+
+    container.appendChild(body);
+
 }
