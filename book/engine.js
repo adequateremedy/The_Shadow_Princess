@@ -1,30 +1,52 @@
 console.log("ENGINE FILE LOADED");
 
-const chapters = {
-    1: {
-        number: "Chapter 1",
-        title: "The Shadows",
-        text: ""
-    }
-};
+const currentChapter = 1;
 
-window.addEventListener("load", () => {
-    console.log("ENGINE START TRIGGERED");
+function loadChapter(chapterNumber) {
+    const path = `chapters/chapter-${chapterNumber}.txt`;
 
+    console.log("LOADING:", path);
+
+    fetch(path)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load chapter file");
+            }
+            return response.text();
+        })
+        .then(text => {
+            renderChapter(chapterNumber, text);
+        })
+        .catch(err => {
+            console.error(err);
+
+            renderChapter(chapterNumber, "ERROR LOADING CHAPTER");
+        });
+}
+
+function renderChapter(chapterNumber, text) {
     const pageA = document.getElementById("pageA");
     const pageB = document.getElementById("pageB");
 
-    const chapter = chapters[1];
+    const title = `The Shadows`;
+    const number = `Chapter ${chapterNumber}`;
 
     pageA.innerHTML = `
-        <div class="chapter-number">${chapter.number}</div>
-        <div class="chapter-title">${chapter.title}</div>
-        <div class="chapter-text" id="chapterTextA"></div>
+        <div class="chapter-number">${number}</div>
+        <div class="chapter-title">${title}</div>
+        <div class="chapter-text">
+            ${text}
+        </div>
     `;
 
     pageB.innerHTML = `
-        <div class="chapter-text" id="chapterTextB">
-            Waiting for real chapter loader connection...
+        <div class="chapter-text">
+            Page 2 placeholder (pagination comes next)
         </div>
     `;
+}
+
+window.addEventListener("load", () => {
+    console.log("ENGINE START TRIGGERED");
+    loadChapter(currentChapter);
 });
