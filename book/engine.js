@@ -1,10 +1,11 @@
 console.log("ENGINE FILE LOADED");
 
+// REAL CHAPTER STORAGE (still manual for now)
 const chapters = {
     1: {
-        title: "The Shadows",
         number: "Chapter 1",
-        text: "THIS WILL BE REPLACED WITH REAL CHAPTER TEXT NEXT STEP."
+        title: "The Shadows",
+        text: `Left page text goes here. Right now this is still placeholder until your real manuscript is inserted.`
     }
 };
 
@@ -19,14 +20,14 @@ window.addEventListener("load", () => {
     pageA.innerHTML = `
         <div class="chapter-number">${chapter.number}</div>
         <div class="chapter-title">${chapter.title}</div>
-        <div class="chapter-text" id="chapterTextA">
+        <div class="chapter-text">
             ${chapter.text}
         </div>
     `;
 
     pageB.innerHTML = `
-        <div class="chapter-text" id="chapterTextB">
-            Continuation will be handled next step.
+        <div class="chapter-text">
+            Continuation will be handled in pagination step.
         </div>
     `;
 });
