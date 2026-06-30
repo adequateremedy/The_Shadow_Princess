@@ -1,50 +1,111 @@
 /*
 =========================================
+ PIXEL-BOUND PAGINATOR (PHASE 1)
  The Shadow Princess
- Paginator Engine
 -----------------------------------------
 
- PURPOSE:
- This module is responsible for turning
- raw chapter text into "book pages".
+ This version measures REAL rendered space
+ using hidden DOM measurement.
 
- CORE RULES IT MUST ENFORCE:
+ NO GUESSING.
+ NO CHARACTER LIMITS.
 
- 1. NO word splitting
-    - Words must never be broken across lines
+ It uses:
+ - pageA (Side A)
+ - pageB (Side B)
 
- 2. PAGE FLOW ORDER:
-    - ALWAYS fill LEFT page (Side A) first
-    - THEN RIGHT page (Side B)
-    - NEVER start a chapter on the right page
+ to determine exact overflow.
 
- 3. CHAPTER START RULE:
-    - Chapter Number + Title ONLY appear on LEFT page
-
- 4. RIGHT PAGE RULE:
-    - No chapter header ever appears on Side B
-
- 5. OVERFLOW RULE:
-    - If text does not fit remaining space:
-        → push whole word to next page
-
- 6. IMAGE OVERRIDE RULE:
-    - If a page is assigned an image:
-        → it replaces ALL text on that page
-
- OUTPUT STRUCTURE (future use):
-
- [
-   { side: "A", type: "chapter-start", content: ... },
-   { side: "B", type: "text", content: ... },
-   ...
- ]
-
- THIS FILE DOES NOT:
- - render anything
- - load files
- - play animations
-
- It ONLY calculates page layout.
 =========================================
 */
+
+/**
+ * Measure if element overflows its container
+ */
+function isOverflowing(el) {
+    return el.scrollHeight > el.clientHeight;
+}
+
+/**
+ * Create a hidden measurement box
+ */
+function createMeasureBox() {
+    const box = document.createElement("div");
+    box.style.position = "absolute";
+    box.style.visibility = "hidden";
+    box.style.width = "100%";
+    box.style.height = "auto";
+    box.style.whiteSpace = "normal";
+    box.style.fontSize = "12px";
+    box.style.lineHeight = "1.6";
+    document.body.appendChild(box);
+    return box;
+}
+
+/**
+ * Add word and test overflow
+ */
+function canFitText(box, text, container) {
+    box.innerText = text;
+    return box.scrollHeight <= container.clientHeight;
+}
+
+/**
+ * MAIN PAGINATION ENGINE (PIXEL BASED)
+ */
+function paginateChapter(chapter) {
+
+    const words = chapter.text.split(/\s+/);
+
+    const pages = [];
+
+    let currentText = "";
+    let isLeft = true;
+
+    // we measure against REAL DOM boxes
+    const pageA = document.getElementById("pageA");
+    const pageB = document.getElementById("pageB");
+
+    const measureBox = createMeasureBox();
+
+    function flushPage(text, chapterStart = false) {
+
+        pages.push({
+            side: isLeft ? "A" : "B",
+            chapterStart: chapterStart && isLeft,
+            chapterNumber: chapter.chapterNumber,
+            chapterTitle: chapter.chapterTitle,
+            text: text.trim()
+        });
+
+        currentText = "";
+        isLeft = !isLeft;
+    }
+
+    for (let word of words) {
+
+        let testText = currentText + " " + word;
+
+        measureBox.innerText = testText;
+
+        let container = isLeft ? pageA : pageB;
+
+        if (measureBox.scrollHeight > container.clientHeight) {
+
+            flushPage(currentText, pages.length === 0);
+
+            currentText = word;
+
+        } else {
+            currentText = testText;
+        }
+    }
+
+    if (currentText.length > 0) {
+        flushPage(currentText, pages.length === 0);
+    }
+
+    document.body.removeChild(measureBox);
+
+    return pages;
+}
