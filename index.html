@@ -5,20 +5,29 @@
 <title>The Shadow Princess</title>
 
 <style>
+/* =========================
+   GLOBAL
+========================= */
 body {
     margin: 0;
     overflow: hidden;
-    background: #ffffff;
+    background: black;
+    font-family: serif;
 }
 
-/* MAIN BOOK STAGE */
+/* =========================
+   BOOK STAGE
+========================= */
 #book-stage {
     position: relative;
     width: 100vw;
     height: 100vh;
 }
 
-/* STATIC BOOK IMAGE (Next Page.png) */
+/* =========================
+   STATIC PAGE FRAME
+   (this is your "Next Page.png")
+========================= */
 #book-page {
     position: absolute;
     width: 100%;
@@ -26,80 +35,113 @@ body {
     object-fit: contain;
 }
 
-/* LEFT + RIGHT PAGE ZONES */
-.page-zone {
+/* =========================
+   PAGE ZONES (LOCKED LAYOUT)
+========================= */
+
+/* COMMON PAGE SETTINGS */
+.page {
     position: absolute;
-    top: 10%;
-    height: 80%;
-    width: 35%;
-    padding: 2%;
+    top: 16%;
+    height: 70%;
     box-sizing: border-box;
-    color: #222;
-    font-family: serif;
+    overflow: hidden;
+    padding: 10px;
 }
 
-/* LEFT PAGE POSITION */
-#page-left {
-    left: 8%;
+/* LEFT PAGE (SIDE A) */
+#pageA {
+    width: 21%;
+    left: 28%;
 }
 
-/* RIGHT PAGE POSITION */
-#page-right {
-    right: 8%;
+/* RIGHT PAGE (SIDE B) */
+#pageB {
+    width: 19%;
+    right: 30%;
 }
 
-/* CHAPTER HEADER (NUMBER + TITLE) */
-.chapter-header {
-    text-align: center;
-    margin-bottom: 12px;
-}
+/* =========================
+   TYPOGRAPHY
+========================= */
 
-/* CHAPTER NUMBER */
+/* Chapter Number (LEFT ONLY) */
 .chapter-number {
-    font-size: 22px;
-    font-weight: bold;
-    display: block;
-}
-
-/* CHAPTER TITLE */
-.chapter-title {
     font-size: 20px;
     font-weight: bold;
+    text-align: center;
     display: block;
 }
 
-/* BODY TEXT */
+/* Chapter Title (LEFT ONLY) */
+.chapter-title {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+
+/* Body Text (BOTH PAGES) */
 .chapter-text {
-    text-align: left;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.6;
+    text-align: left;
     white-space: normal;
 }
-</style>
 
-<script defer src="js/main.js"></script>
+/* =========================
+   IMAGE MODE (FULL REPLACE)
+========================= */
+.page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+</style>
 </head>
 
 <body>
 
 <div id="book-stage">
 
-    <!-- STATIC OPEN BOOK FRAME -->
+    <!-- STATIC BOOK FRAME -->
     <img id="book-page" src="images/Next Page.png" alt="Book Page">
 
-    <!-- LEFT PAGE -->
-    <div id="page-left" class="page-zone">
-        <div id="chapter-header-left" class="chapter-header"></div>
-        <div id="chapter-text-left" class="chapter-text"></div>
+    <!-- LEFT PAGE (SIDE A) -->
+    <div id="pageA" class="page">
+
+        <div class="chapter-number">Chapter 1</div>
+        <div class="chapter-title">The Shadows</div>
+
+        <div class="chapter-text">
+            Left page text goes here.
+        </div>
+
+        <!-- IMAGE MODE EXAMPLE (hidden until used later)
+        <img class="page-image" src="" />
+        -->
+
     </div>
 
-    <!-- RIGHT PAGE -->
-    <div id="page-right" class="page-zone">
-        <div id="chapter-header-right" class="chapter-header"></div>
-        <div id="chapter-text-right" class="chapter-text"></div>
+    <!-- RIGHT PAGE (SIDE B) -->
+    <div id="pageB" class="page">
+
+        <!-- NO CHAPTER HEADER HERE BY DESIGN -->
+
+        <div class="chapter-text">
+            Right page continuation text goes here.
+        </div>
+
+        <!-- IMAGE MODE EXAMPLE (hidden until used later)
+        <img class="page-image" src="" />
+        -->
+
     </div>
 
 </div>
 
+</body>
+</html>
 </body>
 </html>
