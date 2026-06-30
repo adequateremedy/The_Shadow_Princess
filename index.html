@@ -5,9 +5,6 @@
 <title>The Shadow Princess</title>
 
 <style>
-/* =========================
-   GLOBAL
-========================= */
 body {
     margin: 0;
     overflow: hidden;
@@ -15,16 +12,14 @@ body {
     font-family: serif;
 }
 
-/* =========================
-   BOOK STAGE
-========================= */
+/* STAGE */
 #book-stage {
     position: relative;
     width: 100vw;
     height: 100vh;
 }
 
-/* STATIC BOOK IMAGE */
+/* BOOK IMAGE */
 #book-page {
     position: absolute;
     width: 100%;
@@ -32,9 +27,7 @@ body {
     object-fit: contain;
 }
 
-/* =========================
-   PAGE CONTAINERS (LOCKED)
-========================= */
+/* PAGE AREAS */
 .page {
     position: absolute;
     top: 16%;
@@ -44,28 +37,26 @@ body {
     padding: 14px;
 }
 
-/* LEFT PAGE (SIDE A) */
+/* LEFT PAGE */
 #pageA {
     width: 21%;
     left: 28%;
 }
 
-/* RIGHT PAGE (SIDE B) */
+/* RIGHT PAGE */
 #pageB {
     width: 19%;
     right: 30%;
 }
 
-/* =========================
-   TYPOGRAPHY
-   (controlled ONLY by engine rendering)
-========================= */
+/* TYPOGRAPHY */
 .chapter-number {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
     display: block;
     margin-bottom: 4px;
+    color: white;
 }
 
 .chapter-title {
@@ -74,6 +65,7 @@ body {
     text-align: center;
     display: block;
     margin-bottom: 10px;
+    color: white;
 }
 
 .chapter-text {
@@ -81,6 +73,7 @@ body {
     line-height: 1.6;
     text-align: left;
     white-space: normal;
+    color: white;
 }
 
 /* IMAGE MODE */
@@ -91,9 +84,7 @@ body {
     display: block;
 }
 
-/* =========================
-   NAV BUTTONS
-========================= */
+/* ARROWS */
 .nav-btn {
     position: absolute;
     top: 50%;
@@ -104,7 +95,6 @@ body {
     color: white;
     cursor: pointer;
     z-index: 9999;
-    user-select: none;
 }
 
 #btnPrev { left: 20px; }
@@ -116,17 +106,17 @@ body {
 
 <div id="book-stage">
 
-    <!-- STATIC FRAME -->
-    <img id="book-page" src="images/Next Page.png" alt="Book Page">
+    <!-- BOOK BACKGROUND IMAGE -->
+    <img id="book-page"
+         src="https://github.com/adequateremedy/The_Shadow_Princess_Digital_Book/blob/main/images/Next%20Page.png?raw=true"
+         alt="Book Page">
 
-    <!-- NAVIGATION -->
+    <!-- ARROWS -->
     <button id="btnPrev" class="nav-btn">◀</button>
     <button id="btnNext" class="nav-btn">▶</button>
 
-    <!-- LEFT PAGE -->
+    <!-- PAGE CONTAINERS -->
     <div id="pageA" class="page"></div>
-
-    <!-- RIGHT PAGE -->
     <div id="pageB" class="page"></div>
 
 </div>
