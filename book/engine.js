@@ -1,85 +1,120 @@
 /*
 =========================================
+ ENGINE CORE (WIRED VERSION)
  The Shadow Princess
- ENGINE CORE
 -----------------------------------------
 
- This is the central coordinator.
+ Now fully connects:
 
- It connects:
- - loader.js
- - paginator.js
- - renderer.js
- - animations.js
+ loader → paginator → renderer
 
- Nothing in this file draws UI directly.
- It only decides WHAT happens and WHEN.
-
- =========================================
+=========================================
 */
 
+let chapters = [];
 let currentChapterIndex = 0;
 let currentPageIndex = 0;
 
-let chapters = [];
+let paginatedPages = [];
 
 /**
- * INIT
- * Called when book system starts
+ * START ENGINE
  */
 async function initBookEngine() {
-    console.log("Initializing Book Engine...");
 
+    console.log("Book Engine Starting...");
+
+    // 1. Load chapter index
     chapters = await loadChapters();
 
-    console.log("Chapters loaded:", chapters.length);
+    console.log("Loaded chapters:", chapters.length);
 
-    const firstChapter = chapters[0];
-
-    const paginated = paginateChapter(firstChapter);
-
-    renderPage(
-        paginated[0], // left page
-        paginated[1]  // right page
-    );
+    // 2. Load first chapter fully
+    await loadAndPrepareChapter(0);
 }
 
 /**
- * GO TO NEXT PAGE
+ * LOAD + PAGINATE CHAPTER
+ */
+async function loadAndPrepareChapter(index) {
+
+    currentChapterIndex = index;
+
+    const chapterMeta = chapters[index];
+
+    // load full chapter text
+    const fullChapter = await loadFullChapter(index);
+
+    // paginate using pixel engine
+    paginatedPages = paginateChapter(fullChapter);
+
+    console.log("Pages created:", paginatedPages.length);
+
+    // reset page index
+    currentPageIndex = 0;
+
+    // render first spread
+    renderCurrentSpread();
+}
+
+/**
+ * RENDER CURRENT LEFT + RIGHT PAGES
+ */
+function renderCurrentSpread() {
+
+    const leftPage = paginatedPages[currentPageIndex];
+    const rightPage = paginatedPages[currentPageIndex + 1];
+
+    renderPage(leftPage || emptyPage(), rightPage || emptyPage());
+}
+
+/**
+ * EMPTY PAGE FALLBACK
+ */
+function emptyPage() {
+    return {
+        chapterStart: false,
+        chapterNumber: "",
+        chapterTitle: "",
+        text: ""
+    };
+}
+
+/**
+ * NEXT PAGE (LEFT → RIGHT → NEXT SPREAD)
  */
 function nextPage() {
-    currentPageIndex++;
 
-    console.log("Next page:", currentPageIndex);
+    currentPageIndex += 2;
 
-    // Placeholder until paginator is fully wired
+    if (currentPageIndex >= paginatedPages.length) {
+
+        console.log("End of chapter reached");
+
+        // TODO: trigger chapter advance or loop
+        return;
+    }
+
+    renderCurrentSpread();
 }
 
 /**
- * GO TO PREVIOUS PAGE
+ * PREVIOUS PAGE
  */
 function prevPage() {
-    currentPageIndex--;
 
-    console.log("Previous page:", currentPageIndex);
+    currentPageIndex -= 2;
+
+    if (currentPageIndex < 0) {
+        currentPageIndex = 0;
+    }
+
+    renderCurrentSpread();
 }
 
 /**
- * CONNECTED PLACEHOLDERS
- * These will later bind to real modules
+ * BOOT ENGINE ON LOAD
  */
-
-// from loader.js
-async function loadChapters() {
-    console.log("Loading chapters...");
-    return [];
-}
-
-// from paginator.js
-function paginateChapter(chapter) {
-    console.log("Paginating chapter...");
-    return [
-        { chapterStart: true, chapterNumber: "Chapter 1", chapterTitle: "The Shadows", text: "..." },
-        { chapterStart: false, text: "..." }
-    ];
-}
+window.addEventListener("load", () => {
+    initBookEngine();
+});
