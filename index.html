@@ -1,11 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Shadow Princess</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+/* MAIN BOOK STAGE */
+#book-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* STATIC BOOK IMAGE (Next Page.png) */
+#book-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* LEFT + RIGHT PAGE ZONES */
+.page-zone {
+    position: absolute;
+    top: 10%;
+    height: 80%;
+    width: 35%;
+    padding: 2%;
+    box-sizing: border-box;
+    color: #222;
+    font-family: serif;
+}
+
+/* LEFT PAGE POSITION */
+#page-left {
+    left: 8%;
+}
+
+/* RIGHT PAGE POSITION */
+#page-right {
+    right: 8%;
+}
+
+/* CHAPTER HEADER (NUMBER + TITLE) */
+.chapter-header {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* CHAPTER NUMBER */
+.chapter-number {
+    font-size: 22px;
+    font-weight: bold;
+    display: block;
+}
+
+/* CHAPTER TITLE */
+.chapter-title {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+}
+
+/* BODY TEXT */
+.chapter-text {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: normal;
+}
+</style>
+
+<script defer src="js/main.js"></script>
+</head>
+
 <body>
 
 <div id="book-stage">
 
-    <!-- STATIC BOOK FRAME (Next Page image) -->
-    <img id="book-page" src="images/Next Page.png" alt="Open Book Page">
+    <!-- STATIC OPEN BOOK FRAME -->
+    <img id="book-page" src="images/Next Page.png" alt="Book Page">
 
-    <!-- LEFT PAGE (future chapter body text) -->
+    <!-- LEFT PAGE -->
     <div id="page-left" class="page-zone">
         <div id="chapter-header-left" class="chapter-header"></div>
         <div id="chapter-text-left" class="chapter-text"></div>
@@ -20,3 +102,4 @@
 </div>
 
 </body>
+</html>
