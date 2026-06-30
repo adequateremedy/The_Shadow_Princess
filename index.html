@@ -1,13 +1,51 @@
-console.log("ENGINE FILE IS BEING READ");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Shadow Princess</title>
 
-function initBookEngine() {
-    console.log("ENGINE INIT STARTED");
-
-    const pageA = document.getElementById("pageA");
-    const pageB = document.getElementById("pageB");
-
-    pageA.innerHTML = "ENGINE IS NOW CONTROLLING PAGE A";
-    pageB.innerHTML = "ENGINE IS NOW CONTROLLING PAGE B";
+<style>
+body {
+    margin: 0;
+    background: #444;
+    font-family: serif;
+    overflow: hidden;
 }
 
-window.addEventListener("load", initBookEngine);
+#pageA, #pageB {
+    position: absolute;
+    top: 30%;
+    width: 40%;
+    height: 40%;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#pageA { left: 5%; }
+#pageB { right: 5%; }
+
+.nav-btn {
+    position: absolute;
+    top: 10%;
+    font-size: 30px;
+}
+#btnPrev { left: 10px; }
+#btnNext { right: 10px; }
+</style>
+</head>
+
+<body>
+
+<button id="btnPrev" class="nav-btn">◀</button>
+<button id="btnNext" class="nav-btn">▶</button>
+
+<div id="pageA"></div>
+<div id="pageB"></div>
+
+<!-- FORCE ENGINE LOAD -->
+<script src="book/engine.js"></script>
+
+</body>
+</html>
