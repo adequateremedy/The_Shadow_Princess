@@ -1,16 +1,20 @@
 console.log("ENGINE FILE LOADED");
 
+let currentPages = [];
+let currentPageIndex = 0;
+
 window.addEventListener("load", () => {
     console.log("ENGINE START TRIGGERED");
     loadChapter(1);
+
+    document.getElementById("btnNext")?.addEventListener("click", nextPage);
+    document.getElementById("btnPrev")?.addEventListener("click", prevPage);
 });
 
 function loadChapter(chapterNumber) {
+
     fetch(`chapters/chapter-${chapterNumber}.txt`)
-        .then(res => {
-            if (!res.ok) throw new Error("Chapter not found");
-            return res.text();
-        })
+        .then(res => res.text())
         .then(text => {
 
             const chapter = {
@@ -19,12 +23,23 @@ function loadChapter(chapterNumber) {
                 text
             };
 
-            const pages = paginateChapter(chapter);
+            currentPages = paginateChapter(chapter);
+            currentPageIndex = 0;
 
-            const left = pages.find(p => p.side === "A");
-            const right = pages.find(p => p.side === "B");
+            renderPage(currentPages[currentPageIndex]);
+        });
+}
 
-            renderPage(left, right);
-        })
-        .catch(err => console.error(err));
+function nextPage() {
+    if (currentPageIndex < currentPages.length - 1) {
+        currentPageIndex++;
+        renderPage(currentPages[currentPageIndex]);
+    }
+}
+
+function prevPage() {
+    if (currentPageIndex > 0) {
+        currentPageIndex--;
+        renderPage(currentPages[currentPageIndex]);
+    }
 }
