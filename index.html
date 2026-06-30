@@ -7,199 +7,108 @@
 
 <title>The Shadow Princess</title>
 
-<!-- Force fresh files while developing -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
 <style>
 
-html,
-body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#000;
-    font-family:Georgia, serif;
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    font-family: Georgia, serif;
 }
 
-/* ==========================================
-   BOOK STAGE
-========================================== */
-
-#book-stage{
-
-    position:relative;
-
-    width:100vw;
-    height:100vh;
-
+/* BOOK STAGE */
+#book-stage {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 }
 
-/* ==========================================
-   BOOK IMAGE
-========================================== */
-
-#book-page{
-
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    object-fit:contain;
-
-    pointer-events:none;
-
-    z-index:1;
-
+/* BOOK BACKGROUND */
+#book-page {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* ==========================================
-   PAGE CONTAINERS
-========================================== */
-
-.page{
-
-    position:absolute;
-
-    top:12%;
-
-    height:74%;
-
-    overflow:hidden;
-
-    box-sizing:border-box;
-
-    z-index:5;
-
-    color:#111;
-
-    padding:18px;
-
+/* PAGES */
+.page {
+    position: absolute;
+    top: 12%;
+    height: 76%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 18px;
+    z-index: 5;
+    color: #111;
 }
 
 /* LEFT PAGE */
-
-#pageA{
-
-    left:28.2%;
-
-    width:20.6%;
-
-    transform:perspective(1400px) rotateY(2deg);
-
+#pageA {
+    width: 20.6%;
+    left: 28.2%;
 }
 
 /* RIGHT PAGE */
-
-#pageB{
-
-    right:28.8%;
-
-    width:19.2%;
-
-    transform:perspective(1400px) rotateY(-2deg);
-
+#pageB {
+    width: 19.2%;
+    right: 28.8%;
 }
 
-/* ==========================================
-   TYPOGRAPHY
-========================================== */
-
-.chapter-number{
-
-    text-align:center;
-
-    font-size:20px;
-
-    font-weight:bold;
-
-    margin-bottom:6px;
-
+/* TEXT STYLES */
+.chapter-number {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
-.chapter-title{
-
-    text-align:center;
-
-    font-size:15px;
-
-    font-weight:bold;
-
-    margin-bottom:14px;
-
+.chapter-title {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 14px;
 }
 
-.chapter-text{
-
-    font-size:12px;
-
-    line-height:1.62;
-
-    text-align:justify;
-
-    color:#111;
-
-    white-space:pre-wrap;
-
-    word-wrap:break-word;
-
+.chapter-text {
+    font-size: 12px;
+    line-height: 1.62;
+    text-align: justify;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
-/* ==========================================
-   NAVIGATION
-========================================== */
-
-.navButton{
-
-    position:absolute;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:52px;
-
-    height:52px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:rgba(255,255,255,.70);
-
-    color:#111;
-
-    font-size:26px;
-
-    cursor:pointer;
-
-    z-index:100;
-
-    transition:.2s;
-
+/* NAV BUTTONS */
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.7);
+    color: black;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 9999;
 }
 
-.navButton:hover{
-
-    background:white;
-
+#btnPrev {
+    left: 18px;
 }
 
-#btnPrev{
-
-    left:20px;
-
-}
-
-#btnNext{
-
-    right:20px;
-
+#btnNext {
+    right: 18px;
 }
 
 </style>
@@ -210,44 +119,13 @@ body{
 
 <div id="book-stage">
 
-    <!-- BOOK -->
+    <img id="book-page" src="images/Next Page.png" alt="Book Background">
 
-    <img
-        id="book-page"
-        src="images/Next Page.png"
-        alt="Book">
+    <div id="pageA" class="page"></div>
+    <div id="pageB" class="page"></div>
 
-    <!-- SIDE A -->
-
-    <div
-        id="pageA"
-        class="page">
-    </div>
-
-    <!-- SIDE B -->
-
-    <div
-        id="pageB"
-        class="page">
-    </div>
-
-    <!-- NAVIGATION -->
-
-    <button
-        id="btnPrev"
-        class="navButton">
-
-        ◀
-
-    </button>
-
-    <button
-        id="btnNext"
-        class="navButton">
-
-        ▶
-
-    </button>
+    <button id="btnPrev" class="navButton">◀</button>
+    <button id="btnNext" class="navButton">▶</button>
 
 </div>
 
