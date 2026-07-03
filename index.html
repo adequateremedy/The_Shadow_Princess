@@ -3,6 +3,8 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>The Shadow Princess</title>
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -11,11 +13,13 @@
 
 <style>
 
-body {
+html, body {
     margin: 0;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     background: black;
-    font-family: serif;
+    font-family: Georgia, serif;
 }
 
 #book-stage {
@@ -26,58 +30,90 @@ body {
 
 #book-page {
     position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.page {
-    position: absolute;
-    top: 16%;
-    height: 70%;
-    box-sizing: border-box;
-    overflow: hidden;
-    padding: 10px;
-}
-
-/* ---------- LEFT PAGE (Side A) ---------- */
-/* Wider ONLY toward the outside edge */
-
+/* =========================================
+   SIDE A (LEFT PAGE) — EDIT ZONE
+========================================= */
 #pageA {
-    width: 14%;
-    left: 19%;
+    position: absolute;
+
+    /* TOP EDGE (edit this) */
+    top: 12%;
+
+    /* LEFT EDGE (OUTER EDGE — edit this) */
+    left: 26%;
+
+    /* RIGHT EDGE (SPINE SIDE — edit this) */
+    right: 52%;
+
+    /* BOTTOM EDGE (edit this) */
+    bottom: 12%;
+
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 22px 26px;
+    z-index: 5;
 }
 
-/* ---------- RIGHT PAGE (Side B) ---------- */
-
+/* =========================================
+   SIDE B (RIGHT PAGE) — EDIT ZONE
+========================================= */
 #pageB {
-    width: 21%;
-    right: 21%;
+    position: absolute;
+
+    /* TOP EDGE (edit this) */
+    top: 12%;
+
+    /* LEFT EDGE (SPINE SIDE — edit this) */
+    left: 52%;
+
+    /* RIGHT EDGE (OUTER EDGE — edit this) */
+    right: 26%;
+
+    /* BOTTOM EDGE (edit this) */
+    bottom: 12%;
+
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 22px 26px;
+    z-index: 5;
 }
 
-/* ---------- TEXT ---------- */
+/* =========================================
+   TEXT STYLES
+========================================= */
 
 .chapter-number {
+    text-align: center;
     font-size: 20px;
     font-weight: bold;
-    text-align: center;
-    display: block;
+    margin-bottom: 4px;
 }
 
 .chapter-title {
+    text-align: center;
     font-size: 15px;
     font-weight: bold;
-    text-align: center;
-    display: block;
+    margin-bottom: 18px;
 }
 
 .chapter-text {
     font-size: 12px;
-    line-height: 1.6;
-    text-align: left;
+    line-height: 1.75;
+    text-align: justify;
+    white-space: pre-wrap;
 }
 
-/* ---------- NAVIGATION ---------- */
+/* =========================================
+   NAV BUTTONS
+========================================= */
 
 .navButton {
     position: absolute;
@@ -111,8 +147,8 @@ body {
 
     <img id="book-page" src="images/Next Page.png" alt="Book Page">
 
-    <div id="pageA" class="page"></div>
-    <div id="pageB" class="page"></div>
+    <div id="pageA"></div>
+    <div id="pageB"></div>
 
     <button id="btnPrev" class="navButton">◀</button>
     <button id="btnNext" class="navButton">▶</button>
