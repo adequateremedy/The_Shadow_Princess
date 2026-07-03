@@ -3,8 +3,6 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>The Shadow Princess</title>
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -13,13 +11,11 @@
 
 <style>
 
-html, body {
+body {
     margin: 0;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
     background: black;
-    font-family: Georgia, serif;
+    font-family: serif;
 }
 
 #book-stage {
@@ -30,66 +26,54 @@ html, body {
 
 #book-page {
     position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
-    pointer-events: none;
-    z-index: 1;
 }
 
 .page {
     position: absolute;
-    top: 12%;
-    height: 76%;
-    overflow: hidden;
+    top: 16%;
+    height: 70%;
     box-sizing: border-box;
-    padding: 22px 26px;
-    z-index: 5;
+    overflow: hidden;
+    padding: 10px;
 }
 
+/* LEFT PAGE */
 #pageA {
-    width: 20.6%;
-    left: 28.2%;
+    width: 21%;
+    left: 28%;
 }
 
+/* RIGHT PAGE */
 #pageB {
-    width: 19.2%;
-    right: 28.8%;
+    width: 19%;
+    right: 30%;
 }
 
+/* TEXT */
 .chapter-number {
-    text-align: center;
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 4px;
+    text-align: center;
+    display: block;
 }
 
 .chapter-title {
-    text-align: center;
     font-size: 15px;
     font-weight: bold;
-    margin-bottom: 18px;
+    text-align: center;
+    display: block;
 }
 
 .chapter-text {
     font-size: 12px;
-    line-height: 1.75;
-    text-align: justify;
-    white-space: pre-wrap;
-    word-break: normal;
-    overflow-wrap: break-word;
-    hyphens: auto;
+    line-height: 1.6;
+    text-align: left;
 }
 
-.chapter-divider {
-    display: block;
-    width: 100%;
-    border: none;
-    border-top: 1px solid rgba(0,0,0,0.6);
-    margin: 14px 0;
-}
-
+/* NAV */
 .navButton {
     position: absolute;
     top: 50%;
@@ -120,7 +104,7 @@ html, body {
 
 <div id="book-stage">
 
-    <img id="book-page" src="images/Next Page.png" alt="Book">
+    <img id="book-page" src="images/Next Page.png" alt="Book Page">
 
     <div id="pageA" class="page"></div>
     <div id="pageB" class="page"></div>
