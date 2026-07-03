@@ -38,42 +38,51 @@ html, body {
     z-index: 1;
 }
 
-/* =========================
-   SIDE A (INDEPENDENT)
-========================= */
+/* =========================================
+   SIDE A — INDEPENDENT MOVABLE CONTAINER
+========================================= */
 #pageA {
     position: absolute;
-    top: 12%;
-    left: 25%;
-    right: 20%;
-    width: 25%;
-    bottom: 12%;
+
+    top: 50%;
+    left: 28%;
+
+    transform: translate(-50%, -50%);
+
+    width: 22%;
+    height: 76%;
 
     overflow: hidden;
     box-sizing: border-box;
     padding: 22px 26px;
+
     z-index: 5;
 }
 
-/* =========================
-   SIDE B (INDEPENDENT)
-========================= */
+/* =========================================
+   SIDE B — INDEPENDENT MOVABLE CONTAINER
+========================================= */
 #pageB {
     position: absolute;
-    top: 12%;
-    right: 26%;
+
+    top: 50%;
+    left: 72%;
+
+    transform: translate(-50%, -50%);
+
     width: 22%;
-    bottom: 12%;
+    height: 76%;
 
     overflow: hidden;
     box-sizing: border-box;
     padding: 22px 26px;
+
     z-index: 5;
 }
 
-/* =========================
+/* =========================================
    TEXT STYLES
-========================= */
+========================================= */
 
 .chapter-number {
     text-align: center;
@@ -96,9 +105,9 @@ html, body {
     white-space: pre-wrap;
 }
 
-/* =========================
+/* =========================================
    NAV BUTTONS
-========================= */
+========================================= */
 
 .navButton {
     position: absolute;
