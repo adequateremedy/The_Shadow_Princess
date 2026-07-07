@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 
-/* Center the book on the screen */
+/* Center the book on the solid black screen */
 body {
     display: flex;
     justify-content: center;
@@ -23,15 +23,19 @@ body {
     height: 100vh;
 }
 
-/* Page class for the transparent PNGs */
+/* The permanent, static leather backboard */
+#flipbook {
+    background-image: url('../assets/Inside-Book-Covers.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* The individual turning pages */
 .page {
-    background-color: transparent;
+    /* Transparent background allows the leather to show through the burnt edges */
+    background-color: transparent; 
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-}
-
-/* Dark grey background for the inside covers */
-.inside-cover {
-    background-color: #111111;
 }
