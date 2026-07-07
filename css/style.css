@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 
-/* Center the book on the solid black screen */
+/* Ensure the body is strictly black */
 body {
     display: flex;
     justify-content: center;
@@ -15,27 +15,46 @@ body {
     overflow: hidden;
 }
 
-.book-container {
+/* Constrains the flipbook so it holds its shape and doesn't zoom into infinity */
+.book-wrapper {
+    position: relative;
+    width: 100vw;
+    max-width: 1000px; /* Maximum width of the open book */
+    aspect-ratio: 1000 / 750; /* Forces the physical shape of the book */
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
 }
 
-/* The permanent, static leather backboard */
-#flipbook {
+/* The stationary leather backboard that shows through your transparent edges */
+#leather-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-image: url('../assets/Inside-Book-Covers.png');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0; /* Hidden on load so the black screen shows behind the front cover */
+    transition: opacity 0.3s ease; /* Smooth fade in when you open the book */
+    z-index: 0;
 }
 
-/* The individual turning pages */
+/* The actual flipbook container */
+#flipbook {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Keeps the individual page containers completely transparent */
 .page {
-    /* Transparent background allows the leather to show through the burnt edges */
     background-color: transparent; 
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
+}
+
+/* Forces the browser to strictly load your parchment images */
+.page img {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
