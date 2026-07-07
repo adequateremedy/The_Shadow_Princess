@@ -1,10 +1,11 @@
 /* ==========================================
    THE SHADOW PRINCESS
-   Flip Book Foundation Styling
+   Flip Book Foundation CSS
    ========================================== */
 
 
-/* Browser reset */
+/* ---------- GLOBAL RESET ---------- */
+
 * {
 
     margin: 0;
@@ -15,8 +16,6 @@
 }
 
 
-
-/* Full screen */
 html,
 body {
 
@@ -42,6 +41,7 @@ body {
     top: 0;
     left: 0;
 
+
     width: 100vw;
     height: 100vh;
 
@@ -49,14 +49,21 @@ body {
     object-fit: contain;
 
 
+    background: #000;
+
+
+    opacity: 0;
+
+
     z-index: 0;
+
 
 }
 
 
 
 /* ==========================================
-   BOOK POSITION
+   MAIN BOOK CONTAINER
    ========================================== */
 
 #book {
@@ -69,10 +76,11 @@ body {
 
 
     transform:
+
         translate(-50%, -50%);
 
 
-    z-index: 1;
+    z-index: 2;
 
 
 }
@@ -80,12 +88,12 @@ body {
 
 
 /* ==========================================
-   SPINE
+   CLOSED BOOK
    ========================================== */
 
 #spine {
 
-    display: block;
+    position: absolute;
 
 
     width: 132px;
@@ -93,22 +101,32 @@ body {
     height: 446px;
 
 
+    top: 50%;
+    left: 50%;
+
+
+    transform:
+
+        translate(-50%, -50%);
+
+
     cursor: pointer;
 
 
     user-select: none;
 
+
 }
 
 
 
-/* ==========================================
-   FRONT COVER
-   ========================================== */
-
 #front-cover {
 
+
     display: none;
+
+
+    position: absolute;
 
 
     width: 303px;
@@ -116,25 +134,181 @@ body {
     height: 450px;
 
 
+    top: 50%;
+    left: 50%;
+
+
+    transform:
+
+        translate(-50%, -50%);
+
+
+    cursor: pointer;
+
+
     user-select: none;
+
 
 }
 
 
 
 /* ==========================================
-   PAGE SYSTEM AREA
+   OPEN BOOK AREA
    ========================================== */
 
-#pages {
+#open-book {
+
 
     display: none;
+
+
+    position: absolute;
+
+
+    top: 50%;
+
+    left: 50%;
+
+
+    transform:
+
+        translate(-50%, -50%);
+
+
+    width: 788px;
+
+    height: 633px;
+
 
 }
 
 
 
-/* Prevent dragging images */
+/* ==========================================
+   INSIDE COVERS
+   ========================================== */
+
+#inside-front-cover,
+#inside-back-cover {
+
+
+    position: absolute;
+
+
+    width: 394px;
+
+    height: 633px;
+
+
+    background: #252525;
+
+
+}
+
+
+
+/* Left inside cover */
+
+#inside-front-cover {
+
+
+    left: 0;
+
+    top: 0;
+
+
+}
+
+
+
+/* Right inside cover */
+
+#inside-back-cover {
+
+
+    right: 0;
+
+    top: 0;
+
+
+}
+
+
+
+/* ==========================================
+   PAGE STACK AREAS
+   ========================================== */
+
+#left-pages,
+#right-pages {
+
+
+    position: absolute;
+
+
+    width: 394px;
+
+    height: 633px;
+
+
+    top: 0;
+
+
+}
+
+
+
+/* Left page stack */
+
+#left-pages {
+
+    left: 0;
+
+
+}
+
+
+
+/* Right page stack */
+
+#right-pages {
+
+    right: 0;
+
+
+}
+
+
+
+/* ==========================================
+   BOOK IMAGES
+   ========================================== */
+
+#open-book img {
+
+
+    position: absolute;
+
+
+    width: 394px;
+
+    height: 633px;
+
+
+    user-select: none;
+
+
+    pointer-events: none;
+
+
+}
+
+
+
+/* ==========================================
+   PREVENT IMAGE DRAGGING
+   ========================================== */
 
 img {
 
