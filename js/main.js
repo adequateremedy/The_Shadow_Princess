@@ -17,8 +17,13 @@ let coverMesh;
 let raycaster;
 let mouse;
 
+let videoElement;
+
 let spineReady = false;
 let coverReady = false;
+
+let audioEnabled = false;
+
 
 
 // ------------------------------------------------------
@@ -32,7 +37,6 @@ function init() {
 
 
 
-    // Flat camera so the background is not tilted
     camera = new THREE.OrthographicCamera(
         window.innerWidth / -100,
         window.innerWidth / 100,
@@ -48,8 +52,10 @@ function init() {
 
 
     renderer = new THREE.WebGLRenderer({
+
         alpha: true,
         antialias: true
+
     });
 
 
@@ -117,39 +123,47 @@ function init() {
 function loadBackgroundVideo() {
 
 
-    const video =
+    videoElement =
         document.createElement("video");
 
 
-    video.src =
+    videoElement.src =
         "assets/background.webm";
 
 
-    video.loop = true;
+    videoElement.loop = true;
 
-    video.muted = true;
+    videoElement.autoplay = true;
 
-    video.autoplay = true;
+    videoElement.muted = true;
 
-    video.playsInline = true;
-
-
-
-    video.play();
+    videoElement.playsInline = true;
 
 
 
-    const videoTexture =
+    videoElement.setAttribute(
+        "playsinline",
+        ""
+    );
+
+
+
+    videoElement.play();
+
+
+
+    const texture =
         new THREE.VideoTexture(
-            video
+            videoElement
         );
 
 
-    videoTexture.minFilter =
+
+    texture.minFilter =
         THREE.LinearFilter;
 
 
-    videoTexture.magFilter =
+    texture.magFilter =
         THREE.LinearFilter;
 
 
@@ -157,23 +171,16 @@ function loadBackgroundVideo() {
     const material =
         new THREE.MeshBasicMaterial({
 
-            map: videoTexture
+            map: texture
 
         });
 
 
 
-    /*
-        Large flat plane facing camera.
-        No rotation.
-        No perspective distortion.
-    */
-
-
     const geometry =
         new THREE.PlaneGeometry(
-            20,
-            12
+            1,
+            1
         );
 
 
@@ -193,6 +200,71 @@ function loadBackgroundVideo() {
 
     scene.add(
         background
+    );
+
+
+
+    function resizeVideo() {
+
+
+        if (
+            !videoElement.videoWidth ||
+            !videoElement.videoHeight
+        ) {
+
+            return;
+
+        }
+
+
+
+        const videoRatio =
+            videoElement.videoWidth /
+            videoElement.videoHeight;
+
+
+
+        const screenRatio =
+            window.innerWidth /
+            window.innerHeight;
+
+
+
+        if (screenRatio > videoRatio) {
+
+
+            background.scale.set(
+
+                20,
+
+                20 / videoRatio
+
+            );
+
+
+        }
+        else {
+
+
+            background.scale.set(
+
+                20 * videoRatio,
+
+                20
+
+            );
+
+
+        }
+
+
+    }
+
+
+
+    videoElement.addEventListener(
+        "loadedmetadata",
+        resizeVideo
     );
 
 
@@ -224,9 +296,7 @@ function loadSpine() {
 
                     map: texture,
 
-                    transparent: true,
-
-                    opacity: 1
+                    transparent: true
 
                 });
 
@@ -234,24 +304,34 @@ function loadSpine() {
 
             const geometry =
                 new THREE.PlaneGeometry(
+
                     1.32,
+
                     4.46
+
                 );
 
 
 
             spineMesh =
                 new THREE.Mesh(
+
                     geometry,
+
                     material
+
                 );
 
 
 
             spineMesh.position.set(
+
                 0,
+
                 0,
+
                 1
+
             );
 
 
@@ -307,24 +387,34 @@ function loadFrontCover() {
 
             const geometry =
                 new THREE.PlaneGeometry(
+
                     3.03,
+
                     4.50
+
                 );
 
 
 
             coverMesh =
                 new THREE.Mesh(
+
                     geometry,
+
                     material
+
                 );
 
 
 
             coverMesh.position.set(
+
                 0,
+
                 0,
+
                 1.1
+
             );
 
 
@@ -353,6 +443,10 @@ function loadFrontCover() {
 function handleClick(event) {
 
 
+    enableVideoSound();
+
+
+
     if (
         !spineReady ||
         !coverReady
@@ -377,22 +471,31 @@ function handleClick(event) {
 
 
     raycaster.setFromCamera(
+
         mouse,
+
         camera
+
     );
 
 
 
     const intersects =
         raycaster.intersectObject(
+
             spineMesh
+
         );
 
 
 
-    if (intersects.length > 0) {
+    if (
+        intersects.length > 0
+    ) {
+
 
         openCover();
+
 
     }
 
@@ -402,7 +505,42 @@ function handleClick(event) {
 
 
 // ------------------------------------------------------
-// SPINE TO COVER CROSSFADE
+// ENABLE VIDEO AUDIO
+// ------------------------------------------------------
+
+function enableVideoSound() {
+
+
+    if (
+        audioEnabled ||
+        !videoElement
+    ) {
+
+        return;
+
+    }
+
+
+
+    videoElement.muted = false;
+
+
+    videoElement.volume = 1;
+
+
+    videoElement.play();
+
+
+
+    audioEnabled = true;
+
+
+}
+
+
+
+// ------------------------------------------------------
+// SPINE TO COVER FADE
 // ------------------------------------------------------
 
 function openCover() {
@@ -422,8 +560,12 @@ function openCover() {
 
         const progress =
             Math.min(
-                (time - start) / duration,
+
+                (time - start) /
+                duration,
+
                 1
+
             );
 
 
@@ -438,7 +580,9 @@ function openCover() {
 
 
 
-        if (progress < 1) {
+        if (
+            progress < 1
+        ) {
 
 
             requestAnimationFrame(
@@ -499,8 +643,11 @@ function resize() {
 
 
     renderer.setSize(
+
         window.innerWidth,
+
         window.innerHeight
+
     );
 
 
@@ -509,7 +656,7 @@ function resize() {
 
 
 // ------------------------------------------------------
-// ANIMATION LOOP
+// RENDER LOOP
 // ------------------------------------------------------
 
 function animate() {
@@ -521,8 +668,11 @@ function animate() {
 
 
     renderer.render(
+
         scene,
+
         camera
+
     );
 
 
@@ -530,6 +680,6 @@ function animate() {
 
 
 
-// START
+// START ENGINE
 
 init();
