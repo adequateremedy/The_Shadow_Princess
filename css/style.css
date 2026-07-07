@@ -1,286 +1,37 @@
-/* ==========================================
-   THE SHADOW PRINCESS
-   SIMPLE FLIP BOOK FOUNDATION
-========================================== */
-
-
+/* Reset margins and padding */
 * {
-
     margin: 0;
     padding: 0;
-
     box-sizing: border-box;
-
 }
 
-
-
-html,
+/* Center the book on the screen */
 body {
-
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-
-    background: #000;
-
-}
-
-
-
-
-
-
-/* ==========================================
-   BOOK POSITION
-========================================== */
-
-
-#book {
-
-
-    position: absolute;
-
-
-    width: 788px;
-    height: 633px;
-
-
-    top: 50%;
-    left: 50%;
-
-
-    transform:
-        translate(-50%, -50%);
-
-
-    perspective: 2000px;
-
-
-}
-
-
-
-
-
-
-/* ==========================================
-   CLOSED COVER
-========================================== */
-
-
-#cover {
-
-
-    position: absolute;
-
-
-    width: 394px;
-    height: 633px;
-
-
-    top: 0;
-    left: 197px;
-
-
-    transform-origin:
-        left center;
-
-
-    transform-style:
-        preserve-3d;
-
-
-    z-index: 10;
-
-
-    cursor: pointer;
-
-
-    transition:
-        transform 1.5s ease;
-
-
-}
-
-
-
-
-
-
-#cover img {
-
-
-    width: 394px;
-    height: 633px;
-
-
-    display: block;
-
-
-    backface-visibility:
-        hidden;
-
-
-    user-select: none;
-
-
-}
-
-
-
-
-
-
-/* ==========================================
-   OPEN BOOK
-========================================== */
-
-
-#flipbook {
-
-
-    position: absolute;
-
-
-    width: 788px;
-    height: 633px;
-
-
-    top: 0;
-    left: 0;
-
-
     display: flex;
-
-
-    z-index: 1;
-
-
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000000;
+    overflow: hidden;
 }
 
-
-
-
-
-
-/* ==========================================
-   LEFT + RIGHT PAGES
-========================================== */
-
-
-#left-page,
-#right-page {
-
-
-    position: relative;
-
-
-    width: 394px;
-    height: 633px;
-
-
+.book-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
-
-
-
-
-
-
-/* ==========================================
-   INSIDE FRONT/BACK COVERS
-========================================== */
-
-
-#inside-front-cover,
-#right-page {
-
-
-    background:
-        #242424;
-
-
+/* Page class for the transparent PNGs */
+.page {
+    background-color: transparent;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-
-
-
-
-
-/* ==========================================
-   PAGE IMAGE
-========================================== */
-
-
-#current-page {
-
-
-    width: 394px;
-    height: 633px;
-
-
-    display: block;
-
-
-    position: absolute;
-
-
-    top: 0;
-    left: 0;
-
-
-}
-
-
-
-
-
-/* ==========================================
-   PAGE SHADOW / BOOK GUTTER
-========================================== */
-
-
-#flipbook::after {
-
-
-    content: "";
-
-
-    position: absolute;
-
-
-    top: 0;
-    left: 394px;
-
-
-    width: 12px;
-    height: 633px;
-
-
-    background:
-        rgba(0,0,0,0.35);
-
-
-    pointer-events: none;
-
-
-}
-
-
-
-
-
-/* ==========================================
-   IMAGE PROTECTION
-========================================== */
-
-
-img {
-
-    -webkit-user-drag: none;
-
-    user-select: none;
-
+/* Dark grey background for the inside covers */
+.inside-cover {
+    background-color: #111111;
 }
