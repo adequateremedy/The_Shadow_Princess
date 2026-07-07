@@ -1,10 +1,12 @@
 /* ==========================================
    THE SHADOW PRINCESS
-   Flip Book Foundation CSS
+   Physical Flip Book Foundation CSS
    ========================================== */
 
 
-/* ---------- GLOBAL RESET ---------- */
+/* ==========================================
+   GLOBAL RESET
+   ========================================== */
 
 * {
 
@@ -41,46 +43,44 @@ body {
     top: 0;
     left: 0;
 
-
     width: 100vw;
     height: 100vh;
 
-
     object-fit: contain;
-
 
     background: #000;
 
-
     opacity: 0;
 
-
     z-index: 0;
-
 
 }
 
 
 
 /* ==========================================
-   MAIN BOOK CONTAINER
+   BOOK ROOT
    ========================================== */
 
 #book {
 
     position: fixed;
 
-
     top: 50%;
     left: 50%;
 
-
     transform:
-
         translate(-50%, -50%);
 
 
-    z-index: 2;
+    width: 788px;
+    height: 633px;
+
+
+    perspective: 1800px;
+
+
+    z-index: 5;
 
 
 }
@@ -88,7 +88,7 @@ body {
 
 
 /* ==========================================
-   CLOSED BOOK
+   SPINE
    ========================================== */
 
 #spine {
@@ -97,7 +97,6 @@ body {
 
 
     width: 132px;
-
     height: 446px;
 
 
@@ -106,44 +105,81 @@ body {
 
 
     transform:
-
         translate(-50%, -50%);
 
 
     cursor: pointer;
 
 
+    z-index: 20;
+
+
     user-select: none;
+
+}
+
+
+
+/* ==========================================
+   FRONT COVER HOLDER
+   ========================================== */
+
+#cover-container {
+
+
+    position: absolute;
+
+
+    width: 394px;
+    height: 633px;
+
+
+    top: 0;
+    left: 0;
+
+
+    transform-origin:
+        left center;
+
+
+    transform-style:
+        preserve-3d;
+
+
+    z-index: 15;
 
 
 }
 
 
 
+/* ==========================================
+   FRONT COVER
+   ========================================== */
+
 #front-cover {
-
-
-    display: none;
 
 
     position: absolute;
 
 
-    width: 303px;
-
-    height: 450px;
-
-
-    top: 50%;
-    left: 50%;
+    width: 394px;
+    height: 633px;
 
 
-    transform:
-
-        translate(-50%, -50%);
+    top: 0;
+    left: 0;
 
 
     cursor: pointer;
+
+
+    backface-visibility:
+        hidden;
+
+
+    transform-origin:
+        left center;
 
 
     user-select: none;
@@ -154,31 +190,50 @@ body {
 
 
 /* ==========================================
-   OPEN BOOK AREA
+   OPEN BOOK INTERIOR
    ========================================== */
 
-#open-book {
-
-
-    display: none;
+#book-interior {
 
 
     position: absolute;
 
 
-    top: 50%;
-
-    left: 50%;
-
-
-    transform:
-
-        translate(-50%, -50%);
-
-
     width: 788px;
-
     height: 633px;
+
+
+    top: 0;
+    left: 0;
+
+
+    display: flex;
+
+
+    transform-style:
+        preserve-3d;
+
+
+}
+
+
+
+/* ==========================================
+   LEFT + RIGHT BOOK SIDES
+   ========================================== */
+
+#left-side,
+#right-side {
+
+
+    position: relative;
+
+
+    width: 394px;
+    height: 633px;
+
+
+    overflow: hidden;
 
 
 }
@@ -197,58 +252,52 @@ body {
 
 
     width: 394px;
-
     height: 633px;
 
 
-    background: #252525;
+    background:
+        #242424;
+
+
+    top: 0;
 
 
 }
 
 
 
-/* Left inside cover */
+/* Left cover */
 
 #inside-front-cover {
 
-
     left: 0;
-
-    top: 0;
-
 
 }
 
 
 
-/* Right inside cover */
+/* Right cover */
 
 #inside-back-cover {
 
-
     right: 0;
-
-    top: 0;
-
 
 }
 
 
 
 /* ==========================================
-   PAGE STACK AREAS
+   PAGE STACKS
    ========================================== */
 
-#left-pages,
-#right-pages {
+#left-page-stack,
+#right-page-stack {
 
 
     position: absolute;
 
 
     width: 394px;
-
     height: 633px;
 
 
@@ -259,44 +308,49 @@ body {
 
 
 
-/* Left page stack */
+/* Left pages */
 
-#left-pages {
+#left-page-stack {
 
     left: 0;
 
+    z-index: 5;
 
 }
 
 
 
-/* Right page stack */
+/* Right pages */
 
-#right-pages {
+#right-page-stack {
 
     right: 0;
 
+    z-index: 5;
 
 }
 
 
 
 /* ==========================================
-   BOOK IMAGES
+   PAGE TURN LAYER
    ========================================== */
 
-#open-book img {
+#page-turn-layer {
 
 
     position: absolute;
 
 
     width: 394px;
-
     height: 633px;
 
 
-    user-select: none;
+    top: 0;
+    right: 0;
+
+
+    z-index: 50;
 
 
     pointer-events: none;
@@ -307,11 +361,61 @@ body {
 
 
 /* ==========================================
-   PREVENT IMAGE DRAGGING
+   BOOK GUTTER SHADOW
    ========================================== */
 
-img {
+#book-spine-shadow {
+
+
+    position: absolute;
+
+
+    left: 394px;
+    top: 0;
+
+
+    width: 12px;
+    height: 633px;
+
+
+    background:
+        rgba(0,0,0,0.35);
+
+
+    z-index: 100;
+
+
+    pointer-events: none;
+
+
+}
+
+
+
+/* ==========================================
+   PAGE IMAGES
+   ========================================== */
+
+#book img {
+
+
+    user-select: none;
+
 
     -webkit-user-drag: none;
+
+
+}
+
+
+
+/* ==========================================
+   HIDE OPEN BOOK UNTIL COVER OPENS
+   ========================================== */
+
+#book-interior {
+
+
+    visibility: hidden;
 
 }
