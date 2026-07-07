@@ -5,131 +5,140 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>The Shadow Princess</title>
 
-    <link rel="stylesheet"
-          href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
+
 <body>
 
-    <!-- =====================================================
-         BACKGROUND ATMOSPHERE
-    ====================================================== -->
 
-    <video id="background-video"
-           playsinline
-           preload="auto"
-           loop>
+<!-- ==========================================
+     BACKGROUND VIDEO
+========================================== -->
 
-        <source src="assets/background.webm"
-                type="video/webm">
+<video id="background-video"
+       playsinline
+       preload="auto"
+       loop>
 
-    </video>
+    <source src="assets/background.webm"
+            type="video/webm">
 
-
-
-    <!-- =====================================================
-         BOOK
-    ====================================================== -->
-
-    <div id="book">
-
-
-        <!-- ==============================================
-             CLOSED BOOK (SPINE)
-        =============================================== -->
-
-        <img
-            id="spine"
-            src="assets/spine.png"
-            alt="Book Spine">
+</video>
 
 
 
-        <!-- ==============================================
-             HARD COVER
-        =============================================== -->
+<!-- ==========================================
+     BOOK
+========================================== -->
 
-        <div id="cover-container">
-
-            <img
-                id="front-cover"
-                src="assets/front-cover.png"
-                alt="Front Cover">
-
-        </div>
+<div id="book">
 
 
 
-        <!-- ==============================================
-             OPEN BOOK
-        =============================================== -->
+    <!-- ======================================
+         CLOSED SPINE
+    ======================================= -->
+
+    <img id="spine"
+         src="assets/spine.png"
+         alt="Book Spine">
+
+
+
+
+
+    <!-- ======================================
+         FULL BOOK STRUCTURE
+    ======================================= -->
+
+    <div id="book-wrapper">
+
+
+
+        <!-- ==================================
+             OPEN BOOK BASE
+        =================================== -->
 
         <div id="book-interior">
 
 
 
-            <!-- ==========================================
-                 LEFT SIDE
-            =========================================== -->
+            <!-- LEFT SIDE
+                 Inside Front Cover
+            -->
 
             <div id="left-side">
 
-                <!-- Inside Front Cover -->
 
                 <div id="inside-front-cover"></div>
 
-                <!-- Read Pages -->
 
                 <div id="left-page-stack"></div>
 
+
             </div>
 
 
 
 
 
-            <!-- ==========================================
-                 BOOK GUTTER
-            =========================================== -->
+            <!-- CENTER GUTTER -->
 
-            <div id="book-spine-shadow"></div>
+            <div id="book-gutter"></div>
 
 
 
 
 
-            <!-- ==========================================
-                 RIGHT SIDE
-            =========================================== -->
+            <!-- RIGHT SIDE
+                 Inside Back Cover + Pages
+            -->
 
             <div id="right-side">
 
-                <!-- Inside Back Cover -->
 
                 <div id="inside-back-cover"></div>
 
-                <!-- Remaining Pages -->
 
-                <div id="right-page-stack"></div>
+                <div id="right-page-stack">
+
+
+                    <img id="toc-page"
+                         src="assets/Table-of-Contents.png"
+                         alt="Table of Contents">
+
+
+                </div>
+
 
             </div>
 
 
 
+        </div>
 
 
-            <!-- ==========================================
-                 ACTIVE PAGE TURN LAYER
-            =========================================== -->
 
-            <div id="page-turn-layer"></div>
 
+
+
+        <!-- ==================================
+             FRONT HARD COVER
+             THIS ROTATES OPEN
+        =================================== -->
+
+        <div id="front-cover-container">
+
+
+            <img id="front-cover"
+                 src="assets/front-cover.png"
+                 alt="Front Cover">
 
 
         </div>
@@ -140,7 +149,12 @@
 
 
 
-    <script src="js/main.js"></script>
+</div>
+
+
+
+<script src="js/main.js"></script>
+
 
 </body>
 
