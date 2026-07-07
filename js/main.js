@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pageFlip = new St.PageFlip(flipbookContainer, {
         width: 500, 
         height: 750, 
-        size: "fit", // Changed to "fit" to ensure container maintains size
+        size: "stretch", 
         minWidth: 300,
         maxWidth: 1000,
         minHeight: 400,
