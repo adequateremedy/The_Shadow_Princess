@@ -1,9 +1,12 @@
 /* ==========================================
    THE SHADOW PRINCESS
    Main Book Engine
+
    Stage 1:
    Spine -> Front Cover
-   Background Video Activation
+   Background Video + Audio Fade
+
+   Synchronized 5 Second Transition
    ========================================== */
 
 
@@ -14,13 +17,22 @@ const frontCover = document.getElementById("front-cover");
 const backgroundVideo = document.getElementById("background-video");
 
 
-
 let bookOpened = false;
 
 
 
 // ==========================================
-// SPINE CLICK
+// INITIAL VIDEO SETTINGS
+// ==========================================
+
+backgroundVideo.style.opacity = "0";
+
+backgroundVideo.volume = 0;
+
+
+
+// ==========================================
+// CLICK SPINE
 // ==========================================
 
 spine.addEventListener("click", function () {
@@ -36,13 +48,7 @@ spine.addEventListener("click", function () {
     bookOpened = true;
 
 
-
-    startBackground();
-
-
-
-    openFrontCover();
-
+    beginOpeningTransition();
 
 
 });
@@ -51,13 +57,22 @@ spine.addEventListener("click", function () {
 
 
 // ==========================================
-// START BACKGROUND VIDEO
+// MAIN SYNCHRONIZED TRANSITION
 // ==========================================
 
-function startBackground() {
+function beginOpeningTransition() {
 
 
-    backgroundVideo.style.opacity = "0";
+    const duration = 5000;
+
+
+    frontCover.style.display = "block";
+
+    frontCover.style.opacity = "0";
+
+
+
+    backgroundVideo.volume = 0;
 
 
 
@@ -66,7 +81,89 @@ function startBackground() {
         .then(() => {
 
 
-            fadeInVideo();
+            const startTime =
+                performance.now();
+
+
+
+            function animate(time) {
+
+
+                let progress =
+                    (time - startTime) / duration;
+
+
+
+                if (progress > 1) {
+
+                    progress = 1;
+
+                }
+
+
+
+                /*
+                    SAME PROGRESS VALUE
+                    CONTROLS EVERYTHING
+                */
+
+
+                // Background video fade
+
+                backgroundVideo.style.opacity =
+                    progress;
+
+
+
+                // Background audio fade
+
+                backgroundVideo.volume =
+                    progress;
+
+
+
+                // Spine fade out
+
+                spine.style.opacity =
+                    1 - progress;
+
+
+
+                // Front cover fade in
+
+                frontCover.style.opacity =
+                    progress;
+
+
+
+                if (progress < 1) {
+
+
+                    requestAnimationFrame(animate);
+
+
+                }
+
+                else {
+
+
+                    spine.style.display =
+                        "none";
+
+
+                    backgroundVideo.volume =
+                        1;
+
+
+                }
+
+
+            }
+
+
+
+            requestAnimationFrame(animate);
+
 
 
         })
@@ -75,109 +172,12 @@ function startBackground() {
 
 
             console.log(
-                "Video autoplay blocked:",
+                "Video playback blocked:",
                 error
             );
 
 
         });
-
-
-}
-
-
-
-// ==========================================
-// VIDEO FADE IN
-// ==========================================
-
-function fadeInVideo() {
-
-
-    let opacity = 0;
-
-
-
-    backgroundVideo.style.opacity = opacity;
-
-
-
-    const fade = setInterval(function () {
-
-
-        opacity += 0.02;
-
-
-
-        backgroundVideo.style.opacity = opacity;
-
-
-
-        if (opacity >= 1) {
-
-
-            clearInterval(fade);
-
-
-        }
-
-
-    }, 20);
-
-
-}
-
-
-
-// ==========================================
-// SPINE -> FRONT COVER
-// ==========================================
-
-function openFrontCover() {
-
-
-    frontCover.style.display = "block";
-
-
-    frontCover.style.opacity = "0";
-
-
-
-    let opacity = 0;
-
-
-
-    const fade = setInterval(function () {
-
-
-        opacity += 0.02;
-
-
-
-        frontCover.style.opacity = opacity;
-
-
-
-        spine.style.opacity =
-            1 - opacity;
-
-
-
-        if (opacity >= 1) {
-
-
-            clearInterval(fade);
-
-
-
-            spine.style.display =
-                "none";
-
-
-        }
-
-
-    }, 20);
 
 
 }
