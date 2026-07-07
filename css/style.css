@@ -1,128 +1,55 @@
-/* ==========================================
-   THE SHADOW PRINCESS
-   Main Scene Styling
-   ========================================== */
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
-/* Reset browser defaults */
-* {
+    <meta charset="UTF-8">
 
-    margin: 0;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    padding: 0;
+    <title>The Shadow Princess</title>
 
-    box-sizing: border-box;
+    <link rel="stylesheet" href="css/style.css">
 
-}
+</head>
 
 
-/* Full screen page */
-html,
-body {
+<body>
 
-    width: 100%;
 
-    height: 100%;
+    <!-- Full Background Video -->
+    <video
+        id="background-video"
+        src="assets/background.webm"
+        autoplay
+        loop
+        muted
+        playsinline>
+    </video>
 
-    overflow: hidden;
 
-    background: transparent;
 
-}
+    <!-- Book Container -->
+    <div id="book-container">
 
+        <img
+            id="spine"
+            src="assets/spine.png"
+            alt="The Shadow Princess Spine">
 
 
-/* ==========================================
-   BACKGROUND VIDEO
-   ========================================== */
+        <img
+            id="front-cover"
+            src="assets/front-cover.png"
+            alt="The Shadow Princess Front Cover">
 
-#background-video {
+    </div>
 
-    position: fixed;
 
-    top: 0;
 
-    left: 0;
+    <script src="js/main.js"></script>
 
 
-    width: 100vw;
+</body>
 
-    height: 100vh;
-
-
-    object-fit: cover;
-
-
-    z-index: 0;
-
-
-}
-
-
-
-/* ==========================================
-   THREE.JS BOOK LAYER
-   ========================================== */
-
-#book-container {
-
-    position: fixed;
-
-
-    top: 0;
-
-    left: 0;
-
-
-    width: 100vw;
-
-    height: 100vh;
-
-
-    z-index: 1;
-
-
-}
-
-
-
-/* Three.js canvas */
-
-canvas {
-
-    display: block;
-
-
-    width: 100%;
-
-    height: 100%;
-
-
-    background: transparent;
-
-
-}
-
-
-
-/* Prevent image/canvas selection */
-
-img,
-canvas {
-
-    user-select: none;
-
-    -webkit-user-select: none;
-
-
-}
-
-
-
-/* Remove focus outlines */
-
-canvas {
-
-    outline: none;
-
-}
+</html>
