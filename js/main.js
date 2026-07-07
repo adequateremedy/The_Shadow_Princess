@@ -1,12 +1,9 @@
 //////////////////////////////////////////////////////////
 // THE SHADOW PRINCESS
-// Main 3D Book Engine
+// Main Book Engine
+// Stage 1: Background + Spine + Cover Transition
 //////////////////////////////////////////////////////////
 
-
-// ------------------------------------------------------
-// BASIC THREE.JS SETUP
-// ------------------------------------------------------
 
 const container = document.getElementById("book-container");
 
@@ -15,21 +12,26 @@ let camera;
 let renderer;
 
 let spineMesh;
+let coverMesh;
 
-let clock = new THREE.Clock();
+let raycaster;
+let mouse;
+
+let spineVisible = true;
+
 
 
 // ------------------------------------------------------
-// INITIALIZE SCENE
+// INITIALIZE
 // ------------------------------------------------------
 
 function init() {
 
-    // Create scene
+
     scene = new THREE.Scene();
 
 
-    // Camera
+
     camera = new THREE.PerspectiveCamera(
         45,
         window.innerWidth / window.innerHeight,
@@ -38,18 +40,26 @@ function init() {
     );
 
 
-    // Camera position
-    // Looking down at the book from the bed perspective
-    camera.position.set(0, 4, 7);
+    camera.position.set(
+        0,
+        0,
+        5
+    );
 
-    camera.lookAt(0, 0, 0);
+
+    camera.lookAt(
+        0,
+        0,
+        0
+    );
 
 
 
-    // Renderer
     renderer = new THREE.WebGLRenderer({
+
         alpha: true,
         antialias: true
+
     });
 
 
@@ -64,23 +74,23 @@ function init() {
     );
 
 
-    container.appendChild(renderer.domElement);
-
-
-
-    // Add lighting
-    const ambientLight = new THREE.AmbientLight(
-        0xffffff,
-        1
+    container.appendChild(
+        renderer.domElement
     );
 
-    scene.add(ambientLight);
+
+
+    raycaster = new THREE.Raycaster();
+
+    mouse = new THREE.Vector2();
 
 
 
-    loadBackgroundVideo();
+    createBackgroundVideo();
 
     loadSpine();
+
+    loadFrontCover();
 
 
 
@@ -88,6 +98,13 @@ function init() {
         "resize",
         resize
     );
+
+
+    window.addEventListener(
+        "click",
+        checkClick
+    );
+
 
 
     animate();
@@ -100,64 +117,38 @@ function init() {
 // BACKGROUND VIDEO
 // ------------------------------------------------------
 
-function loadBackgroundVideo() {
+function createBackgroundVideo() {
 
 
-    const video = document.createElement("video");
+    const video =
+        document.createElement("video");
 
 
-    video.src = "assets/background.webm";
+    video.id =
+        "background-video";
+
+
+    video.src =
+        "assets/background.webm";
 
 
     video.loop = true;
 
     video.muted = true;
 
+    video.autoplay = true;
+
     video.playsInline = true;
+
+
+
+    document.body.appendChild(
+        video
+    );
 
 
     video.play();
 
-
-
-    const videoTexture =
-        new THREE.VideoTexture(video);
-
-
-    videoTexture.minFilter =
-        THREE.LinearFilter;
-
-
-    videoTexture.magFilter =
-        THREE.LinearFilter;
-
-
-    const backgroundMaterial =
-        new THREE.MeshBasicMaterial({
-
-            map: videoTexture
-
-        });
-
-
-    const backgroundGeometry =
-        new THREE.PlaneGeometry(
-            16,
-            9
-        );
-
-
-    const background =
-        new THREE.Mesh(
-            backgroundGeometry,
-            backgroundMaterial
-        );
-
-
-    background.position.z = -5;
-
-
-    scene.add(background);
 
 
 }
@@ -165,7 +156,7 @@ function loadBackgroundVideo() {
 
 
 // ------------------------------------------------------
-// LOAD SPINE IMAGE
+// LOAD SPINE
 // ------------------------------------------------------
 
 function loadSpine() {
@@ -175,10 +166,10 @@ function loadSpine() {
         new THREE.TextureLoader();
 
 
+
     loader.load(
 
         "assets/spine.png",
-
 
         function(texture) {
 
@@ -188,7 +179,9 @@ function loadSpine() {
 
                     map: texture,
 
-                    transparent: true
+                    transparent: true,
+
+                    opacity: 1
 
                 });
 
@@ -217,19 +210,227 @@ function loadSpine() {
             );
 
 
-            scene.add(spineMesh);
+
+            scene.add(
+                spineMesh
+            );
 
 
         }
 
     );
 
+
 }
 
 
 
 // ------------------------------------------------------
-// RESIZE HANDLER
+// LOAD FRONT COVER
+// ------------------------------------------------------
+
+function loadFrontCover() {
+
+
+    const loader =
+        new THREE.TextureLoader();
+
+
+
+    loader.load(
+
+        "assets/front-cover.png",
+
+        function(texture) {
+
+
+            const material =
+                new THREE.MeshBasicMaterial({
+
+                    map: texture,
+
+                    transparent: true,
+
+                    opacity: 0
+
+                });
+
+
+
+            const geometry =
+                new THREE.PlaneGeometry(
+
+                    3.03,
+
+                    4.50
+
+                );
+
+
+
+            coverMesh =
+                new THREE.Mesh(
+
+                    geometry,
+
+                    material
+
+                );
+
+
+
+            coverMesh.position.set(
+
+                0,
+
+                0,
+
+                0.05
+
+            );
+
+
+
+            scene.add(
+
+                coverMesh
+
+            );
+
+
+        }
+
+    );
+
+
+}
+
+
+
+// ------------------------------------------------------
+// CLICK DETECTION
+// ------------------------------------------------------
+
+function checkClick(event) {
+
+
+    if (!spineVisible || !spineMesh) {
+
+        return;
+
+    }
+
+
+
+    mouse.x =
+        (event.clientX / window.innerWidth) * 2 - 1;
+
+
+    mouse.y =
+        -(event.clientY / window.innerHeight) * 2 + 1;
+
+
+
+    raycaster.setFromCamera(
+        mouse,
+        camera
+    );
+
+
+
+    const intersects =
+        raycaster.intersectObject(
+            spineMesh
+        );
+
+
+
+    if (intersects.length > 0) {
+
+
+        openCover();
+
+
+    }
+
+
+}
+
+
+
+// ------------------------------------------------------
+// SPINE TO COVER CROSSFADE
+// ------------------------------------------------------
+
+function openCover() {
+
+
+    spineVisible = false;
+
+
+
+    const duration = 1200;
+
+
+    const start = performance.now();
+
+
+
+    function fade(time) {
+
+
+        const progress =
+            Math.min(
+                (time - start) / duration,
+                1
+            );
+
+
+
+        spineMesh.material.opacity =
+            1 - progress;
+
+
+
+        coverMesh.material.opacity =
+            progress;
+
+
+
+        if (progress < 1) {
+
+
+            requestAnimationFrame(
+                fade
+            );
+
+
+        }
+        else {
+
+
+            spineMesh.visible =
+                false;
+
+
+        }
+
+
+    }
+
+
+
+    requestAnimationFrame(
+        fade
+    );
+
+
+}
+
+
+
+// ------------------------------------------------------
+// RESIZE
 // ------------------------------------------------------
 
 function resize() {
@@ -241,6 +442,7 @@ function resize() {
 
 
     camera.updateProjectionMatrix();
+
 
 
     renderer.setSize(
@@ -257,7 +459,7 @@ function resize() {
 
 
 // ------------------------------------------------------
-// ANIMATION LOOP
+// LOOP
 // ------------------------------------------------------
 
 function animate() {
@@ -278,8 +480,6 @@ function animate() {
 
 
 
-// ------------------------------------------------------
-// START ENGINE
-// ------------------------------------------------------
+// START
 
 init();
