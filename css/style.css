@@ -1,8 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     display: flex;
@@ -10,25 +6,25 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #000000;
-    overflow: hidden;
 }
 
 .book-container {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
 }
 
 #flipbook {
-    max-width: 1000px;
-    max-height: 750px;
-    aspect-ratio: 1000 / 750;
+    width: 1000px;
+    height: 750px;
 }
 
+/* Hard covers need to be set to hidden to prevent ghosting at the spine */
 .page {
-    background-color: transparent; 
+    background-color: transparent;
+    overflow: hidden; 
 }
 
 .page img {
