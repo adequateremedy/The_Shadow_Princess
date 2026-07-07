@@ -4,22 +4,24 @@
 
    Stage 1:
    Spine -> Front Cover
-   Background Video + Audio Fade
 
    Stage 2:
    Front Cover -> Open Book
    ========================================== */
 
 
+
 const spine = document.getElementById("spine");
 
 const frontCover = document.getElementById("front-cover");
 
+const coverContainer = document.getElementById("cover-container");
+
 const backgroundVideo = document.getElementById("background-video");
 
-const openBook = document.getElementById("open-book");
+const bookInterior = document.getElementById("book-interior");
 
-const rightPages = document.getElementById("right-pages");
+const rightPageStack = document.getElementById("right-page-stack");
 
 
 
@@ -29,19 +31,29 @@ let coverOpened = false;
 
 
 
+
+
 // ==========================================
-// INITIAL VIDEO SETTINGS
+// INITIAL SETTINGS
 // ==========================================
+
 
 backgroundVideo.style.opacity = "0";
 
 backgroundVideo.volume = 0;
 
 
+bookInterior.style.visibility = "hidden";
+
+
+
+
+
 
 // ==========================================
-// CLICK SPINE
+// SPINE CLICK
 // ==========================================
+
 
 spine.addEventListener("click", function () {
 
@@ -56,10 +68,13 @@ spine.addEventListener("click", function () {
     spineOpened = true;
 
 
-    beginOpeningTransition();
+    openSpine();
 
 
 });
+
+
+
 
 
 
@@ -68,114 +83,133 @@ spine.addEventListener("click", function () {
 // SPINE -> FRONT COVER
 // ==========================================
 
-function beginOpeningTransition() {
+
+function openSpine() {
 
 
     const duration = 5000;
 
 
-    frontCover.style.display = "block";
-
     frontCover.style.opacity = "0";
 
 
-
-    backgroundVideo.volume = 0;
+    coverContainer.style.display =
+        "block";
 
 
 
     backgroundVideo.play()
 
-        .then(() => {
-
-
-            const startTime =
-                performance.now();
+    .then(() => {
 
 
 
-            function animate(time) {
-
-
-                let progress =
-                    (time - startTime) / duration;
+        const startTime =
+            performance.now();
 
 
 
-                if (progress > 1) {
-
-                    progress = 1;
-
-                }
+        function animate(time) {
 
 
 
-                backgroundVideo.style.opacity =
-                    progress;
+            let progress =
+                (time - startTime) / duration;
 
+
+
+            if (progress > 1) {
+
+                progress = 1;
+
+            }
+
+
+
+            // Background fade
+
+            backgroundVideo.style.opacity =
+                progress;
+
+
+
+            // Audio fade
+
+            backgroundVideo.volume =
+                progress;
+
+
+
+            // Spine fade out
+
+            spine.style.opacity =
+                1 - progress;
+
+
+
+            // Cover fade in
+
+            frontCover.style.opacity =
+                progress;
+
+
+
+
+            if (progress < 1) {
+
+
+
+                requestAnimationFrame(
+                    animate
+                );
+
+
+            }
+
+            else {
+
+
+
+                spine.style.display =
+                    "none";
 
 
                 backgroundVideo.volume =
-                    progress;
+                    1;
 
 
 
-                spine.style.opacity =
-                    1 - progress;
+                enableCoverOpening();
 
-
-
-                frontCover.style.opacity =
-                    progress;
-
-
-
-                if (progress < 1) {
-
-
-                    requestAnimationFrame(animate);
-
-
-                }
-
-                else {
-
-
-                    spine.style.display =
-                        "none";
-
-
-                    backgroundVideo.volume =
-                        1;
-
-
-
-                    enableCoverOpening();
-
-
-                }
 
 
             }
 
 
 
-            requestAnimationFrame(animate);
+        }
 
 
 
-        })
-
-        .catch((error) => {
-
-
-            console.log(
-                "Video playback blocked:",
-                error
-            );
+        requestAnimationFrame(
+            animate
+        );
 
 
-        });
+
+    })
+
+    .catch(error => {
+
+
+        console.log(
+            "Background video could not start:",
+            error
+        );
+
+
+    });
+
 
 
 }
@@ -183,9 +217,13 @@ function beginOpeningTransition() {
 
 
 
+
+
+
 // ==========================================
-// ENABLE COVER CLICK
+// ENABLE FRONT COVER CLICK
 // ==========================================
+
 
 function enableCoverOpening() {
 
@@ -201,11 +239,16 @@ function enableCoverOpening() {
 
 
 
+
+
+
 // ==========================================
-// FRONT COVER OPENS
+// FRONT COVER ROTATION
 // ==========================================
 
+
 function openFrontCover() {
+
 
 
     if (coverOpened) {
@@ -215,37 +258,46 @@ function openFrontCover() {
     }
 
 
+
     coverOpened = true;
 
 
 
-    createTOC();
+
+    loadTableOfContents();
 
 
 
-    openBook.style.display =
-        "block";
+
+    bookInterior.style.visibility =
+        "visible";
 
 
 
-    openBook.style.opacity =
-        "1";
+
+    coverContainer.style.transition =
+        "transform 2.5s ease";
 
 
 
-    frontCover.style.transform =
-        "translate(-50%, -50%) rotateY(-160deg)";
+    coverContainer.style.transform =
+        "rotateY(-170deg)";
+
+
 
 
 
     setTimeout(() => {
 
 
-        frontCover.style.display =
+
+        coverContainer.style.display =
             "none";
 
 
-    }, 1500);
+
+    }, 2600);
+
 
 
 }
@@ -253,14 +305,19 @@ function openFrontCover() {
 
 
 
+
+
+
 // ==========================================
-// CREATE TABLE OF CONTENTS PAGE
+// LOAD TABLE OF CONTENTS
 // ==========================================
 
-function createTOC() {
+
+function loadTableOfContents() {
 
 
-    rightPages.innerHTML = "";
+
+    rightPageStack.innerHTML = "";
 
 
 
@@ -279,7 +336,20 @@ function createTOC() {
 
 
 
-    rightPages.appendChild(toc);
+    toc.style.width =
+        "394px";
+
+
+
+    toc.style.height =
+        "633px";
+
+
+
+    rightPageStack.appendChild(
+        toc
+    );
+
 
 
 }
