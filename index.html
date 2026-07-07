@@ -1,90 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>The Shadow Princess Flip Book</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
+    <title>The Shadow Princess</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
-
-
-<div id="book">
-
-
-
-    <!-- CLOSED FRONT COVER -->
-    <div id="cover">
-
-        <img src="assets/front-cover.png"
-             alt="The Shadow Princess Front Cover">
-
-    </div>
-
-
-
-
-
-    <!-- OPEN BOOK -->
-
-    <div id="flipbook">
-
-
-
-        <!-- LEFT SIDE -->
-
-        <div id="left-page">
-
-
-            <div id="inside-front-cover">
-
+    
+    <div class="book-container">
+        <div id="flipbook">
             </div>
-
-
-        </div>
-
-
-
-
-
-
-        <!-- RIGHT SIDE -->
-
-        <div id="right-page">
-
-
-            <img id="current-page"
-                 src="assets/Table-of-Contents.png"
-                 alt="Table of Contents">
-
-
-        </div>
-
-
-
-
-
     </div>
 
-
-
-</div>
-
-
-
-
-
-<script src="js/main.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <script src="main.js"></script>
 </body>
-
 </html>
