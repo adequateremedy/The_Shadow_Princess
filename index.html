@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Shadow Princess</title>
+    <title>The Shadow Princess Flip Book</title>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -17,59 +17,15 @@
 <body>
 
 
-<!-- ==========================================
-     BACKGROUND VIDEO
-     Hidden until spine is clicked
-========================================== -->
-
-<video id="background-video"
-       playsinline
-       preload="auto"
-       loop>
-
-    <source src="assets/background.webm"
-            type="video/webm">
-
-</video>
-
-
-
-
-<!-- ==========================================
-     BOOK AREA
-========================================== -->
-
 <div id="book">
 
 
 
-    <!-- ======================================
-         SPINE BUTTON
-         ONLY VISIBLE ON INITIAL LOAD
-    ======================================= -->
+    <!-- CLOSED FRONT COVER -->
+    <div id="cover">
 
-    <img id="spine"
-         src="assets/spine.png"
-         alt="Book Spine">
-
-
-
-
-
-    <!-- ======================================
-         CLOSED BOOK
-         FADES IN AFTER SPINE CLICK
-    ======================================= -->
-
-    <div id="closed-book">
-
-
-
-        <img id="front-cover"
-             src="assets/front-cover.png"
-             alt="The Shadow Princess">
-
-
+        <img src="assets/front-cover.png"
+             alt="The Shadow Princess Front Cover">
 
     </div>
 
@@ -77,56 +33,18 @@
 
 
 
+    <!-- OPEN BOOK -->
 
-
-    <!-- ======================================
-         OPEN BOOK STRUCTURE
-         EXISTS BUT HIDDEN UNTIL OPENED
-    ======================================= -->
-
-    <div id="open-book">
+    <div id="flipbook">
 
 
 
-
-
-        <!-- LEFT SIDE
-             Inside Front Cover
-        -->
+        <!-- LEFT SIDE -->
 
         <div id="left-page">
 
 
-            <div id="inside-front-cover"></div>
-
-
-            <div id="left-pages"></div>
-
-
-        </div>
-
-
-
-
-
-
-        <!-- RIGHT SIDE
-             Inside Back Cover + TOC
-        -->
-
-        <div id="right-page">
-
-
-            <div id="inside-back-cover"></div>
-
-
-            <div id="right-pages">
-
-
-                <img id="table-of-contents"
-                     src="assets/Table-of-Contents.png"
-                     alt="Table of Contents">
-
+            <div id="inside-front-cover">
 
             </div>
 
@@ -137,18 +55,20 @@
 
 
 
-        <!-- FRONT HARD COVER
-             ROTATES OPEN
-        -->
 
-        <div id="hard-cover">
+        <!-- RIGHT SIDE -->
+
+        <div id="right-page">
 
 
-            <img src="assets/front-cover.png"
-                 alt="Front Cover">
+            <img id="current-page"
+                 src="assets/Table-of-Contents.png"
+                 alt="Table of Contents">
 
 
         </div>
+
+
 
 
 
@@ -157,6 +77,7 @@
 
 
 </div>
+
 
 
 
