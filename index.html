@@ -17,12 +17,17 @@
 <body>
 
 
-    <!-- Background Bedroom Video -->
+    <!--
+        Background Atmosphere Video
+
+        Hidden until the spine is clicked.
+        JavaScript will start the video,
+        audio, and fade-in sequence.
+    -->
+
     <video
         id="background-video"
-        autoplay
         loop
-        muted
         playsinline>
 
         <source
@@ -33,32 +38,65 @@
 
 
 
-    <!-- Main Book -->
+    <!--
+        Main Book Container
+    -->
+
     <div id="book">
 
 
-        <!-- Spine Screen -->
+        <!-- Closed Book Spine -->
+
         <img
             id="spine"
             src="assets/spine.png"
-            alt="Book Spine">
+            alt="The Shadow Princess Spine">
 
 
 
         <!-- Front Cover -->
+
         <img
             id="front-cover"
             src="assets/front-cover.png"
-            alt="Front Cover">
+            alt="The Shadow Princess Front Cover">
 
 
 
-        <!-- Inside Book Area -->
-        <div id="pages">
+        <!-- Open Book Structure -->
 
-            <!-- Pages will be created by JavaScript -->
+        <div id="open-book">
+
+
+            <!-- Inside Front Cover -->
+
+            <div id="inside-front-cover">
+            </div>
+
+
+
+            <!-- Left Page Stack -->
+
+            <div id="left-pages">
+            </div>
+
+
+
+            <!-- Right Page Stack -->
+
+            <div id="right-pages">
+            </div>
+
+
+
+            <!-- Inside Back Cover -->
+
+            <div id="inside-back-cover">
+            </div>
+
 
         </div>
+
 
 
     </div>
