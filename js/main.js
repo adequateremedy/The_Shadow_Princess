@@ -6,7 +6,8 @@
    Spine -> Front Cover
    Background Video + Audio Fade
 
-   Synchronized 5 Second Transition
+   Stage 2:
+   Front Cover -> Open Book
    ========================================== */
 
 
@@ -16,8 +17,15 @@ const frontCover = document.getElementById("front-cover");
 
 const backgroundVideo = document.getElementById("background-video");
 
+const openBook = document.getElementById("open-book");
 
-let bookOpened = false;
+const rightPages = document.getElementById("right-pages");
+
+
+
+let spineOpened = false;
+
+let coverOpened = false;
 
 
 
@@ -38,14 +46,14 @@ backgroundVideo.volume = 0;
 spine.addEventListener("click", function () {
 
 
-    if (bookOpened) {
+    if (spineOpened) {
 
         return;
 
     }
 
 
-    bookOpened = true;
+    spineOpened = true;
 
 
     beginOpeningTransition();
@@ -57,7 +65,7 @@ spine.addEventListener("click", function () {
 
 
 // ==========================================
-// MAIN SYNCHRONIZED TRANSITION
+// SPINE -> FRONT COVER
 // ==========================================
 
 function beginOpeningTransition() {
@@ -102,34 +110,20 @@ function beginOpeningTransition() {
 
 
 
-                /*
-                    SAME PROGRESS VALUE
-                    CONTROLS EVERYTHING
-                */
-
-
-                // Background video fade
-
                 backgroundVideo.style.opacity =
                     progress;
 
 
-
-                // Background audio fade
 
                 backgroundVideo.volume =
                     progress;
 
 
 
-                // Spine fade out
-
                 spine.style.opacity =
                     1 - progress;
 
 
-
-                // Front cover fade in
 
                 frontCover.style.opacity =
                     progress;
@@ -155,6 +149,10 @@ function beginOpeningTransition() {
                         1;
 
 
+
+                    enableCoverOpening();
+
+
                 }
 
 
@@ -178,6 +176,110 @@ function beginOpeningTransition() {
 
 
         });
+
+
+}
+
+
+
+
+// ==========================================
+// ENABLE COVER CLICK
+// ==========================================
+
+function enableCoverOpening() {
+
+
+    frontCover.addEventListener(
+        "click",
+        openFrontCover
+    );
+
+
+}
+
+
+
+
+// ==========================================
+// FRONT COVER OPENS
+// ==========================================
+
+function openFrontCover() {
+
+
+    if (coverOpened) {
+
+        return;
+
+    }
+
+
+    coverOpened = true;
+
+
+
+    createTOC();
+
+
+
+    openBook.style.display =
+        "block";
+
+
+
+    openBook.style.opacity =
+        "1";
+
+
+
+    frontCover.style.transform =
+        "translate(-50%, -50%) rotateY(-160deg)";
+
+
+
+    setTimeout(() => {
+
+
+        frontCover.style.display =
+            "none";
+
+
+    }, 1500);
+
+
+}
+
+
+
+
+// ==========================================
+// CREATE TABLE OF CONTENTS PAGE
+// ==========================================
+
+function createTOC() {
+
+
+    rightPages.innerHTML = "";
+
+
+
+    const toc =
+        document.createElement("img");
+
+
+
+    toc.src =
+        "assets/Table-of-Contents.png";
+
+
+
+    toc.alt =
+        "Table of Contents";
+
+
+
+    rightPages.appendChild(toc);
 
 
 }
