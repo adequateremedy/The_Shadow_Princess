@@ -2,50 +2,57 @@
    THE SHADOW PRINCESS
    Main Book Engine
 
-   Spine -> Front Cover
-   Front Cover -> Open Book
+   Spine Click:
+   Spine -> Closed Book
+   WebM + Audio Fade In
+
+   Cover Click:
+   Hardcover Opens
 
 ========================================== */
 
 
 
-const spine =
-    document.getElementById("spine");
+const spine = document.getElementById("spine");
 
+const closedBook = document.getElementById("closed-book");
 
-const frontCover =
-    document.getElementById("front-cover");
-
-
-const frontCoverContainer =
-    document.getElementById("front-cover-container");
-
+const frontCover = document.getElementById("front-cover");
 
 const backgroundVideo =
     document.getElementById("background-video");
 
+const openBook =
+    document.getElementById("open-book");
+
+const hardCover =
+    document.getElementById("hard-cover");
 
 
-let spineOpened = false;
 
-let coverOpened = false;
+let spineClicked = false;
+
+let coverClicked = false;
+
 
 
 
 
 // ==========================================
-// INITIAL STATE
+// INITIAL SETTINGS
 // ==========================================
 
-
-backgroundVideo.style.opacity = "0";
 
 backgroundVideo.volume = 0;
 
+backgroundVideo.style.opacity = "0";
 
 
-frontCoverContainer.style.display =
-    "none";
+closedBook.style.display = "none";
+
+openBook.style.display = "none";
+
+hardCover.style.display = "none";
 
 
 
@@ -53,24 +60,24 @@ frontCoverContainer.style.display =
 
 
 // ==========================================
-// CLICK SPINE
+// SPINE CLICK
 // ==========================================
 
 
 spine.addEventListener("click", function () {
 
 
-    if (spineOpened) {
+    if (spineClicked) {
 
         return;
 
     }
 
 
-    spineOpened = true;
+    spineClicked = true;
 
 
-    startSpineTransition();
+    startBookReveal();
 
 
 });
@@ -82,23 +89,24 @@ spine.addEventListener("click", function () {
 
 
 // ==========================================
-// SPINE -> FRONT COVER
-// 5 SECOND CROSSFADE
+// SPINE -> CLOSED BOOK
+// WEBM + AUDIO FADE
 // ==========================================
 
 
-function startSpineTransition() {
+function startBookReveal() {
 
 
     const duration = 5000;
 
 
 
-    frontCoverContainer.style.display =
+    closedBook.style.display =
         "block";
 
 
-    frontCover.style.opacity = "0";
+    closedBook.style.opacity =
+        "0";
 
 
 
@@ -115,7 +123,7 @@ function startSpineTransition() {
 
 
 
-        function animate(time) {
+        function fade(time) {
 
 
 
@@ -134,14 +142,14 @@ function startSpineTransition() {
 
 
 
-            // video fade
+            // Background video
 
             backgroundVideo.style.opacity =
                 progress;
 
 
 
-            // audio fade
+            // Background audio
 
             backgroundVideo.volume =
                 progress;
@@ -149,7 +157,8 @@ function startSpineTransition() {
 
 
 
-            // spine fades away
+
+            // Spine fades away
 
             spine.style.opacity =
                 1 - progress;
@@ -157,10 +166,12 @@ function startSpineTransition() {
 
 
 
-            // cover fades in
 
-            frontCover.style.opacity =
+            // Closed book fades in
+
+            closedBook.style.opacity =
                 progress;
+
 
 
 
@@ -170,9 +181,8 @@ function startSpineTransition() {
             if (progress < 1) {
 
 
-
                 requestAnimationFrame(
-                    animate
+                    fade
                 );
 
 
@@ -186,15 +196,19 @@ function startSpineTransition() {
                     "none";
 
 
+
                 backgroundVideo.volume =
                     1;
 
 
 
-                enableCoverClick();
+                enableCoverOpening();
+
 
 
             }
+
+
 
 
         }
@@ -203,7 +217,7 @@ function startSpineTransition() {
 
 
         requestAnimationFrame(
-            animate
+            fade
         );
 
 
@@ -214,7 +228,7 @@ function startSpineTransition() {
 
 
         console.log(
-            "Video playback blocked:",
+            "Video could not start:",
             error
         );
 
@@ -232,16 +246,16 @@ function startSpineTransition() {
 
 
 // ==========================================
-// ENABLE FRONT COVER CLICK
+// ENABLE HARD COVER CLICK
 // ==========================================
 
 
-function enableCoverClick() {
+function enableCoverOpening() {
 
 
     frontCover.addEventListener(
         "click",
-        openCover
+        openHardCover
     );
 
 
@@ -254,36 +268,63 @@ function enableCoverClick() {
 
 
 // ==========================================
-// FRONT COVER OPENS
+// OPEN HARD COVER
 // ==========================================
 
 
-function openCover() {
+function openHardCover() {
 
 
 
-    if (coverOpened) {
+    if (coverClicked) {
 
         return;
 
     }
 
 
-
-    coverOpened = true;
-
-
-
-
-    frontCoverContainer.style.transition =
-        "transform 2.5s ease";
+    coverClicked = true;
 
 
 
 
 
-    frontCoverContainer.style.transform =
-        "rotateY(-180deg)";
+    openBook.style.display =
+        "block";
+
+
+
+    hardCover.style.display =
+        "block";
+
+
+
+
+
+
+    // Move the closed cover
+    // into the open book layer
+
+    hardCover.style.transform =
+        "rotateY(0deg)";
+
+
+
+    setTimeout(() => {
+
+
+
+        hardCover.style.transition =
+            "transform 2.5s ease";
+
+
+
+        hardCover.style.transform =
+            "rotateY(-180deg)";
+
+
+
+    }, 50);
 
 
 
