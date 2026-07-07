@@ -1,594 +1,183 @@
-//////////////////////////////////////////////////////////
-// THE SHADOW PRINCESS
-// Main Book Engine
-// Stage 1 - Spine + Cover Transition
-//////////////////////////////////////////////////////////
+/* ==========================================
+   THE SHADOW PRINCESS
+   Main Book Engine
+   Stage 1:
+   Spine -> Front Cover
+   Background Video Activation
+   ========================================== */
 
 
-const container =
-    document.getElementById("book-container");
+const spine = document.getElementById("spine");
 
+const frontCover = document.getElementById("front-cover");
 
-let scene;
-let camera;
-let renderer;
-
-
-let spineMesh;
-let coverMesh;
-
-
-let raycaster;
-let mouse;
-
-
-let spineReady = false;
-let coverReady = false;
-
-
-const backgroundVideo =
-    document.getElementById("background-video");
+const backgroundVideo = document.getElementById("background-video");
 
 
 
-// ------------------------------------------------------
-// INITIALIZE
-// ------------------------------------------------------
-
-function init() {
-
-
-    scene = new THREE.Scene();
+let bookOpened = false;
 
 
 
-    camera =
-        new THREE.OrthographicCamera(
+// ==========================================
+// SPINE CLICK
+// ==========================================
 
-            window.innerWidth / -100,
-
-            window.innerWidth / 100,
-
-            window.innerHeight / 100,
-
-            window.innerHeight / -100,
-
-            0.1,
-
-            1000
-
-        );
+spine.addEventListener("click", function () {
 
 
+    if (bookOpened) {
 
-    camera.position.z = 10;
+        return;
+
+    }
+
+
+    bookOpened = true;
 
 
 
-    renderer =
-        new THREE.WebGLRenderer({
+    startBackground();
 
-            alpha: true,
 
-            antialias: true
+
+    openFrontCover();
+
+
+
+});
+
+
+
+
+// ==========================================
+// START BACKGROUND VIDEO
+// ==========================================
+
+function startBackground() {
+
+
+    backgroundVideo.style.opacity = "0";
+
+
+
+    backgroundVideo.play()
+
+        .then(() => {
+
+
+            fadeInVideo();
+
+
+        })
+
+        .catch((error) => {
+
+
+            console.log(
+                "Video autoplay blocked:",
+                error
+            );
+
 
         });
 
 
-
-    renderer.setSize(
-
-        window.innerWidth,
-
-        window.innerHeight
-
-    );
-
-
-
-    renderer.setPixelRatio(
-
-        window.devicePixelRatio
-
-    );
-
-
-
-    renderer.setClearColor(
-
-        0x000000,
-
-        0
-
-    );
-
-
-
-    container.appendChild(
-
-        renderer.domElement
-
-    );
-
-
-
-    raycaster =
-        new THREE.Raycaster();
-
-
-    mouse =
-        new THREE.Vector2();
-
-
-
-    loadSpine();
-
-    loadFrontCover();
-
-
-
-    window.addEventListener(
-
-        "resize",
-
-        resize
-
-    );
-
-
-
-    window.addEventListener(
-
-        "click",
-
-        handleClick
-
-    );
-
-
-
-    animate();
-
 }
 
 
 
-// ------------------------------------------------------
-// LOAD SPINE
-// ------------------------------------------------------
+// ==========================================
+// VIDEO FADE IN
+// ==========================================
 
-function loadSpine() {
+function fadeInVideo() {
 
 
-    const loader =
-        new THREE.TextureLoader();
+    let opacity = 0;
 
 
 
-    loader.load(
+    backgroundVideo.style.opacity = opacity;
 
-        "assets/spine.png",
 
 
-        function(texture) {
+    const fade = setInterval(function () {
 
 
-            const material =
-                new THREE.MeshBasicMaterial({
+        opacity += 0.02;
 
-                    map: texture,
 
-                    transparent: true,
 
-                    opacity: 1
+        backgroundVideo.style.opacity = opacity;
 
-                });
 
 
+        if (opacity >= 1) {
 
-            const geometry =
-                new THREE.PlaneGeometry(
 
-                    1.32,
-
-                    4.46
-
-                );
-
-
-
-            spineMesh =
-                new THREE.Mesh(
-
-                    geometry,
-
-                    material
-
-                );
-
-
-
-            spineMesh.position.set(
-
-                0,
-
-                0,
-
-                1
-
-            );
-
-
-
-            scene.add(
-
-                spineMesh
-
-            );
-
-
-
-            spineReady = true;
-
-
-        }
-
-    );
-
-
-}
-
-
-
-// ------------------------------------------------------
-// LOAD FRONT COVER
-// ------------------------------------------------------
-
-function loadFrontCover() {
-
-
-    const loader =
-        new THREE.TextureLoader();
-
-
-
-    loader.load(
-
-        "assets/front-cover.png",
-
-
-        function(texture) {
-
-
-            const material =
-                new THREE.MeshBasicMaterial({
-
-                    map: texture,
-
-                    transparent: true,
-
-                    opacity: 0
-
-                });
-
-
-
-            const geometry =
-                new THREE.PlaneGeometry(
-
-                    3.03,
-
-                    4.50
-
-                );
-
-
-
-            coverMesh =
-                new THREE.Mesh(
-
-                    geometry,
-
-                    material
-
-                );
-
-
-
-            coverMesh.position.set(
-
-                0,
-
-                0,
-
-                1.1
-
-            );
-
-
-
-            scene.add(
-
-                coverMesh
-
-            );
-
-
-
-            coverReady = true;
-
-
-        }
-
-    );
-
-
-}
-
-
-
-// ------------------------------------------------------
-// CLICK SPINE
-// ------------------------------------------------------
-
-function handleClick(event) {
-
-
-    enableVideoSound();
-
-
-
-    if (
-
-        !spineReady ||
-
-        !coverReady
-
-    ) {
-
-        return;
-
-    }
-
-
-
-    mouse.x =
-
-        (event.clientX /
-
-        window.innerWidth) * 2 - 1;
-
-
-
-    mouse.y =
-
-        -(event.clientY /
-
-        window.innerHeight) * 2 + 1;
-
-
-
-    raycaster.setFromCamera(
-
-        mouse,
-
-        camera
-
-    );
-
-
-
-    const intersects =
-
-        raycaster.intersectObject(
-
-            spineMesh
-
-        );
-
-
-
-    if (
-
-        intersects.length > 0
-
-    ) {
-
-
-        openCover();
-
-
-    }
-
-
-}
-
-
-
-// ------------------------------------------------------
-// ENABLE VIDEO SOUND
-// ------------------------------------------------------
-
-function enableVideoSound() {
-
-
-    if (!backgroundVideo) {
-
-        return;
-
-    }
-
-
-
-    backgroundVideo.muted = false;
-
-
-    backgroundVideo.volume = 1;
-
-
-    backgroundVideo.play();
-
-
-}
-
-
-
-// ------------------------------------------------------
-// SPINE TO COVER CROSSFADE
-// ------------------------------------------------------
-
-function openCover() {
-
-
-    const duration = 1200;
-
-
-    const start =
-        performance.now();
-
-
-
-    function fade(time) {
-
-
-        const progress =
-
-            Math.min(
-
-                (time - start) /
-
-                duration,
-
-                1
-
-            );
-
-
-
-        spineMesh.material.opacity =
-
-            1 - progress;
-
-
-
-        coverMesh.material.opacity =
-
-            progress;
-
-
-
-        if (
-
-            progress < 1
-
-        ) {
-
-
-            requestAnimationFrame(
-
-                fade
-
-            );
-
-
-        }
-
-        else {
-
-
-            spineMesh.visible = false;
+            clearInterval(fade);
 
 
         }
 
 
-    }
-
-
-
-    requestAnimationFrame(
-
-        fade
-
-    );
+    }, 20);
 
 
 }
 
 
 
-// ------------------------------------------------------
-// RESIZE
-// ------------------------------------------------------
+// ==========================================
+// SPINE -> FRONT COVER
+// ==========================================
 
-function resize() {
-
-
-    camera.left =
-
-        window.innerWidth / -100;
+function openFrontCover() {
 
 
-    camera.right =
-
-        window.innerWidth / 100;
+    frontCover.style.display = "block";
 
 
-    camera.top =
-
-        window.innerHeight / 100;
-
-
-    camera.bottom =
-
-        window.innerHeight / -100;
+    frontCover.style.opacity = "0";
 
 
 
-    camera.updateProjectionMatrix();
+    let opacity = 0;
 
 
 
-    renderer.setSize(
-
-        window.innerWidth,
-
-        window.innerHeight
-
-    );
+    const fade = setInterval(function () {
 
 
-}
+        opacity += 0.02;
 
 
 
-// ------------------------------------------------------
-// RENDER LOOP
-// ------------------------------------------------------
-
-function animate() {
+        frontCover.style.opacity = opacity;
 
 
-    requestAnimationFrame(
 
-        animate
-
-    );
+        spine.style.opacity =
+            1 - opacity;
 
 
-    renderer.render(
 
-        scene,
+        if (opacity >= 1) {
 
-        camera
 
-    );
+            clearInterval(fade);
+
+
+
+            spine.style.display =
+                "none";
+
+
+        }
+
+
+    }, 20);
 
 
 }
-
-
-
-// START ENGINE
-
-init();
