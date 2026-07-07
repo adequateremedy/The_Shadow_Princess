@@ -4,25 +4,41 @@
 
    Stage 1:
    Spine -> Front Cover
-   Background Video + Audio Fade
 
-   Synchronized 5 Second Transition
+   Stage 2:
+   Front Cover -> Open Book
    ========================================== */
 
 
-const spine = document.getElementById("spine");
+const spine =
+    document.getElementById("spine");
 
-const frontCover = document.getElementById("front-cover");
 
-const backgroundVideo = document.getElementById("background-video");
+const frontCover =
+    document.getElementById("front-cover");
+
+
+const backgroundVideo =
+    document.getElementById("background-video");
+
+
+const openBook =
+    document.getElementById("open-book");
+
+
+const rightPages =
+    document.getElementById("right-pages");
+
 
 
 let bookOpened = false;
 
+let coverOpened = false;
+
 
 
 // ==========================================
-// INITIAL VIDEO SETTINGS
+// INITIAL VIDEO STATE
 // ==========================================
 
 backgroundVideo.style.opacity = "0";
@@ -57,7 +73,7 @@ spine.addEventListener("click", function () {
 
 
 // ==========================================
-// MAIN SYNCHRONIZED TRANSITION
+// SPINE -> FRONT COVER
 // ==========================================
 
 function beginOpeningTransition() {
@@ -66,13 +82,10 @@ function beginOpeningTransition() {
     const duration = 5000;
 
 
+
     frontCover.style.display = "block";
 
     frontCover.style.opacity = "0";
-
-
-
-    backgroundVideo.volume = 0;
 
 
 
@@ -81,7 +94,8 @@ function beginOpeningTransition() {
         .then(() => {
 
 
-            const startTime =
+
+            const start =
                 performance.now();
 
 
@@ -89,8 +103,9 @@ function beginOpeningTransition() {
             function animate(time) {
 
 
+
                 let progress =
-                    (time - startTime) / duration;
+                    (time - start) / duration;
 
 
 
@@ -102,34 +117,20 @@ function beginOpeningTransition() {
 
 
 
-                /*
-                    SAME PROGRESS VALUE
-                    CONTROLS EVERYTHING
-                */
-
-
-                // Background video fade
-
                 backgroundVideo.style.opacity =
                     progress;
 
 
-
-                // Background audio fade
 
                 backgroundVideo.volume =
                     progress;
 
 
 
-                // Spine fade out
-
                 spine.style.opacity =
                     1 - progress;
 
 
-
-                // Front cover fade in
 
                 frontCover.style.opacity =
                     progress;
@@ -155,7 +156,11 @@ function beginOpeningTransition() {
                         1;
 
 
+                    enableCoverOpening();
+
+
                 }
+
 
 
             }
@@ -166,18 +171,163 @@ function beginOpeningTransition() {
 
 
 
-        })
-
-        .catch((error) => {
-
-
-            console.log(
-                "Video playback blocked:",
-                error
-            );
-
-
         });
+
+
+}
+
+
+
+
+// ==========================================
+// ENABLE FRONT COVER CLICK
+// ==========================================
+
+function enableCoverOpening() {
+
+
+    frontCover.addEventListener(
+        "click",
+        openBook
+    );
+
+
+}
+
+
+
+
+// ==========================================
+// FRONT COVER -> OPEN BOOK
+// ==========================================
+
+function openBook() {
+
+
+    if (coverOpened) {
+
+        return;
+
+    }
+
+
+    coverOpened = true;
+
+
+
+    frontCover.style.opacity =
+        "0";
+
+
+
+    setTimeout(() => {
+
+
+
+        frontCover.style.display =
+            "none";
+
+
+
+        createTOC();
+
+
+
+        openBook.style.display =
+            "block";
+
+
+
+        openBook.style.opacity =
+            "0";
+
+
+
+        fadeOpenBook();
+
+
+
+    }, 1000);
+
+
+
+}
+
+
+
+
+// ==========================================
+// CREATE TABLE OF CONTENTS PAGE
+// ==========================================
+
+function createTOC() {
+
+
+    rightPages.innerHTML = "";
+
+
+
+    const toc =
+        document.createElement("img");
+
+
+
+    toc.src =
+        "assets/Table-of-Contents.png";
+
+
+
+    toc.alt =
+        "Table of Contents";
+
+
+
+    rightPages.appendChild(toc);
+
+
+
+}
+
+
+
+
+// ==========================================
+// FADE OPEN BOOK IN
+// ==========================================
+
+function fadeOpenBook() {
+
+
+    let opacity = 0;
+
+
+
+    const fade =
+        setInterval(() => {
+
+
+
+            opacity += 0.02;
+
+
+
+            openBook.style.opacity =
+                opacity;
+
+
+
+            if (opacity >= 1) {
+
+
+                clearInterval(fade);
+
+
+            }
+
+
+
+        }, 20);
+
 
 
 }
