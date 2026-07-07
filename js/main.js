@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function createPage(imagePath, isHard = false) {
         const page = document.createElement('div');
         page.className = 'page';
-        if (isHard) page.dataset.density = 'hard';
+        // 'hard' density for covers (stationary hinges), 'soft' for turning pages
+        page.dataset.density = isHard ? 'hard' : 'soft';
         const img = document.createElement('img');
         img.src = imagePath;
         img.style.width = '100%';
@@ -13,19 +14,25 @@ document.addEventListener('DOMContentLoaded', function() {
         flipbookContainer.appendChild(page);
     }
 
-    // 1. Front Cover (Right side)
+    // --- BASE LAYERS (The "Inside" of the book) ---
+    // 1. Front Cover (Closed)
     createPage('assets/front-cover.png', true);
-    
-    // 2. Backside of Front Cover (Left side)
+    // 2. Backside of Front Cover (Base layer, Left side)
     createPage('assets/Backside-of-front-cover.png', true);
     
-    // 3. TOC Page (Right side)
+    // --- TURNING PAGES ---
+    // 3. TOC Page (Right)
     createPage('assets/Table-of-Contents.png', false);
-    
-    // 4. Blank Left Side (Backside of TOC)
+    // 4. Blank Left Side (Back of TOC)
     createPage('assets/Blank-Left-Side.png', false);
-
-    // 5. Backside of Back Cover (Bottom layer on right side)
+    
+    // 5. Chapter 1, Page 1 (Right)
+    createPage('chapters/Chapter_One/Chapter-One-Page-1.png', false);
+    // 6. Chapter 1, Page 2 (Left - Back of Pg 1)
+    createPage('chapters/Chapter_One/Chapter-One-Page-2.png', false);
+    
+    // --- BASE LAYER (Backside of back cover, right side base) ---
+    // 7. Backside of Back Cover (Bottom layer, Right side)
     createPage('assets/Backside-of-back-cover.png', true);
 
     const pageFlip = new St.PageFlip(flipbookContainer, {
