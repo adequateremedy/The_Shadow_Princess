@@ -19,6 +19,7 @@
 
 <!-- ==========================================
      BACKGROUND VIDEO
+     Hidden until spine is clicked
 ========================================== -->
 
 <video id="background-video"
@@ -33,8 +34,9 @@
 
 
 
+
 <!-- ==========================================
-     BOOK
+     BOOK AREA
 ========================================== -->
 
 <div id="book">
@@ -42,7 +44,8 @@
 
 
     <!-- ======================================
-         CLOSED SPINE
+         SPINE BUTTON
+         ONLY VISIBLE ON INITIAL LOAD
     ======================================= -->
 
     <img id="spine"
@@ -54,71 +57,50 @@
 
 
     <!-- ======================================
-         FULL BOOK STRUCTURE
+         CLOSED BOOK
+         FADES IN AFTER SPINE CLICK
     ======================================= -->
 
-    <div id="book-wrapper">
+    <div id="closed-book">
 
 
 
-        <!-- ==================================
-             OPEN BOOK BASE
-        =================================== -->
-
-        <div id="book-interior">
+        <img id="front-cover"
+             src="assets/front-cover.png"
+             alt="The Shadow Princess">
 
 
 
-            <!-- LEFT SIDE
-                 Inside Front Cover
-            -->
-
-            <div id="left-side">
-
-
-                <div id="inside-front-cover"></div>
-
-
-                <div id="left-page-stack"></div>
-
-
-            </div>
+    </div>
 
 
 
 
 
-            <!-- CENTER GUTTER -->
-
-            <div id="book-gutter"></div>
 
 
+    <!-- ======================================
+         OPEN BOOK STRUCTURE
+         EXISTS BUT HIDDEN UNTIL OPENED
+    ======================================= -->
+
+    <div id="open-book">
 
 
 
-            <!-- RIGHT SIDE
-                 Inside Back Cover + Pages
-            -->
-
-            <div id="right-side">
 
 
-                <div id="inside-back-cover"></div>
+        <!-- LEFT SIDE
+             Inside Front Cover
+        -->
+
+        <div id="left-page">
 
 
-                <div id="right-page-stack">
+            <div id="inside-front-cover"></div>
 
 
-                    <img id="toc-page"
-                         src="assets/Table-of-Contents.png"
-                         alt="Table of Contents">
-
-
-                </div>
-
-
-            </div>
-
+            <div id="left-pages"></div>
 
 
         </div>
@@ -128,16 +110,41 @@
 
 
 
-        <!-- ==================================
-             FRONT HARD COVER
-             THIS ROTATES OPEN
-        =================================== -->
+        <!-- RIGHT SIDE
+             Inside Back Cover + TOC
+        -->
 
-        <div id="front-cover-container">
+        <div id="right-page">
 
 
-            <img id="front-cover"
-                 src="assets/front-cover.png"
+            <div id="inside-back-cover"></div>
+
+
+            <div id="right-pages">
+
+
+                <img id="table-of-contents"
+                     src="assets/Table-of-Contents.png"
+                     alt="Table of Contents">
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!-- FRONT HARD COVER
+             ROTATES OPEN
+        -->
+
+        <div id="hard-cover">
+
+
+            <img src="assets/front-cover.png"
                  alt="Front Cover">
 
 
@@ -150,6 +157,7 @@
 
 
 </div>
+
 
 
 
