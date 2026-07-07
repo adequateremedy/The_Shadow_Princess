@@ -9,10 +9,7 @@
 
     <title>The Shadow Princess</title>
 
-
-    <!-- Main Styling -->
     <link rel="stylesheet" href="css/style.css">
-
 
 </head>
 
@@ -20,13 +17,7 @@
 <body>
 
 
-    <!--
-        Background Bedroom Video
-
-        This remains behind the entire book.
-        It will loop throughout the story.
-    -->
-
+    <!-- Full Background Video -->
     <video
         id="background-video"
         src="assets/background.webm"
@@ -38,21 +29,25 @@
 
 
 
-    <!--
-        Three.js Book Scene
-    -->
+    <!-- Book Container -->
+    <div id="book-container">
 
-    <div id="book-container"></div>
-
-
-
-    <!-- Three.js Core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <img
+            id="spine"
+            src="assets/spine.png"
+            alt="The Shadow Princess Spine">
 
 
-    <!-- Book Engine -->
+        <img
+            id="front-cover"
+            src="assets/front-cover.png"
+            alt="The Shadow Princess Front Cover">
+
+    </div>
+
+
+
     <script src="js/main.js"></script>
-
 
 
 </body>
