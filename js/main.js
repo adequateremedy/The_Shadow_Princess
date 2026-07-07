@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const flipbookContainer = document.getElementById('flipbook');
 
+    const chapterWords = [
+        "One", "Two", "Three", "Four", "Five", "Six", "Seven", 
+        "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen"
+    ];
+
     function createPage(imagePath, isHard = false) {
         const page = document.createElement('div');
         page.className = 'page';
@@ -20,13 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 3. TOC Page (Right)
     createPage('assets/Table-of-Contents.png', false);
-    // 4. Blank Left Side (Back of TOC - Left)
+    // 4. Blank Left Side (Back of TOC)
     createPage('assets/Blank-Left-Side.png', false);
     
-    // 5. Chapter 1 Pages (Looping through 1 to 20)
-    for (let i = 1; i <= 20; i++) {
-        createPage(`chapters/Chapter_One/Chapter-One-Page-${i}.png`, false);
-    }
+    // 5. All Chapter Pages (Looping through Chapters 1-13, 20 pages each)
+    chapterWords.forEach(word => {
+        for (let i = 1; i <= 20; i++) {
+            createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i}.png`, false);
+        }
+    });
     
     // 6. Backside of Back Cover (Final Base Layer)
     createPage('assets/Backside-of-back-cover.png', true);
