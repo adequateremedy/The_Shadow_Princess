@@ -1,58 +1,14 @@
-/* Reset margins and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #000000; }
 
-/* Ensure the body is strictly black and centers the book */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #000000;
-}
+.book-container { display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; }
 
-/* The viewport wrapper matches the book dimensions */
-.book-viewport {
-    position: relative;
-    width: 900px;
-    height: 675px;
-}
-
-/* The static leather backdrop that sits behind the turning pages */
-#leather-base {
-    position: absolute;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 0;
-}
-
-.side-left {
-    flex: 1;
-    background: url('../assets/Backside-of-front-cover.png') no-repeat center/contain;
-}
-
-.side-right {
-    flex: 1;
-    background: url('../assets/Backside-of-back-cover.png') no-repeat center/contain;
-}
-
-/* The flipbook container */
 #flipbook {
-    position: relative;
-    z-index: 1;
     width: 900px;
     height: 675px;
     margin: 0 !important;
-    padding: 0 !important;
 }
 
-/* The individual page containers with negative margin for spine connection */
 .page {
     background-color: transparent !important;
     overflow: visible !important;
@@ -61,10 +17,10 @@ body {
     margin: 0 -2px !important;
 }
 
-/* The page images */
 .page img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    /* Use 'contain' so the parchment is slightly smaller than the covers */
+    object-fit: contain; 
 }
