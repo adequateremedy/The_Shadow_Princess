@@ -1,24 +1,29 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #000000; }
 
-.book-container { position: relative; width: 900px; height: 675px; }
+body { 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; background-color: #000000; 
+}
 
-/* Leather base is static and sits behind */
-.leather-base { position: absolute; display: flex; width: 900px; height: 675px; z-index: 0; }
-.leather-left { flex: 1; background: url('../assets/Backside-of-front-cover.png') no-repeat center/contain; }
-.leather-right { flex: 1; background: url('../assets/Backside-of-back-cover.png') no-repeat center/contain; }
+/* This container must be exactly the width of the book (900px) */
+.book-container { 
+    width: 900px; height: 675px; 
+}
 
-/* Flipbook sits on top */
-#flipbook { position: relative; z-index: 1; width: 900px; height: 675px; }
+#flipbook { 
+    width: 900px; height: 675px; 
+}
 
+/* This is the fix for the spine gap */
 .page { 
     background-color: transparent !important; 
     overflow: visible !important; 
     width: 450px !important; 
-    height: 675px !important; 
+    height: 675px !important;
+    /* Negative margin forces the left and right pages to meet at the center */
+    margin: 0 -0.5px !important; 
 }
 
-/* Parchment is shrunk to reveal leather edges */
 .page img { 
-    width: 90%; height: 90%; margin: 5%; object-fit: contain; 
+    display: block; width: 100%; height: 100%; object-fit: fill; 
 }
