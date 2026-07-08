@@ -13,17 +13,31 @@ document.addEventListener('DOMContentLoaded', function() {
         flipbookContainer.appendChild(page);
     }
 
-    // 1. Front Cover (Right)
+    // --- CLOSED BOOK ---
     createPage('assets/front-cover.png', true);
-    // 2. Blank Left Page (Left)
-    createPage('assets/Blank-Left-Side.png', false);
-    // 3. Table of Contents (Right)
+
+    // --- OPEN BOOK SPREAD 1 ---
+    // Left: Backside of Front Cover | Right: TOC
+    createPage('assets/Backside-of-front-cover.png', true);
     createPage('assets/Table-of-Contents.png', false);
-    
-    // 4. Chapter Pages
-    chapterWords.forEach(word => {
-        for (let i = 1; i <= 20; i++) {
+
+    // --- OPEN BOOK SPREAD 2 ---
+    // Left: Blank Page | Right: Chapter One, Page One
+    createPage('assets/Blank-Left-Side.png', false);
+    createPage('chapters/Chapter_One/Chapter-One-Page-1.png', false);
+
+    // --- SUBSEQUENT SPREADS ---
+    // Loop through remaining pages in pairs (Left/Right)
+    // Note: We skip Page 1 since it's already defined
+    chapterWords.forEach((word, index) => {
+        const startPage = (index === 0) ? 2 : 1; 
+        for (let i = startPage; i <= 20; i += 2) {
+            // Left (Even page)
             createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i}.png`, false);
+            // Right (Odd page)
+            if (i + 1 <= 20) {
+                createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i + 1}.png`, false);
+            }
         }
     });
 
