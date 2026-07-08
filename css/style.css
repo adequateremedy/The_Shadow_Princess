@@ -1,33 +1,55 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body { 
-    display: flex; justify-content: center; align-items: center; 
-    min-height: 100vh; background-color: #000000; 
+/* Reset margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.book-container { width: 900px; height: 675px; }
+/* Ensure the body is strictly black and centers the book */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000000;
+}
 
-#flipbook { 
-    width: 900px; height: 675px; 
+/* The viewport wrapper matches the book dimensions */
+.book-container {
+    position: relative;
+    width: 900px;
+    height: 675px;
+}
+
+/* The flipbook container */
+#flipbook {
+    position: relative;
+    width: 900px;
+    height: 675px;
+    margin: 0 !important;
     padding: 0 !important;
 }
 
-/* 1. Force the page containers to be exactly half the book width */
-.page { 
-    background-color: transparent !important; 
-    overflow: visible !important; 
-    width: 450px !important; 
+/* The page containers */
+.page {
+    background-color: transparent !important;
+    overflow: visible !important;
+    width: 450px !important;
     height: 675px !important;
 }
 
-/* 2. Force the internal library blocks to fill their assigned width without gaps */
+/* THESE TARGETS FORCE THE SPINE GAP TO CLOSE */
+/* .stf__block and .stf__wrapper are the library's internal positioning containers */
+.stf__wrapper, 
 .stf__block {
+    margin: 0 -4px !important;
     width: 450px !important;
-    left: 0 !important;
-    right: 0 !important;
 }
 
-/* 3. The images must fill the full 450px to reach the red line */
-.page img { 
-    display: block; width: 100%; height: 100%; object-fit: fill; 
+/* The page images */
+.page img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
 }
