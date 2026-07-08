@@ -7,15 +7,23 @@ body {
 
 .book-container { width: 900px; height: 675px; }
 
-#flipbook { width: 900px; height: 675px; }
+#flipbook { 
+    width: 900px; height: 675px; 
+    /* Force the library container to collapse any internal spacing */
+    padding: 0 !important;
+}
 
+/* Page container */
 .page { 
     background-color: transparent !important; 
     overflow: visible !important; 
     width: 450px !important; 
     height: 675px !important;
-    /* Increased negative margin to -4px to ensure the sides touch seamlessly */
-    margin: 0 -4px !important; 
+}
+
+/* TARGET THE LIBRARY'S INTERNAL WRAPPER TO CLOSE THE GAP */
+.stf__block {
+    margin: 0 -2px !important;
 }
 
 .page img { 
