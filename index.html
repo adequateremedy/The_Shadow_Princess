@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>The Shadow Princess</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="book-container">
-        <div class="leather-base">
-            <div class="leather-left"></div>
-            <div class="leather-right"></div>
+    <div class="book">
+        <input type="checkbox" id="c1">
+        <input type="checkbox" id="c2">
+        <input type="checkbox" id="c3">
+
+        <div class="book-content">
+            <div class="cover" id="cover">
+                <label for="c1"></label>
+                <div class="front"><img src="assets/front-cover.png"></div>
+                <div class="back"><img src="assets/Backside-of-front-cover.png"></div>
+            </div>
+
+            <div class="page" id="page1">
+                <label for="c2"></label>
+                <div class="front"><img src="assets/Table-of-Contents.png"></div>
+                <div class="back"><img src="assets/Blank-Left-Side.png"></div>
+            </div>
+
+            <div class="page" id="page2">
+                <label for="c3"></label>
+                <div class="front"><img src="chapters/Chapter_One/Chapter-One-Page-1.png"></div>
+                <div class="back"><img src="chapters/Chapter_One/Chapter-One-Page-2.png"></div>
+            </div>
         </div>
-        <div id="flipbook"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-    <script src="js/main.js"></script>
 </body>
 </html>
