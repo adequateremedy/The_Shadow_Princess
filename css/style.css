@@ -1,25 +1,42 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
 body { 
-    display: flex; justify-content: center; align-items: center; 
-    height: 100vh; background: #000; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    background-color: #000000; 
+}
+
+.book { 
+    width: 900px; 
+    height: 675px; 
+    position: relative;
+    perspective: 2000px; /* Provides the 3D depth for the flip */
 }
 
 .book-content { 
-    position: relative; width: 900px; height: 675px; 
-    transform-style: preserve-3d; perspective: 2000px; 
+    position: relative; 
+    width: 900px; 
+    height: 675px; 
+    transform-style: preserve-3d; 
 }
 
-/* All pages/covers are anchored to the center spine */
+/* Anchors pages to the spine */
 .cover, .page {
-    position: absolute; width: 450px; height: 675px;
-    top: 0; left: 450px; 
-    transform-origin: left; transition: transform 1s;
+    position: absolute; 
+    width: 450px; 
+    height: 675px;
+    top: 0; 
+    left: 450px; /* This locks the spine at 450px */
+    transform-origin: left; 
+    transition: transform 1s;
     transform-style: preserve-3d;
 }
-
-/* Spine Connection: No gaps allowed */
-.cover, .page { border: none !important; }
 
 /* Flip Animation */
 #c1:checked ~ .book-content #cover { transform: rotateY(-180deg); }
@@ -27,15 +44,30 @@ body {
 #c3:checked ~ .book-content #page2 { transform: rotateY(-180deg); }
 
 .front, .back { 
-    position: absolute; width: 100%; height: 100%; 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
     backface-visibility: hidden; 
 }
 
-.back { transform: rotateY(180deg); }
+.back { 
+    transform: rotateY(180deg); 
+}
 
-img { width: 100%; height: 100%; object-fit: fill; }
+img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: fill; 
+    display: block; 
+}
 
 /* Hide the checkboxes */
 input { display: none; }
 
-label { position: absolute; width: 100%; height: 100%; cursor: pointer; z-index: 10; }
+label { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    cursor: pointer; 
+    z-index: 10; 
+}
