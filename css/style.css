@@ -9,11 +9,10 @@ body {
 
 #flipbook { 
     width: 900px; height: 675px; 
-    /* Force the library container to collapse any internal spacing */
     padding: 0 !important;
 }
 
-/* Page container */
+/* 1. Force the page containers to be exactly half the book width */
 .page { 
     background-color: transparent !important; 
     overflow: visible !important; 
@@ -21,11 +20,14 @@ body {
     height: 675px !important;
 }
 
-/* TARGET THE LIBRARY'S INTERNAL WRAPPER TO CLOSE THE GAP */
+/* 2. Force the internal library blocks to fill their assigned width without gaps */
 .stf__block {
-    margin: 0 -2px !important;
+    width: 450px !important;
+    left: 0 !important;
+    right: 0 !important;
 }
 
+/* 3. The images must fill the full 450px to reach the red line */
 .page img { 
     display: block; width: 100%; height: 100%; object-fit: fill; 
 }
