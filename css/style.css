@@ -1,55 +1,31 @@
-/* Reset margins and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; background-color: #000000; 
 }
 
-/* Ensure the body is strictly black and centers the book */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #000000;
-}
+.book-container { width: 900px; height: 675px; }
 
-/* The viewport wrapper matches the book dimensions */
-.book-container {
-    position: relative;
-    width: 900px;
-    height: 675px;
-}
-
-/* The flipbook container */
-#flipbook {
-    position: relative;
-    width: 900px;
-    height: 675px;
-    margin: 0 !important;
+#flipbook { 
+    width: 900px; height: 675px; 
+    /* Force the library container to collapse any internal spacing */
     padding: 0 !important;
 }
 
-/* The page containers */
-.page {
-    background-color: transparent !important;
-    overflow: visible !important;
-    width: 450px !important;
+/* Page container */
+.page { 
+    background-color: transparent !important; 
+    overflow: visible !important; 
+    width: 450px !important; 
     height: 675px !important;
 }
 
-/* THESE TARGETS FORCE THE SPINE GAP TO CLOSE */
-/* .stf__block and .stf__wrapper are the library's internal positioning containers */
-.stf__wrapper, 
+/* TARGET THE LIBRARY'S INTERNAL WRAPPER TO CLOSE THE GAP */
 .stf__block {
-    margin: 0 -4px !important;
-    width: 450px !important;
+    margin: 0 -2px !important;
 }
 
-/* The page images */
-.page img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+.page img { 
+    display: block; width: 100%; height: 100%; object-fit: fill; 
 }
