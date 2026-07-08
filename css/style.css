@@ -1,24 +1,31 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #000000; }
 
-body { 
-    display: flex; justify-content: center; align-items: center; 
-    min-height: 100vh; background-color: #000000; 
+.book-container { display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; }
+
+#flipbook {
+    width: 900px;
+    height: 675px;
+    /* This removes the internal library gap */
+    margin: 0 !important;
 }
 
-.book-container { 
-    display: flex; justify-content: center; align-items: center; 
-    width: 100vw; height: 100vh; 
+.page {
+    background-color: transparent !important;
+    overflow: visible !important;
+    width: 450px !important;
+    height: 675px !important;
+    /* The spine stitch */
+    margin: 0 -1px !important;
 }
 
-#flipbook { 
-    width: 900px; height: 675px; margin: 0 !important; padding: 0 !important; 
-}
+/* Hard covers: Full size */
+.page[data-density="hard"] img { width: 100%; height: 100%; object-fit: fill; }
 
-.page { 
-    background-color: transparent !important; overflow: visible !important; 
-    width: 450px !important; height: 675px !important; margin: 0 -2px !important; 
-}
-
-.page img { 
-    display: block; width: 100%; height: 100%; object-fit: contain; 
+/* Soft pages: Smaller to show leather underneath */
+.page[data-density="soft"] img { 
+    width: 90%; 
+    height: 90%; 
+    margin: 5% 5%; 
+    object-fit: contain; 
 }
