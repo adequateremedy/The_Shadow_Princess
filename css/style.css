@@ -1,26 +1,24 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #000000; }
 
-.book-container { display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; }
-
-#flipbook {
-    width: 900px;
-    height: 675px;
-    margin: 0 !important;
+body { 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 100vh; background-color: #000000; 
 }
 
-.page {
-    background-color: transparent !important;
-    overflow: visible !important;
-    width: 450px !important;
-    height: 675px !important;
-    margin: 0 -2px !important;
+.book-container { 
+    display: flex; justify-content: center; align-items: center; 
+    width: 100vw; height: 100vh; 
 }
 
-.page img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* Use 'contain' so the parchment is slightly smaller than the covers */
-    object-fit: contain; 
+#flipbook { 
+    width: 900px; height: 675px; margin: 0 !important; padding: 0 !important; 
+}
+
+.page { 
+    background-color: transparent !important; overflow: visible !important; 
+    width: 450px !important; height: 675px !important; margin: 0 -2px !important; 
+}
+
+.page img { 
+    display: block; width: 100%; height: 100%; object-fit: contain; 
 }
