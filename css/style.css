@@ -52,12 +52,13 @@ body {
     padding: 0 !important;
 }
 
-/* The individual page containers */
+/* The individual page containers with negative margin for spine connection */
 .page {
     background-color: transparent !important;
     overflow: visible !important;
     width: 450px !important;
     height: 675px !important;
+    margin: 0 -2px !important;
 }
 
 /* The page images */
