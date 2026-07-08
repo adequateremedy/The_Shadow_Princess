@@ -8,32 +8,16 @@ body {
     background-color: #000000;
 }
 
-.book-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-}
+.book-viewport { position: relative; width: 900px; height: 675px; }
 
-#flipbook {
-    width: 900px;
-    height: 675px;
-    /* This ensures the flipbook container allows layers to be seen through */
-    background-color: transparent !important;
+#leather-base { 
+    position: absolute; display: flex; width: 100%; height: 100%; 
+    opacity: 0; transition: opacity 0.3s; z-index: 0;
 }
+.side-left { flex: 1; background: url('../assets/Backside-of-front-cover.png') no-repeat center/contain; }
+.side-right { flex: 1; background: url('../assets/Backside-of-back-cover.png') no-repeat center/contain; }
 
-/* IMPORTANT: This makes the container transparent so layers show through */
-.page {
-    background-color: transparent !important;
-    overflow: visible; /* Changed from hidden so edges aren't clipped */
-}
+#flipbook { position: relative; z-index: 1; width: 100%; height: 100%; }
 
-/* Ensure images maintain their size without forcing a white background */
-.page img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures the burnt edges aren't cut off */
-    background-color: transparent;
-}
+.page { background-color: transparent !important; overflow: visible !important; }
+.page img { display: block; width: 100%; height: 100%; object-fit: contain; }
