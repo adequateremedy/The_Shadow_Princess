@@ -2,31 +2,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const flipbookContainer = document.getElementById('flipbook');
     const chapterWords = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen"];
 
-    function createPage(imagePath, isHard = false) {
+    function createPage(imagePath) {
         const page = document.createElement('div');
         page.className = 'page';
-        page.dataset.density = isHard ? 'hard' : 'soft';
         const img = document.createElement('img');
         img.src = imagePath;
         page.appendChild(img);
         flipbookContainer.appendChild(page);
     }
 
-    createPage('assets/front-cover.png', true);
-    createPage('assets/Backside-of-front-cover.png', true);
-    createPage('assets/Table-of-Contents.png', false);
-    createPage('assets/Blank-Left-Side.png', false);
-
+    // Sequence for turning parchment
+    createPage('assets/Table-of-Contents.png'); // Right
+    createPage('assets/Blank-Left-Side.png');   // Left
+    
     chapterWords.forEach((word) => {
         for (let i = 1; i <= 20; i++) {
-            createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i}.png`, false);
+            createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i}.png`);
         }
     });
 
-    createPage('assets/Backside-of-back-cover.png', true);
-
     const pageFlip = new St.PageFlip(flipbookContainer, {
-        width: 450, height: 675, size: "fixed", showCover: true, autoSize: false
+        width: 450, height: 675, size: "fixed", showCover: false, autoSize: false
     });
 
     pageFlip.loadFromHTML(document.querySelectorAll('.page'));
