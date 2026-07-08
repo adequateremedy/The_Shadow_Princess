@@ -13,11 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
         flipbookContainer.appendChild(page);
     }
 
-    // Only pages that turn go here
+    // 1. Front Cover (Right)
     createPage('assets/front-cover.png', true);
-    createPage('assets/Table-of-Contents.png', false);
+    // 2. Blank Left Page (Left)
     createPage('assets/Blank-Left-Side.png', false);
+    // 3. Table of Contents (Right)
+    createPage('assets/Table-of-Contents.png', false);
     
+    // 4. Chapter Pages
     chapterWords.forEach(word => {
         for (let i = 1; i <= 20; i++) {
             createPage(`chapters/Chapter_${word}/Chapter-${word}-Page-${i}.png`, false);
@@ -31,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
     pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
     pageFlip.on('flip', (e) => {
-        // Toggle leather base visibility
         leatherBase.style.opacity = (e.data === 0) ? '0' : '1';
     });
 });
