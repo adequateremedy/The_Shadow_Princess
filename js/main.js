@@ -1,42 +1,51 @@
+/*
+==========================================================
+THE SHADOW PRINCESS
+Interactive Storybook Engine
+
+NEW BUILD:
+- Matches new index.html
+- No reader screen
+- No resume popup
+- Cover opens by drag
+- Background video starts when cover opens
+- TOC + Page 1 load after opening
+- Saves location automatically
+- Restores last page automatically
+- Keyboard navigation
+- Drag navigation foundation
+==========================================================
+*/
+
+
 document.addEventListener("DOMContentLoaded", () => {
+
 
 
     /*
     ======================================================
-    THE SHADOW PRINCESS
-    Interactive Book Engine
-
-    Features:
-    - Drag front cover open
-    - Start background WebM/audio after opening
-    - Load TOC + Page 1
-    - Drag pages forward/backward
-    - Keyboard page turning
-    - Save reading position locally
+    ELEMENTS
     ======================================================
     */
 
 
-
-
-
-    const book = document.getElementById("book");
-
     const cover = document.getElementById("front-cover");
 
-    const backgroundVideo = document.getElementById("background-video");
+    const backgroundVideo =
+        document.getElementById("background-video");
 
-    const openBook = document.getElementById("open-book");
+    const openBook =
+        document.getElementById("open-book");
 
-    const leftPageImage = document.getElementById("left-page-image");
+    const leftPageImage =
+        document.getElementById("left-page-image");
 
-    const rightPageImage = document.getElementById("right-page-image");
+    const rightPageImage =
+        document.getElementById("right-page-image");
 
-    const turningPage = document.getElementById("turning-page");
+    const tocButton =
+        document.getElementById("toc-button");
 
-    const turningPageImage = document.getElementById("turning-page-image");
-
-    const tocButton = document.getElementById("toc-button");
 
 
 
@@ -44,15 +53,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*
     ======================================================
-    BOOK DATA
+    BOOK SETTINGS
     ======================================================
     */
 
 
     const BOOK_ID = "The_Shadow_Princess";
 
-
     const TOTAL_PAGES = 311;
+
+
+    let currentRightPage = 1;
+
+    let bookOpened = false;
+
+
+    let dragging = false;
+
+    let startX = 0;
+
+
+
+
+
+
+
+    /*
+    ======================================================
+    CHAPTER INFORMATION
+    ======================================================
+    */
 
 
     const chapters = [
@@ -60,79 +90,92 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             folder: "one",
             start: 1,
-            end: 18
+            end: 18,
+            prefix: "Chapter-One-Page-"
         },
 
         {
             folder: "two",
             start: 19,
-            end: 39
+            end: 39,
+            prefix: "Chapter-Two-Page-"
         },
 
         {
             folder: "three",
             start: 40,
-            end: 59
+            end: 59,
+            prefix: "Chapter-Three-Page-"
         },
 
         {
             folder: "four",
             start: 60,
-            end: 79
+            end: 79,
+            prefix: "Chapter-Four-Page-"
         },
 
         {
             folder: "five",
             start: 80,
-            end: 104
+            end: 104,
+            prefix: "Chapter-Five-Page-"
         },
 
         {
             folder: "six",
             start: 105,
-            end: 130
+            end: 130,
+            prefix: "Chapter-Six-Page-"
         },
 
         {
             folder: "seven",
             start: 131,
-            end: 159
+            end: 159,
+            prefix: "Chapter-Seven-page-"
         },
 
         {
             folder: "eight",
             start: 160,
-            end: 183
+            end: 183,
+            prefix: "Chapter-Eight-page-"
         },
 
         {
             folder: "nine",
             start: 184,
-            end: 209
+            end: 209,
+            prefix: "Chapter-Nine-page-"
         },
 
         {
             folder: "ten",
             start: 210,
-            end: 233
+            end: 233,
+            prefix: "Chapter-Ten-page-"
         },
 
         {
             folder: "eleven",
             start: 234,
-            end: 256
+            end: 256,
+            prefix: "Chapter-Eleven-page-"
         },
 
         {
             folder: "twelve",
             start: 257,
-            end: 281
+            end: 281,
+            prefix: "Chapter-Twelve-page-"
         },
 
         {
             folder: "thirteen",
             start: 282,
-            end: 311
+            end: 311,
+            prefix: "Chapter-Thirteen-page-"
         }
 
     ];
@@ -141,24 +184,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    let coverOpened = false;
-
-    let currentRightPage = 1;
-
-    let dragging = false;
-
-    let startX = 0;
-
-    let currentX = 0;
-
-
-
-
 
 
     /*
     ======================================================
-    PAGE PATH FINDER
+    IMAGE PATH FINDER
     ======================================================
     */
 
@@ -166,30 +196,25 @@ document.addEventListener("DOMContentLoaded", () => {
     function getPagePath(pageNumber) {
 
 
-        for (let chapter of chapters) {
+        const chapter = chapters.find(chapter =>
 
+            pageNumber >= chapter.start &&
+            pageNumber <= chapter.end
 
-            if (
-                pageNumber >= chapter.start &&
-                pageNumber <= chapter.end
-            ) {
-
-
-                let chapterName =
-                    chapter.folder.charAt(0).toUpperCase() +
-                    chapter.folder.slice(1);
+        );
 
 
 
-                return `chapters/${chapter.folder}/Chapter-${chapterName}-Page-${pageNumber}.png`;
+        if (!chapter) {
 
-            }
-
+            return "";
 
         }
 
 
-        return "";
+
+        return `chapters/${chapter.folder}/${chapter.prefix}${pageNumber}.png`;
+
 
     }
 
@@ -201,7 +226,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*
     ======================================================
-    LOAD PAGE SPREAD
+    LOAD BOOK SPREAD
+
+    Left:
+    Even page
+
+    Right:
+    Odd page
+
+    First opening:
+    TOC + Page 1
     ======================================================
     */
 
@@ -209,11 +243,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSpread(rightPage) {
 
 
+
         if (rightPage < 1) {
 
             rightPage = 1;
 
         }
+
 
 
         if (rightPage > TOTAL_PAGES) {
@@ -228,11 +264,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-        let leftPage = rightPage - 1;
+        const leftPage = rightPage - 1;
 
 
 
-        if (leftPage <= 0) {
+
+        if (leftPage < 1) {
 
 
             leftPageImage.src =
@@ -240,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         }
+
         else {
 
 
@@ -252,9 +290,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
         rightPageImage.src =
             getPagePath(rightPage);
-
 
 
 
@@ -274,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ======================================================
     LOCAL SAVE SYSTEM
 
-    Saves the reader's current location.
+    Automatically remembers where the reader stopped.
     ======================================================
     */
 
@@ -297,11 +335,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+    function loadProgress() {
 
-    function loadSavedProgress() {
 
-
-        let savedPage =
+        const savedPage =
             localStorage.getItem(BOOK_ID);
 
 
@@ -328,21 +365,23 @@ document.addEventListener("DOMContentLoaded", () => {
     ======================================================
     OPEN COVER
 
-    This begins the reading experience.
+    User action starts:
+    - WebM playback
+    - Book opening
+    - Loading saved page
     ======================================================
     */
 
 
-    function openCover() {
+    function openCoverBook() {
 
 
-        if(coverOpened)
+        if(bookOpened)
             return;
 
 
 
-        coverOpened = true;
-
+        bookOpened = true;
 
 
 
@@ -351,33 +390,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+        backgroundVideo.play()
+            .catch(() => {});
+
+
+
+
         setTimeout(() => {
 
 
             cover.style.display = "none";
 
-            openBook.style.display = "flex";
-
-            tocButton.style.display = "block";
 
 
+            loadProgress();
 
-            backgroundVideo.muted = false;
-
-
-            backgroundVideo.play()
-            .catch(() => {});
-
-
-
-            loadSavedProgress();
 
 
             loadSpread(currentRightPage);
 
 
 
-        },1200);
+            tocButton.style.display = "block";
+
+
+
+        },1000);
 
 
 
@@ -391,14 +429,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*
     ======================================================
-    COVER DRAGGING
+    FRONT COVER DRAGGING
     ======================================================
     */
 
 
     cover.addEventListener(
         "pointerdown",
-        (event)=>{
+        event => {
 
 
             startX =
@@ -418,67 +456,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     cover.addEventListener(
-        "pointermove",
-        (event)=>{
-
-
-            if(coverOpened)
-                return;
-
-
-            currentX =
-                event.clientX -
-                startX;
-
-
-
-            if(currentX < 0) {
-
-
-                let rotation =
-                    Math.max(
-                        -160,
-                        currentX / 3
-                    );
-
-
-                cover.style.transform =
-                    `rotateY(${rotation}deg)`;
-
-            }
-
-
-        }
-    );
-
-
-
-
-
-    cover.addEventListener(
         "pointerup",
-        ()=>{
+        event => {
 
 
-            if(currentX < -120) {
+            const distance =
+                event.clientX - startX;
 
 
-                openCover();
+
+            if(distance < -100) {
 
 
-            }
-            else {
-
-
-                cover.style.transform =
-                    "rotateY(0deg)";
+                openCoverBook();
 
 
             }
-
-
-
-            currentX = 0;
 
 
 
@@ -494,7 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*
     ======================================================
-    PAGE TURNING
+    PAGE NAVIGATION
     ======================================================
     */
 
@@ -513,6 +506,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     }
+
+
 
 
 
@@ -538,19 +533,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
     /*
     ======================================================
-    DRAG PAGE TURNING
+    PAGE DRAGGING
+
+    Left drag = forward
+    Right drag = backward
     ======================================================
     */
 
 
     openBook.addEventListener(
         "pointerdown",
-        (event)=>{
+        event => {
 
 
-            if(!coverOpened)
+            if(!bookOpened)
                 return;
 
 
@@ -558,13 +557,16 @@ document.addEventListener("DOMContentLoaded", () => {
             dragging = true;
 
 
+
             startX =
                 event.clientX;
+
 
 
             openBook.setPointerCapture(
                 event.pointerId
             );
+
 
 
         }
@@ -574,10 +576,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
     openBook.addEventListener(
         "pointerup",
-        (event)=>{
+        event => {
 
 
             if(!dragging)
@@ -585,16 +586,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-            let distance =
-                event.clientX - startX;
-
-
-
             dragging = false;
 
 
 
-            if(distance < -120) {
+            const distance =
+                event.clientX - startX;
+
+
+
+            if(distance < -150) {
 
 
                 nextPage();
@@ -603,7 +604,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            else if(distance > 120) {
+
+            if(distance > 150) {
 
 
                 previousPage();
@@ -622,6 +624,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
     /*
     ======================================================
     KEYBOARD CONTROLS
@@ -631,10 +634,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener(
         "keydown",
-        (event)=>{
+        event => {
 
 
-            if(!coverOpened)
+            if(!bookOpened)
                 return;
 
 
@@ -668,19 +671,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
     /*
     ======================================================
-    RETURN TO TABLE OF CONTENTS
+    TABLE OF CONTENTS BUTTON
     ======================================================
     */
 
 
     tocButton.addEventListener(
         "click",
-        ()=>{
+        () => {
 
 
-            loadSpread(1);
+            if(bookOpened) {
+
+
+                loadSpread(1);
+
+
+            }
 
 
         }
