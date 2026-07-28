@@ -7,7 +7,7 @@
 
     <title>The Shadow Princess - Interactive Book</title>
 
-    css/style.css?v=6
+    css/style.css?v=7
 
     <style>
         #loading-screen.force-hide {
@@ -45,7 +45,11 @@
         <section id="book-container" aria-label="The Shadow Princess interactive book">
 
             <!-- Closed Book Cover -->
-            <div id="front-cover" class="book-cover" aria-label="Front cover. Drag left to open the book.">
+            <div
+                id="front-cover"
+                class="book-cover"
+                aria-label="Front cover. Drag left to open the book."
+            >
                 assets/front-cover.png
             </div>
 
@@ -110,7 +114,10 @@
     </main>
 
 
-    <!-- Emergency fallback -->
+    <!-- Emergency fallback:
+         If main.js fails, this prevents the page from staying trapped
+         behind the loading screen forever.
+    -->
     <script>
         window.addEventListener("load", function () {
             console.log("Index.html loaded. Emergency fallback armed.");
@@ -135,7 +142,7 @@
 
 
     <!-- Main Reader Script -->
-    js/main.js?v=6script>
+    js/main.js?v=7script>
 
 </body>
 </html>
