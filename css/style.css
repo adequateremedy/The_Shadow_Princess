@@ -1,9 +1,8 @@
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-
 
 
 html,
@@ -11,10 +10,8 @@ body {
 
     width: 100%;
     height: 100%;
-
     overflow: hidden;
-
-    background: black;
+    background: #000;
 
     font-family: Georgia, "Times New Roman", serif;
 
@@ -23,58 +20,56 @@ body {
 
 
 
-
-
 /* ======================================================
    BACKGROUND VIDEO
-
-   Starts paused.
-   JavaScript activates playback when the book opens.
 ====================================================== */
 
-#background-video {
+
+#background-container {
 
     position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
 
-    top: 0;
-    left: 0;
+}
+
+
+#background-video {
 
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
-    z-index: -10;
-
-    background: black;
-
 }
-
 
 
 
 
 
 /* ======================================================
-   MAIN BOOK AREA
+   BOOK STAGE
 ====================================================== */
 
-#book {
 
-    position: relative;
+#book-stage {
 
-    width: 100vw;
-    height: 100vh;
+    position: absolute;
+
+    inset: 0;
 
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
-    perspective: 2000px;
+    perspective: 2500px;
+
+    z-index: 2;
 
 }
-
 
 
 
@@ -82,38 +77,31 @@ body {
 
 /* ======================================================
    CLOSED FRONT COVER
-
-   Visible when the book loads.
 ====================================================== */
 
-#front-cover {
+
+#book-cover {
 
     position: absolute;
 
-    width: min(55vw, 850px);
-    height: min(78vh, 950px);
+    width: 720px;
+    height: 900px;
+
+    transform-style: preserve-3d;
 
     transform-origin: left center;
 
-    z-index: 20;
+    z-index: 50;
 
     cursor: grab;
 
-    transition: transform 1.2s ease;
+    transition: transform 1s ease;
 
 }
 
 
 
-#front-cover:active {
-
-    cursor: grabbing;
-
-}
-
-
-
-#front-cover img {
+#front-cover-image {
 
     width: 100%;
     height: 100%;
@@ -128,23 +116,23 @@ body {
 
 
 
-
 /* ======================================================
-   OPEN BOOK SHELL
-
-   The entire open book.
+   OPEN BOOK
 ====================================================== */
 
-#open-book {
 
-    position: absolute;
+#book {
 
-    width: min(85vw, 1500px);
-    height: min(85vh, 950px);
+    position: relative;
+
+    width: 1400px;
+
+    height: 900px;
 
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     transform-style: preserve-3d;
@@ -158,9 +146,8 @@ body {
 
 /* ======================================================
    INSIDE COVER
-
-   Reversed front cover remains visible.
 ====================================================== */
+
 
 #inside-cover {
 
@@ -168,48 +155,73 @@ body {
 
     inset: 0;
 
+    background-image: url("../assets/front-cover.png");
+
+    background-size: cover;
+
+    background-position: center;
+
     z-index: 1;
 
+    box-shadow:
+        inset 0 0 50px rgba(0,0,0,.5);
+
 }
 
 
 
-#inside-cover img {
 
-    width: 100%;
+
+#inside-left-cover,
+#inside-right-cover {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 50%;
+
     height: 100%;
 
-    object-fit: contain;
+}
+
+
+
+#inside-left-cover {
+
+    left: 0;
 
 }
 
+
+
+#inside-right-cover {
+
+    right: 0;
+
+}
 
 
 
 
 
 /* ======================================================
-   PAGE SPREAD
-
-   The pages are centered as ONE spread.
-
-   The center seam aligns with:
-   - cover fold
-   - page fold
-   - turning hinge
+   PAGE STACKS
 ====================================================== */
 
-#page-spread {
+
+#left-page-stack,
+#right-page-stack {
 
     position: absolute;
 
-    width: 92%;
-    height: 92%;
+    top: 40px;
 
-    display: flex;
+    width: 50%;
 
-    justify-content: center;
-    align-items: stretch;
+    height: calc(100% - 80px);
+
+    background: #eee;
 
     z-index: 5;
 
@@ -219,24 +231,17 @@ body {
 
 
 
+#left-page-stack {
 
-/* ======================================================
-   INDIVIDUAL PAGES
+    left: 0;
 
-   Both pages always have identical dimensions.
-====================================================== */
+}
 
-.page {
 
-    width: 50%;
 
-    height: 100%;
+#right-page-stack {
 
-    overflow: hidden;
-
-    position: relative;
-
-    background: #f8f1df;
+    right: 0;
 
 }
 
@@ -244,13 +249,80 @@ body {
 
 
 
+.page-layer {
 
-.page img {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.15),
+            transparent 15%
+        ),
+
+        #f4f0e6;
+
+}
+
+
+
+
+
+/* ======================================================
+   ACTIVE PAGES
+====================================================== */
+
+
+#left-page,
+#right-page {
+
+    position: absolute;
+
+    top: 40px;
+
+    width: 50%;
+
+    height: calc(100% - 80px);
+
+    z-index: 10;
+
+    overflow: hidden;
+
+}
+
+
+
+
+
+#left-page {
+
+    left: 0;
+
+}
+
+
+
+#right-page {
+
+    right: 0;
+
+}
+
+
+
+
+
+#left-page-image,
+#right-page-image {
 
     width: 100%;
+
     height: 100%;
 
-    object-fit: contain;
+    object-fit: fill;
 
     display: block;
 
@@ -261,35 +333,36 @@ body {
 
 
 
-/* ======================================================
-   CENTER FOLD SHADOW
 
+/* ======================================================
+   CENTER FOLD
 ====================================================== */
 
-#book-fold {
+
+#center-fold {
 
     position: absolute;
 
-    height: min(78vh, 900px);
+    top: 0;
 
-    width: 35px;
+    bottom: 0;
 
     left: 50%;
 
+    width: 5px;
+
     transform: translateX(-50%);
-
-    z-index: 15;
-
-    pointer-events: none;
 
     background:
 
         linear-gradient(
-            to right,
-            transparent,
-            rgba(0,0,0,0.25),
-            transparent
+            90deg,
+            rgba(0,0,0,.45),
+            rgba(255,255,255,.25),
+            rgba(0,0,0,.45)
         );
+
+    z-index: 30;
 
 }
 
@@ -298,34 +371,37 @@ body {
 
 
 
-/* ======================================================
-   TURNING PAGE LAYER
 
+/* ======================================================
+   TURNING PAGE
 ====================================================== */
+
 
 #turning-page {
 
     position: absolute;
 
-    top: 4%;
+    top: 40px;
 
-    right: 4%;
+    right: 0;
 
-    width: 46%;
+    width: 50%;
 
-    height: 92%;
-
-    z-index: 30;
-
-    display: none;
+    height: calc(100% - 80px);
 
     transform-origin: left center;
 
     transform-style: preserve-3d;
 
+    z-index: 40;
+
     pointer-events: none;
 
+    display: none;
+
 }
+
+
 
 
 
@@ -335,7 +411,11 @@ body {
 
     height: 100%;
 
-    object-fit: contain;
+    object-fit: fill;
+
+    box-shadow:
+
+        -25px 0 35px rgba(0,0,0,.35);
 
 }
 
@@ -343,19 +423,49 @@ body {
 
 
 
+/* ======================================================
+   BOOK SHADOW
+====================================================== */
+
+
+#book::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 5%;
+
+    right: 5%;
+
+    bottom: -40px;
+
+    height: 60px;
+
+    background: rgba(0,0,0,.5);
+
+    filter: blur(35px);
+
+    z-index: -1;
+
+}
+
+
+
+
 
 /* ======================================================
    TABLE OF CONTENTS BUTTON
-
 ====================================================== */
+
 
 #toc-button {
 
     position: fixed;
 
-    bottom: 25px;
+    left: 30px;
 
-    left: 25px;
+    bottom: 30px;
 
     width: 55px;
 
@@ -365,25 +475,25 @@ body {
 
     border: none;
 
-    background: rgba(0,0,0,0.65);
+    background: rgba(0,0,0,.65);
 
     color: white;
 
-    font-size: 28px;
+    font-size: 24px;
 
     cursor: pointer;
 
     z-index: 100;
 
-    display: none;
-
 }
+
+
 
 
 
 #toc-button:hover {
 
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,.25);
 
 }
 
@@ -393,28 +503,30 @@ body {
 
 
 /* ======================================================
-   RESPONSIVE ADJUSTMENT
-
+   RESPONSIVE BOOK SCALING
 ====================================================== */
 
-@media (max-width: 900px) {
+
+@media(max-width:1500px) {
 
 
-    #open-book {
+    #book {
 
-        width: 95vw;
-
-        height: 75vh;
+        transform: scale(.8);
 
     }
 
 
+}
 
-    #front-cover {
 
-        width: 65vw;
 
-        height: 75vh;
+@media(max-width:1100px) {
+
+
+    #book {
+
+        transform: scale(.6);
 
     }
 
