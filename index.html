@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Shadow Princess - Interactive Book</title>
+    <title>The Shadow Princess - Interactive Flipbook</title>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -17,68 +17,93 @@
 <body>
 
 
-    <!-- =====================================================
-         LOOPING BACKGROUND VIDEO
-    ====================================================== -->
+<!-- =====================================================
+     LOOPING MAGICAL BACKGROUND
+====================================================== -->
 
-    <div id="background-container">
+<div id="background-container">
 
-        <video 
-            id="background-video"
-            autoplay
-            muted
-            loop
-            playsinline>
+    <video 
+        id="background-video"
+        autoplay
+        muted
+        loop
+        playsinline>
 
-            <source src="assets/background.webm" type="video/webm">
+        <source src="assets/background.webm" type="video/webm">
 
-        </video>
+    </video>
 
-    </div>
-
-
-
-    <!-- =====================================================
-         MAIN READER APPLICATION
-    ====================================================== -->
-
-    <main id="book-reader">
+</div>
 
 
 
-        <!-- Loading Overlay -->
 
-        <div id="loading-screen">
+<!-- =====================================================
+     PHYSICAL BOOK
+====================================================== -->
 
-            <div class="loading-text">
-                Opening The Shadow Princess...
-            </div>
+<main id="book-stage">
+
+
+
+    <div id="book">
+
+
+
+        <!-- =============================================
+             CLOSED FRONT COVER
+             User drags this open
+        ============================================== -->
+
+        <div id="front-cover"
+             class="cover">
+
+
+            <img
+                src="assets/front-cover.png"
+                alt="The Shadow Princess Front Cover">
+
 
         </div>
 
 
 
 
-        <!-- =================================================
-             BOOK AREA
-        ================================================== -->
-
-        <section id="book-container">
 
 
-
-            <!-- =============================================
-                 CLOSED FRONT COVER
-            ============================================== -->
-
-            <div 
-                id="front-cover"
-                class="book-cover">
+        <!-- =============================================
+             OPEN BOOK
+             Always exists underneath cover
+        ============================================== -->
 
 
-                <img 
-                    src="assets/front-cover.png"
-                    alt="The Shadow Princess Front Cover">
+        <div id="open-book">
+
+
+
+
+
+            <!-- =========================================
+                 LEFT SIDE OF BOOK
+            ========================================== -->
+
+
+            <div id="left-stack"
+                 class="page-stack">
+
+
+                <div class="page"
+                     id="left-page">
+
+
+                    <img
+                        id="left-page-image"
+                        src="assets/Table-of-Contents1.png"
+                        alt="Table of Contents">
+
+
+                </div>
 
 
             </div>
@@ -88,35 +113,13 @@
 
 
 
-            <!-- =============================================
-                 OPEN BOOK
-            ============================================== -->
+
+            <!-- =========================================
+                 CENTER SPINE
+            ========================================== -->
 
 
-            <div id="open-book">
-
-
-
-
-
-                <!-- LEFT PAGE
-                     Even numbered pages
-                     TOC begins here
-                -->
-
-
-                <div 
-                    id="left-page"
-                    class="page">
-
-
-                    <img
-                        id="left-page-image"
-                        src=""
-                        alt="Left Book Page">
-
-
-                </div>
+            <div id="book-spine"></div>
 
 
 
@@ -124,38 +127,49 @@
 
 
 
-                <!-- RIGHT PAGE
-                     Odd numbered pages
-                     Chapter 1 Page 1 begins here
-                -->
+            <!-- =========================================
+                 RIGHT SIDE OF BOOK
+            ========================================== -->
 
 
-                <div 
-                    id="right-page"
-                    class="page">
+            <div id="right-stack"
+                 class="page-stack">
+
+
+                <div class="page"
+                     id="right-page">
 
 
                     <img
                         id="right-page-image"
-                        src=""
-                        alt="Right Book Page">
+                        src="chapters/one/Chapter-One-Page-1.png"
+                        alt="Chapter One Page One">
 
 
                 </div>
 
 
+            </div>
 
 
 
 
 
-                <!-- =========================================
-                     ACTIVE TURNING PAGE
-                     Used by JavaScript for drag physics
-                ========================================== -->
 
 
-                <div id="page-turn-layer">
+
+            <!-- =========================================
+                 ACTIVE TURNING PAGE
+
+                 JavaScript moves this layer during
+                 drag interactions
+            ========================================== -->
+
+
+            <div id="turning-page">
+
+
+                <div id="turning-page-inner">
 
 
                     <img
@@ -167,98 +181,10 @@
                 </div>
 
 
-
-
-
             </div>
 
 
 
-        </section>
-
-
-
-
-
-
-
-
-        <!-- =================================================
-             FLOATING TABLE OF CONTENTS BUTTON
-        ================================================== -->
-
-
-        <button
-            id="toc-button"
-            aria-label="Return to Table of Contents">
-
-
-            ☰
-
-
-        </button>
-
-
-
-
-
-
-
-
-        <!-- =================================================
-             RESUME READING WINDOW
-             Appears if saved progress exists
-        ================================================== -->
-
-
-        <div id="resume-window">
-
-
-
-            <div id="resume-box">
-
-
-
-                <h2>
-                    Welcome Back
-                </h2>
-
-
-
-
-                <p>
-                    Continue reading from where you last left off?
-                </p>
-
-
-
-
-                <div class="resume-buttons">
-
-
-
-                    <button id="resume-yes">
-
-                        Resume Reading
-
-                    </button>
-
-
-
-
-                    <button id="resume-no">
-
-                        Start From Beginning
-
-                    </button>
-
-
-
-                </div>
-
-
-
-            </div>
 
 
 
@@ -268,18 +194,40 @@
 
 
 
-
-    </main>
-
+    </div>
 
 
 
 
 
-    <!-- JavaScript -->
+    <!-- =============================================
+         OPTIONAL CONTROLS
+         Keyboard and accessibility support
+    ============================================== -->
 
-    <script src="js/main.js"></script>
 
+    <button
+        id="toc-button"
+        aria-label="Return to Table of Contents">
+
+        ☰
+
+    </button>
+
+
+
+
+</main>
+
+
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="js/main.js"></script>
 
 
 </body>
