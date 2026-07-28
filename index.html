@@ -2,21 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>The Shadow Princess - Interactive Book</title>
 
-    css/style.css?v=7
-
-    <style>
-        #loading-screen.force-hide {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-            display: none !important;
-        }
-    </style>
+    css/style.css?v=10
 </head>
 
 <body>
@@ -25,12 +15,12 @@
     <div id="background-container">
         <video id="background-video" autoplay muted loop playsinline>
             assets/background.webm
-            Your browser does not support the background video.
+            Your browser does not support the video tag.
         </video>
     </div>
 
 
-    <!-- Main Application -->
+    <!-- Main Reader -->
     <main id="book-reader">
 
         <!-- Loading Screen -->
@@ -44,7 +34,7 @@
         <!-- Book Container -->
         <section id="book-container" aria-label="The Shadow Princess interactive book">
 
-            <!-- Closed Book Cover -->
+            <!-- Front Cover -->
             <div
                 id="front-cover"
                 class="book-cover"
@@ -114,27 +104,21 @@
     </main>
 
 
-    <!-- Emergency fallback:
-         If main.js fails, this prevents the page from staying trapped
-         behind the loading screen forever.
-    -->
+    <!-- Safety fallback so loading screen cannot trap the site forever -->
     <script>
         window.addEventListener("load", function () {
-            console.log("Index.html loaded. Emergency fallback armed.");
-
             setTimeout(function () {
-                var loadingScreen = document.getElementById("loading-screen");
+                const loadingScreen = document.getElementById("loading-screen");
 
                 if (loadingScreen) {
-                    console.warn("Emergency fallback removing loading screen.");
-
                     loadingScreen.classList.add("hidden");
-                    loadingScreen.classList.add("force-hide");
-
                     loadingScreen.style.opacity = "0";
                     loadingScreen.style.visibility = "hidden";
                     loadingScreen.style.pointerEvents = "none";
-                    loadingScreen.style.display = "none";
+
+                    setTimeout(function () {
+                        loadingScreen.style.display = "none";
+                    }, 500);
                 }
             }, 3000);
         });
@@ -142,7 +126,7 @@
 
 
     <!-- Main Reader Script -->
-    js/main.js?v=7script>
+    js/main.js?v=10script>
 
 </body>
 </html>
