@@ -1,29 +1,162 @@
-The_Shadow_Princess/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-index.html
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-css/
-    style.css
+    <title>The Shadow Princess - Interactive Book</title>
 
-js/
-    main.js
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-assets/
-    background.webm
-    front-cover.png
-    Table-of-Contents.png
+<body>
 
-chapters/
-    one/
-    two/
-    three/
-    four/
-    five/
-    six/
-    seven/
-    eight/
-    nine/
-    ten/
-    eleven/
-    twelve/
-    thirteen/
+    <!-- Background Video -->
+    <div id="background-container">
+        <video id="background-video" autoplay muted loop playsinline>
+            <source src="assets/background.webm" type="video/webm">
+        </video>
+    </div>
+
+
+    <!-- Main Application -->
+    <main id="book-reader">
+
+
+        <!-- Loading Screen -->
+        <div id="loading-screen">
+            <div class="loading-text">
+                Opening The Shadow Princess...
+            </div>
+        </div>
+
+
+
+        <!-- Book Container -->
+        <section id="book-container">
+
+
+            <!-- Closed Book Cover -->
+            <div id="front-cover" class="book-cover">
+
+                <img 
+                    src="assets/front-cover.png"
+                    alt="The Shadow Princess Front Cover"
+                >
+
+            </div>
+
+
+
+            <!-- Open Book -->
+            <div id="open-book">
+
+
+                <!-- Left Page -->
+                <div id="left-page" class="page">
+
+                    <img 
+                        id="left-page-image"
+                        src=""
+                        alt="Left Book Page"
+                    >
+
+                </div>
+
+
+
+                <!-- Right Page -->
+                <div id="right-page" class="page">
+
+                    <img
+                        id="right-page-image"
+                        src=""
+                        alt="Right Book Page"
+                    >
+
+                </div>
+
+
+
+                <!-- Turning Page Layer -->
+
+                <div id="page-turn-layer">
+
+                    <img 
+                        id="turning-page-image"
+                        src=""
+                        alt=""
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+        </section>
+
+
+
+        <!-- Floating Table of Contents Button -->
+        <button 
+            id="toc-button"
+            aria-label="Return to Table of Contents"
+        >
+
+            ☰
+
+        </button>
+
+
+
+        <!-- Resume Reading Window -->
+
+        <div id="resume-window">
+
+
+            <div id="resume-box">
+
+                <h2>
+                    Welcome Back
+                </h2>
+
+
+                <p>
+                    Continue reading from where you last left off?
+                </p>
+
+
+                <div class="resume-buttons">
+
+
+                    <button id="resume-yes">
+                        Resume Reading
+                    </button>
+
+
+                    <button id="resume-no">
+                        Start From Beginning
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </main>
+
+
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
