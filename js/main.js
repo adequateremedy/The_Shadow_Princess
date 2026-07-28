@@ -1,203 +1,193 @@
-//////////////////////////////////////////////////////////////
-// THE SHADOW PRINCESS
-// Interactive Storybook Reader
-// main.js
-//////////////////////////////////////////////////////////////
-
-
-// ==========================================================
-// BOOK DATA
-// ==========================================================
-
-
-const TOTAL_PAGES = 311;
-
-
-const BOOK_ID = "The_Shadow_Princess";
-
-
-const STORAGE_KEY = `${BOOK_ID}_progress`;
-
-
-
-const chapters = [
+document.addEventListener("DOMContentLoaded", () => {
 
-    {
-        start: 1,
-        end: 18,
-        folder: "one",
-        name: "Chapter-One"
-    },
 
-    {
-        start: 19,
-        end: 39,
-        folder: "two",
-        name: "Chapter-Two"
-    },
+    /*
+    ======================================================
+    THE SHADOW PRINCESS
+    Interactive Book Engine
 
-    {
-        start: 40,
-        end: 59,
-        folder: "three",
-        name: "Chapter-Three"
-    },
+    Features:
+    - Drag front cover open
+    - Start background WebM/audio after opening
+    - Load TOC + Page 1
+    - Drag pages forward/backward
+    - Keyboard page turning
+    - Save reading position locally
+    ======================================================
+    */
 
-    {
-        start: 60,
-        end: 79,
-        folder: "four",
-        name: "Chapter-Four"
-    },
 
-    {
-        start: 80,
-        end: 104,
-        folder: "five",
-        name: "Chapter-Five"
-    },
 
-    {
-        start: 105,
-        end: 130,
-        folder: "six",
-        name: "Chapter-Six"
-    },
 
-    {
-        start: 131,
-        end: 159,
-        folder: "seven",
-        name: "Chapter-Seven"
-    },
 
-    {
-        start: 160,
-        end: 183,
-        folder: "eight",
-        name: "Chapter-Eight"
-    },
+    const book = document.getElementById("book");
 
-    {
-        start: 184,
-        end: 209,
-        folder: "nine",
-        name: "Chapter-Nine"
-    },
+    const cover = document.getElementById("front-cover");
 
-    {
-        start: 210,
-        end: 233,
-        folder: "ten",
-        name: "Chapter-Ten"
-    },
+    const backgroundVideo = document.getElementById("background-video");
 
-    {
-        start: 234,
-        end: 256,
-        folder: "eleven",
-        name: "Chapter-Eleven"
-    },
+    const openBook = document.getElementById("open-book");
 
-    {
-        start: 257,
-        end: 281,
-        folder: "twelve",
-        name: "Chapter-Twelve"
-    },
+    const leftPageImage = document.getElementById("left-page-image");
 
-    {
-        start: 282,
-        end: 311,
-        folder: "thirteen",
-        name: "Chapter-Thirteen"
-    }
+    const rightPageImage = document.getElementById("right-page-image");
 
-];
+    const turningPage = document.getElementById("turning-page");
 
+    const turningPageImage = document.getElementById("turning-page-image");
 
+    const tocButton = document.getElementById("toc-button");
 
 
 
 
-// ==========================================================
-// ELEMENT REFERENCES
-// ==========================================================
 
+    /*
+    ======================================================
+    BOOK DATA
+    ======================================================
+    */
 
-const cover = document.getElementById("front-cover");
 
-const openBook = document.getElementById("open-book");
+    const BOOK_ID = "The_Shadow_Princess";
 
 
-const leftImage = document.getElementById("left-page-image");
+    const TOTAL_PAGES = 311;
 
-const rightImage = document.getElementById("right-page-image");
 
+    const chapters = [
 
-const tocButton = document.getElementById("toc-button");
+        {
+            folder: "one",
+            start: 1,
+            end: 18
+        },
 
+        {
+            folder: "two",
+            start: 19,
+            end: 39
+        },
 
-const loadingScreen = document.getElementById("loading-screen");
+        {
+            folder: "three",
+            start: 40,
+            end: 59
+        },
 
+        {
+            folder: "four",
+            start: 60,
+            end: 79
+        },
 
+        {
+            folder: "five",
+            start: 80,
+            end: 104
+        },
 
-const resumeWindow = document.getElementById("resume-window");
+        {
+            folder: "six",
+            start: 105,
+            end: 130
+        },
 
-const resumeYes = document.getElementById("resume-yes");
+        {
+            folder: "seven",
+            start: 131,
+            end: 159
+        },
 
-const resumeNo = document.getElementById("resume-no");
+        {
+            folder: "eight",
+            start: 160,
+            end: 183
+        },
 
+        {
+            folder: "nine",
+            start: 184,
+            end: 209
+        },
 
+        {
+            folder: "ten",
+            start: 210,
+            end: 233
+        },
 
+        {
+            folder: "eleven",
+            start: 234,
+            end: 256
+        },
 
+        {
+            folder: "twelve",
+            start: 257,
+            end: 281
+        },
 
+        {
+            folder: "thirteen",
+            start: 282,
+            end: 311
+        }
 
-// ==========================================================
-// READER STATE
-// ==========================================================
+    ];
 
 
-let currentRightPage = 1;
 
 
-let bookOpened = false;
 
+    let coverOpened = false;
 
-let dragging = false;
+    let currentRightPage = 1;
 
+    let dragging = false;
 
+    let startX = 0;
 
+    let currentX = 0;
 
 
 
 
-// ==========================================================
-// FIND IMAGE PATH
-// ==========================================================
 
 
-function getPagePath(pageNumber) {
+    /*
+    ======================================================
+    PAGE PATH FINDER
+    ======================================================
+    */
 
 
-    if(pageNumber === "toc") {
+    function getPagePath(pageNumber) {
 
-        return "assets/Table-of-Contents.png";
 
-    }
+        for (let chapter of chapters) {
 
 
+            if (
+                pageNumber >= chapter.start &&
+                pageNumber <= chapter.end
+            ) {
 
-    const chapter = chapters.find(chapter =>
 
-        pageNumber >= chapter.start &&
-        pageNumber <= chapter.end
+                let chapterName =
+                    chapter.folder.charAt(0).toUpperCase() +
+                    chapter.folder.slice(1);
 
-    );
 
 
+                return `chapters/${chapter.folder}/Chapter-${chapterName}-Page-${pageNumber}.png`;
 
-    if(!chapter) {
+            }
+
+
+        }
+
 
         return "";
 
@@ -205,534 +195,497 @@ function getPagePath(pageNumber) {
 
 
 
-    return `chapters/${chapter.folder}/${chapter.name}-Page-${pageNumber}.png`;
 
-}
 
 
 
+    /*
+    ======================================================
+    LOAD PAGE SPREAD
+    ======================================================
+    */
 
 
+    function loadSpread(rightPage) {
 
 
-// ==========================================================
-// OPEN COVER
-// ==========================================================
+        if (rightPage < 1) {
 
+            rightPage = 1;
 
-function openCover() {
+        }
 
 
-    if(bookOpened) return;
+        if (rightPage > TOTAL_PAGES) {
 
+            rightPage = TOTAL_PAGES;
 
-    bookOpened = true;
+        }
 
 
 
-    cover.style.transform = "rotateY(-180deg)";
+        currentRightPage = rightPage;
 
 
-    cover.style.pointerEvents = "none";
 
+        let leftPage = rightPage - 1;
 
 
-    setTimeout(() => {
 
+        if (leftPage <= 0) {
 
-        cover.style.display = "none";
 
+            leftPageImage.src =
+                "assets/Table-of-Contents1.png";
 
-        openBook.style.opacity = "1";
 
+        }
+        else {
 
 
-        checkSavedProgress();
-
-
-
-    }, 900);
-
-
-}
-
-
-
-
-
-
-
-// ==========================================================
-// LOAD SPREAD
-// ==========================================================
-
-
-function loadSpread(rightPage) {
-
-
-
-    currentRightPage = rightPage;
-
-
-
-    let leftPage = rightPage - 1;
-
-
-
-    if(leftPage < 1) {
-
-
-        leftImage.src = getPagePath("toc");
-
-
-    }
-
-    else {
-
-
-        leftImage.src = getPagePath(leftPage);
-
-
-    }
-
-
-
-    rightImage.src = getPagePath(rightPage);
-
-
-
-    saveProgress();
-
-
-
-    preloadNearbyPages();
-
-
-}
-
-
-
-
-
-
-
-// ==========================================================
-// SAVE POSITION
-// ==========================================================
-
-
-function saveProgress() {
-
-
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        JSON.stringify({
-
-            page: currentRightPage
-
-        })
-
-    );
-
-
-}
-
-
-
-
-
-
-
-// ==========================================================
-// CHECK SAVED READING
-// ==========================================================
-
-
-function checkSavedProgress() {
-
-
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-
-
-    if(saved) {
-
-
-        resumeWindow.style.display = "flex";
-
-
-    }
-
-    else {
-
-
-        loadSpread(1);
-
-
-    }
-
-
-}
-
-
-
-
-
-
-
-resumeYes.addEventListener(
-
-    "click",
-
-    () => {
-
-
-        const saved = JSON.parse(
-
-            localStorage.getItem(STORAGE_KEY)
-
-        );
-
-
-        resumeWindow.style.display = "none";
-
-
-        loadSpread(saved.page);
-
-
-
-    }
-
-);
-
-
-
-
-
-resumeNo.addEventListener(
-
-    "click",
-
-    () => {
-
-
-        resumeWindow.style.display = "none";
-
-
-        localStorage.removeItem(STORAGE_KEY);
-
-
-        loadSpread(1);
-
-
-
-    }
-
-);
-
-
-
-
-
-
-
-// ==========================================================
-// PAGE NAVIGATION
-// ==========================================================
-
-
-function nextPage() {
-
-
-    if(currentRightPage >= TOTAL_PAGES) return;
-
-
-    loadSpread(currentRightPage + 2);
-
-
-}
-
-
-
-
-function previousPage() {
-
-
-    if(currentRightPage <= 1) return;
-
-
-    loadSpread(currentRightPage - 2);
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================================
-// KEYBOARD CONTROLS
-// ==========================================================
-
-
-document.addEventListener(
-
-    "keydown",
-
-    event => {
-
-
-
-        if(!bookOpened) return;
-
-
-
-        if(event.key === "ArrowRight") {
-
-
-            nextPage();
+            leftPageImage.src =
+                getPagePath(leftPage);
 
 
         }
 
 
 
-        if(event.key === "ArrowLeft") {
+
+        rightPageImage.src =
+            getPagePath(rightPage);
 
 
-            previousPage();
 
 
-        }
+        saveProgress();
+
 
 
     }
 
-);
 
 
 
 
 
 
+    /*
+    ======================================================
+    LOCAL SAVE SYSTEM
 
+    Saves the reader's current location.
+    ======================================================
+    */
 
-// ==========================================================
-// TABLE OF CONTENTS BUTTON
-// ==========================================================
 
+    function saveProgress() {
 
-tocButton.addEventListener(
 
-    "click",
+        localStorage.setItem(
 
-    () => {
+            BOOK_ID,
 
-
-        if(bookOpened) {
-
-
-            loadSpread(1);
-
-
-        }
-
-
-    }
-
-);
-
-
-
-
-
-
-
-
-// ==========================================================
-// PRELOAD NEARBY PAGES
-// ==========================================================
-
-
-function preloadNearbyPages() {
-
-
-    const pages = [
-
-        currentRightPage - 2,
-
-        currentRightPage,
-
-        currentRightPage + 2,
-
-        currentRightPage + 4
-
-    ];
-
-
-
-    pages.forEach(page => {
-
-
-
-        if(page > 0 && page <= TOTAL_PAGES) {
-
-
-
-            const img = new Image();
-
-
-            img.src = getPagePath(page);
-
-
-
-        }
-
-
-    });
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================================
-// DRAG FOUNDATION
-// ==========================================================
-
-
-// Actual page physics will use this system.
-
-
-// Clicks do NOT turn pages.
-
-
-let startX = 0;
-
-
-
-openBook.addEventListener(
-
-    "pointerdown",
-
-    event => {
-
-
-        dragging = true;
-
-
-        startX = event.clientX;
-
-
-        openBook.setPointerCapture(
-
-            event.pointerId
+            currentRightPage
 
         );
 
 
     }
 
-);
 
 
 
 
 
-openBook.addEventListener(
-
-    "pointerup",
-
-    event => {
+    function loadSavedProgress() {
 
 
-
-        if(!dragging) return;
+        let savedPage =
+            localStorage.getItem(BOOK_ID);
 
 
 
-        dragging = false;
+        if(savedPage) {
 
 
-
-        let distance =
-
-            event.clientX - startX;
-
-
-
-        if(distance < -150) {
-
-
-            nextPage();
+            currentRightPage =
+                Number(savedPage);
 
 
         }
-
-
-
-        if(distance > 150) {
-
-
-            previousPage();
-
-
-        }
-
 
 
     }
 
-);
 
 
 
 
 
 
+    /*
+    ======================================================
+    OPEN COVER
 
-// ==========================================================
-// INITIALIZATION
-// ==========================================================
+    This begins the reading experience.
+    ======================================================
+    */
 
 
-window.addEventListener(
+    function openCover() {
 
-    "load",
 
-    () => {
+        if(coverOpened)
+            return;
+
+
+
+        coverOpened = true;
+
+
+
+
+        cover.style.transform =
+            "rotateY(-180deg)";
 
 
 
         setTimeout(() => {
 
 
-            loadingScreen.style.display = "none";
+            cover.style.display = "none";
+
+            openBook.style.display = "flex";
+
+            tocButton.style.display = "block";
+
+
+
+            backgroundVideo.muted = false;
+
+
+            backgroundVideo.play()
+            .catch(() => {});
+
+
+
+            loadSavedProgress();
+
+
+            loadSpread(currentRightPage);
+
 
 
         },1200);
 
 
 
-        cover.addEventListener(
+    }
 
-            "pointerdown",
 
-            openCover
 
+
+
+
+
+    /*
+    ======================================================
+    COVER DRAGGING
+    ======================================================
+    */
+
+
+    cover.addEventListener(
+        "pointerdown",
+        (event)=>{
+
+
+            startX =
+                event.clientX;
+
+
+            cover.setPointerCapture(
+                event.pointerId
+            );
+
+
+        }
+    );
+
+
+
+
+
+    cover.addEventListener(
+        "pointermove",
+        (event)=>{
+
+
+            if(coverOpened)
+                return;
+
+
+            currentX =
+                event.clientX -
+                startX;
+
+
+
+            if(currentX < 0) {
+
+
+                let rotation =
+                    Math.max(
+                        -160,
+                        currentX / 3
+                    );
+
+
+                cover.style.transform =
+                    `rotateY(${rotation}deg)`;
+
+            }
+
+
+        }
+    );
+
+
+
+
+
+    cover.addEventListener(
+        "pointerup",
+        ()=>{
+
+
+            if(currentX < -120) {
+
+
+                openCover();
+
+
+            }
+            else {
+
+
+                cover.style.transform =
+                    "rotateY(0deg)";
+
+
+            }
+
+
+
+            currentX = 0;
+
+
+
+        }
+    );
+
+
+
+
+
+
+
+
+    /*
+    ======================================================
+    PAGE TURNING
+    ======================================================
+    */
+
+
+    function nextPage() {
+
+
+        if(currentRightPage >= TOTAL_PAGES)
+            return;
+
+
+
+        loadSpread(
+            currentRightPage + 2
         );
 
 
     }
 
-);
+
+
+
+    function previousPage() {
+
+
+        if(currentRightPage <= 1)
+            return;
+
+
+
+        loadSpread(
+            currentRightPage - 2
+        );
+
+
+    }
+
+
+
+
+
+
+
+    /*
+    ======================================================
+    DRAG PAGE TURNING
+    ======================================================
+    */
+
+
+    openBook.addEventListener(
+        "pointerdown",
+        (event)=>{
+
+
+            if(!coverOpened)
+                return;
+
+
+
+            dragging = true;
+
+
+            startX =
+                event.clientX;
+
+
+            openBook.setPointerCapture(
+                event.pointerId
+            );
+
+
+        }
+    );
+
+
+
+
+
+
+    openBook.addEventListener(
+        "pointerup",
+        (event)=>{
+
+
+            if(!dragging)
+                return;
+
+
+
+            let distance =
+                event.clientX - startX;
+
+
+
+            dragging = false;
+
+
+
+            if(distance < -120) {
+
+
+                nextPage();
+
+
+            }
+
+
+            else if(distance > 120) {
+
+
+                previousPage();
+
+
+            }
+
+
+
+        }
+    );
+
+
+
+
+
+
+
+    /*
+    ======================================================
+    KEYBOARD CONTROLS
+    ======================================================
+    */
+
+
+    document.addEventListener(
+        "keydown",
+        (event)=>{
+
+
+            if(!coverOpened)
+                return;
+
+
+
+            if(event.key === "ArrowRight") {
+
+
+                nextPage();
+
+
+            }
+
+
+
+            if(event.key === "ArrowLeft") {
+
+
+                previousPage();
+
+
+            }
+
+
+
+        }
+    );
+
+
+
+
+
+
+
+    /*
+    ======================================================
+    RETURN TO TABLE OF CONTENTS
+    ======================================================
+    */
+
+
+    tocButton.addEventListener(
+        "click",
+        ()=>{
+
+
+            loadSpread(1);
+
+
+        }
+    );
+
+
+
+});
