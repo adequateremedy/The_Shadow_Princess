@@ -21,7 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let imagePaths = [
         "assets/front-cover.png",
-        "assets/Table-of-Contents1.png"
+        "assets/front-cover-inside.png",
+        "assets/Blank-Page.png",
+        "assets/Blank-Page.png",
+        "assets/Half-Title-Page.png",
+        "assets/Frontispiece.png",
+        "assets/Title-Page.png",
+        "assets/Copyright-Page.png",
+        "assets/Dedication-Page.png",
+        "assets/Blank-Page.png",
+        "assets/Table-of-Contents1.png",
+        "assets/Blank-Page.png"
     ];
 
     chapterMap.forEach(ch => {
