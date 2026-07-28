@@ -7,7 +7,22 @@
 
     <title>The Shadow Princess - Interactive Book</title>
 
-    <link rel="stylesheet" href="css/style.css?v=4">
+    css/style.css?v=5
+
+    <style>
+        /*
+            Emergency inline safety styles.
+            These make sure the loading screen can be removed
+            even if the external CSS is cached or delayed.
+        */
+
+        #loading-screen.force-hide {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +30,7 @@
     <!-- Background Video -->
     <div id="background-container">
         <video id="background-video" autoplay muted loop playsinline>
-            <source src="assets/background.webm" type="video/webm">
+            assets/background.webm
             Your browser does not support the background video.
         </video>
     </div>
@@ -37,11 +52,7 @@
 
             <!-- Closed Book Cover -->
             <div id="front-cover" class="book-cover" aria-label="Front cover. Drag left to open the book.">
-                <img
-                    src="assets/front-cover.png"
-                    alt="The Shadow Princess Front Cover"
-                    draggable="false"
-                >
+                assets/front-cover.png
             </div>
 
 
@@ -50,34 +61,19 @@
 
                 <!-- Left Page -->
                 <div id="left-page" class="page" aria-label="Left page">
-                    <img
-                        id="left-page-image"
-                        src=""
-                        alt="Left Book Page"
-                        draggable="false"
-                    >
+                    
                 </div>
 
 
                 <!-- Right Page -->
                 <div id="right-page" class="page" aria-label="Right page">
-                    <img
-                        id="right-page-image"
-                        src=""
-                        alt="Right Book Page"
-                        draggable="false"
-                    >
+                    
                 </div>
 
 
                 <!-- Turning Page Layer -->
                 <div id="page-turn-layer" aria-hidden="true">
-                    <img
-                        id="turning-page-image"
-                        src=""
-                        alt=""
-                        draggable="false"
-                    >
+                    
                 </div>
 
             </div>
@@ -121,25 +117,26 @@
 
 
     <!-- Emergency fallback:
-         If main.js does not successfully remove the loading screen,
-         this prevents the page from being trapped forever.
+         If main.js fails or GitHub Pages serves an old cached JS file,
+         this removes the loading screen so the page is not trapped forever.
     -->
     <script>
         window.addEventListener("load", function () {
+            console.log("Index.html loaded. Emergency fallback armed.");
+
             setTimeout(function () {
                 var loadingScreen = document.getElementById("loading-screen");
 
-                if (loadingScreen && loadingScreen.style.display !== "none") {
-                    console.warn("Emergency fallback removed the loading screen. If the book still does not work, main.js is not loading or has an error.");
+                if (loadingScreen) {
+                    console.warn("Emergency fallback removing loading screen.");
 
                     loadingScreen.classList.add("hidden");
+                    loadingScreen.classList.add("force-hide");
+
                     loadingScreen.style.opacity = "0";
                     loadingScreen.style.visibility = "hidden";
                     loadingScreen.style.pointerEvents = "none";
-
-                    setTimeout(function () {
-                        loadingScreen.style.display = "none";
-                    }, 500);
+                    loadingScreen.style.display = "none";
                 }
             }, 3000);
         });
@@ -147,7 +144,7 @@
 
 
     <!-- Main Reader Script -->
-    js/main.js?v=4script>
+    js/main.js?v=5script>
 
 </body>
 </html>
