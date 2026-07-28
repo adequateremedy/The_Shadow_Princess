@@ -33,18 +33,19 @@ document.addEventListener('DOMContentLoaded', function() {
     imagePaths.forEach((path, index) => {
         const div = document.createElement('div');
         div.className = index === 0 ? 'page page-cover' : 'page';
-        div.style.backgroundImage = `url('${path}')`;
+        
+        const img = document.createElement('img');
+        img.src = path;
+        img.alt = `Page ${index}`;
+        
+        div.appendChild(img);
         bookElement.appendChild(div);
     });
 
     const pageFlip = new St.PageFlip(bookElement, {
-        width: 500, // Base width of one page
-        height: 700, // Base height of one page
-        size: "stretch", // Scales to fit container
-        minWidth: 300,
-        maxWidth: 800,
-        minHeight: 400,
-        maxHeight: 1000,
+        width: 400, // Base width of one page
+        height: 600, // Base height of one page
+        size: "fixed", // Renders the book at a fixed size in the center
         drawShadow: true, // Realistic curl shadows
         showCover: true, // Keeps cover as a single page, opening to a spread
         usePortrait: false, // Forces spread view
