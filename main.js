@@ -20,13 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     let imagePaths = [
-        "The_Shadow_Princess/assets/front-cover.png",
-        "The_Shadow_Princess/assets/Table-of-Contents1.png"
+        "assets/front-cover.png",
+        "assets/Table-of-Contents1.png"
     ];
 
     chapterMap.forEach(ch => {
         ch.pages.forEach(p => {
-            imagePaths.push(`The_Shadow_Princess/chapters/${ch.dir}/Page-${p}.png`);
+            imagePaths.push(`chapters/${ch.dir}/Page-${p}.png`);
         });
     });
 
