@@ -7,7 +7,7 @@
 
     <title>The Shadow Princess - Interactive Book</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 
 <body>
@@ -16,13 +16,13 @@
     <div id="background-container">
         <video id="background-video" autoplay muted loop playsinline>
             <source src="assets/background.webm" type="video/webm">
+            Your browser does not support the background video.
         </video>
     </div>
 
 
     <!-- Main Application -->
     <main id="book-reader">
-
 
         <!-- Loading Screen -->
         <div id="loading-screen">
@@ -32,131 +32,122 @@
         </div>
 
 
-
         <!-- Book Container -->
-        <section id="book-container">
-
+        <section id="book-container" aria-label="The Shadow Princess interactive book">
 
             <!-- Closed Book Cover -->
-            <div id="front-cover" class="book-cover">
-
-                <img 
+            <div id="front-cover" class="book-cover" aria-label="Front cover. Drag left to open the book.">
+                <img
                     src="assets/front-cover.png"
                     alt="The Shadow Princess Front Cover"
+                    draggable="false"
                 >
-
             </div>
 
 
-
             <!-- Open Book -->
-            <div id="open-book">
-
+            <div id="open-book" aria-label="Open book">
 
                 <!-- Left Page -->
-                <div id="left-page" class="page">
-
-                    <img 
+                <div id="left-page" class="page" aria-label="Left page">
+                    <img
                         id="left-page-image"
                         src=""
                         alt="Left Book Page"
+                        draggable="false"
                     >
-
                 </div>
 
 
-
                 <!-- Right Page -->
-                <div id="right-page" class="page">
-
+                <div id="right-page" class="page" aria-label="Right page">
                     <img
                         id="right-page-image"
                         src=""
                         alt="Right Book Page"
+                        draggable="false"
                     >
-
                 </div>
-
 
 
                 <!-- Turning Page Layer -->
-
-                <div id="page-turn-layer">
-
-                    <img 
+                <div id="page-turn-layer" aria-hidden="true">
+                    <img
                         id="turning-page-image"
                         src=""
                         alt=""
+                        draggable="false"
                     >
-
                 </div>
 
-
             </div>
-
-
 
         </section>
 
 
-
         <!-- Floating Table of Contents Button -->
-        <button 
+        <button
             id="toc-button"
+            type="button"
             aria-label="Return to Table of Contents"
+            title="Return to Table of Contents"
         >
-
             ☰
-
         </button>
 
 
-
         <!-- Resume Reading Window -->
-
-        <div id="resume-window">
-
-
+        <div id="resume-window" aria-hidden="true">
             <div id="resume-box">
-
-                <h2>
-                    Welcome Back
-                </h2>
-
+                <h2>Welcome Back</h2>
 
                 <p>
                     Continue reading from where you last left off?
                 </p>
 
-
                 <div class="resume-buttons">
-
-
-                    <button id="resume-yes">
+                    <button id="resume-yes" type="button">
                         Resume Reading
                     </button>
 
-
-                    <button id="resume-no">
+                    <button id="resume-no" type="button">
                         Start From Beginning
                     </button>
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-
-
 
     </main>
 
 
+    <!-- Emergency fallback:
+         If main.js does not successfully remove the loading screen,
+         this prevents the page from being trapped forever.
+    -->
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                var loadingScreen = document.getElementById("loading-screen");
 
-<script src="js/main.js"></script>
+                if (loadingScreen && loadingScreen.style.display !== "none") {
+                    console.warn("Emergency fallback removed the loading screen. If the book still does not work, main.js is not loading or has an error.");
+
+                    loadingScreen.classList.add("hidden");
+                    loadingScreen.style.opacity = "0";
+                    loadingScreen.style.visibility = "hidden";
+                    loadingScreen.style.pointerEvents = "none";
+
+                    setTimeout(function () {
+                        loadingScreen.style.display = "none";
+                    }, 500);
+                }
+            }, 3000);
+        });
+    </script>
+
+
+    <!-- Main Reader Script -->
+    js/main.js?v=4script>
 
 </body>
 </html>
