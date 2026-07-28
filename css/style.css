@@ -1,116 +1,96 @@
 /* ==========================================================
    THE SHADOW PRINCESS
    Physical Flipbook
-   style.css
+   main.js
 ========================================================== */
 
 
 /* ==========================================================
-   GLOBAL RESET
+   ELEMENT REFERENCES
 ========================================================== */
 
 
-* {
+const book = document.getElementById("book");
 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+const cover = document.getElementById("front-cover");
 
-}
+const openBook = document.getElementById("open-book");
 
+const leftPageImage = document.getElementById("left-page-image");
 
+const rightPageImage = document.getElementById("right-page-image");
 
-html,
-body {
+const turningPage = document.getElementById("turning-page");
 
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-
-    background: #000;
-
-    font-family: Georgia, "Times New Roman", serif;
-
-}
+const turningPageImage = document.getElementById("turning-page-image");
 
 
 
 /* ==========================================================
-   BACKGROUND VIDEO
+   BOOK STATE
 ========================================================== */
 
 
-#background-container {
+let bookOpened = false;
 
-    position: fixed;
+let draggingCover = false;
 
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-
-    z-index: -10;
-
-}
+let draggingPage = false;
 
 
+let startX = 0;
 
-#background-video {
+let currentX = 0;
 
-    width: 100%;
-    height: 100%;
 
-    object-fit: cover;
+let currentPage = 1;
 
-}
+
+const totalPages = 311;
+
+
+
+/* ==========================================================
+   BOOKMARK STORAGE
+========================================================== */
+
+
+const bookmarkKey = "The_Shadow_Princess_Bookmark";
 
 
 
 
 
 /* ==========================================================
-   BOOK STAGE
+   INITIAL LOAD
 ========================================================== */
 
 
-#book-stage {
+window.addEventListener("load", () => {
 
-    width: 100%;
-    height: 100vh;
 
-    display: flex;
+    openBook.style.opacity = "1";
 
-    justify-content: center;
 
-    align-items: center;
+    loadBeginning();
 
-    position: relative;
 
-}
+});
 
 
 
 
 
-/* ==========================================================
-   BOOK
-========================================================== */
+function loadBeginning() {
 
 
-#book {
+    leftPageImage.src =
+        "assets/Table-of-Contents1.png";
 
-    position: relative;
 
-    width: 950px;
+    rightPageImage.src =
+        "chapters/one/Chapter-One-Page-1.png";
 
-    height: 650px;
-
-    transform-style: preserve-3d;
-
-    perspective: 2000px;
 
 }
 
@@ -119,33 +99,28 @@ body {
 
 
 /* ==========================================================
-   OPEN BOOK FOUNDATION
+   COVER DRAG OPENING
 ========================================================== */
 
 
-#open-book {
+cover.addEventListener("pointerdown", startCoverDrag);
 
-    position: absolute;
 
-    inset: 0;
 
-    display: flex;
+function startCoverDrag(event) {
 
-    justify-content: center;
 
-    align-items: center;
+    if (bookOpened) return;
 
-    transform-style: preserve-3d;
 
-    overflow: hidden;
+    draggingCover = true;
 
-    border-radius: 12px;
 
-    background: #2b1709;
+    startX = event.clientX;
 
-    box-shadow:
 
-        0 35px 70px rgba(0,0,0,.75);
+    cover.setPointerCapture(event.pointerId);
+
 
 }
 
@@ -153,42 +128,34 @@ body {
 
 
 
-/* ==========================================================
-   BOOK SPINE
-========================================================== */
+cover.addEventListener("pointermove", dragCover);
 
 
-#book-spine {
 
-    position: absolute;
+function dragCover(event) {
 
-    left: 50%;
 
-    top: 0;
+    if (!draggingCover) return;
 
-    transform: translateX(-50%);
 
-    width: 35px;
+    currentX = event.clientX;
 
-    height: 100%;
 
-    background:
+    let movement = currentX - startX;
 
-        linear-gradient(
 
-            to right,
+    let rotation = Math.max(
 
-            rgba(0,0,0,.35),
+        -160,
 
-            rgba(255,255,255,.12),
+        Math.min(0, movement / 3)
 
-            rgba(0,0,0,.35)
+    );
 
-        );
 
-    z-index: 15;
+    cover.style.transform =
+        `rotateY(${rotation}deg)`;
 
-    pointer-events: none;
 
 }
 
@@ -196,327 +163,35 @@ body {
 
 
 
-/* ==========================================================
-   PAGE STACKS
-========================================================== */
+cover.addEventListener("pointerup", finishCover);
 
 
-.page-stack {
 
-    position: relative;
+function finishCover() {
 
-    width: 50%;
 
-    height: 100%;
+    if (!draggingCover) return;
 
-    overflow: hidden;
 
-}
+    draggingCover = false;
 
 
+    let distance = currentX - startX;
 
 
 
-/* ==========================================================
-   INDIVIDUAL PAGES
-========================================================== */
+    if (distance < -150) {
 
 
-.page {
+        openCover();
 
-    position: absolute;
 
-    inset: 0;
+    } else {
 
-    background: #efe2c4;
 
-    overflow: hidden;
+        cover.style.transform =
+            "rotateY(0deg)";
 
-}
-
-
-
-.page img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-
-}
-
-
-
-
-
-#left-page {
-
-    border-radius:
-
-        12px 0 0 12px;
-
-    box-shadow:
-
-        inset -25px 0 35px rgba(0,0,0,.25);
-
-}
-
-
-
-
-
-#right-page {
-
-    border-radius:
-
-        0 12px 12px 0;
-
-    box-shadow:
-
-        inset 25px 0 35px rgba(0,0,0,.25);
-
-}
-
-
-
-
-
-/* ==========================================================
-   FRONT COVER
-========================================================== */
-
-
-#front-cover {
-
-    position: absolute;
-
-    left: 0;
-
-    top: 0;
-
-    width: 50%;
-
-    height: 100%;
-
-    z-index: 50;
-
-    transform-origin: left center;
-
-    transform-style: preserve-3d;
-
-    cursor: grab;
-
-    transition:
-
-        transform .8s ease;
-
-    box-shadow:
-
-        15px 25px 50px rgba(0,0,0,.75);
-
-}
-
-
-
-
-
-#front-cover:active {
-
-    cursor: grabbing;
-
-}
-
-
-
-
-
-#front-cover img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-
-}
-
-
-
-
-
-/* ==========================================================
-   PAGE TURNING LAYER
-========================================================== */
-
-
-#turning-page {
-
-    position: absolute;
-
-    top: 0;
-
-    right: 0;
-
-    width: 50%;
-
-    height: 100%;
-
-    z-index: 100;
-
-    display: none;
-
-    transform-origin: left center;
-
-    transform-style: preserve-3d;
-
-    pointer-events: none;
-
-}
-
-
-
-
-
-#turning-page-inner {
-
-    width: 100%;
-
-    height: 100%;
-
-    background: #efe2c4;
-
-    overflow: hidden;
-
-    box-shadow:
-
-        -20px 25px 45px rgba(0,0,0,.55);
-
-}
-
-
-
-
-
-#turning-page-image {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-}
-
-
-
-
-
-/* ==========================================================
-   PAPER DEPTH SHADOWS
-========================================================== */
-
-
-#open-book::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-
-        linear-gradient(
-
-            90deg,
-
-            rgba(0,0,0,.25),
-
-            transparent 15%,
-
-            transparent 85%,
-
-            rgba(0,0,0,.25)
-
-        );
-
-    z-index: 20;
-
-}
-
-
-
-
-
-/* ==========================================================
-   TABLE OF CONTENTS BUTTON
-========================================================== */
-
-
-#toc-button {
-
-    position: fixed;
-
-    bottom: 30px;
-
-    left: 30px;
-
-    width: 55px;
-
-    height: 55px;
-
-    border-radius: 50%;
-
-    border: 1px solid #c59b55;
-
-    background:
-
-        radial-gradient(
-
-            circle,
-
-            #5d3818,
-
-            #1b0d04
-
-        );
-
-    color: #f5deb3;
-
-    font-size: 24px;
-
-    cursor: pointer;
-
-    box-shadow:
-
-        0 10px 30px rgba(0,0,0,.65);
-
-}
-
-
-
-
-
-/* ==========================================================
-   RESPONSIVE SUPPORT
-========================================================== */
-
-
-@media (max-width: 1100px) {
-
-
-    #book {
-
-        width: 85vw;
-
-        height: 65vh;
 
     }
 
@@ -525,16 +200,521 @@ body {
 
 
 
-@media (max-width: 700px) {
 
 
-    #book {
+function openCover() {
 
-        width: 95vw;
 
-        height: 55vh;
+    bookOpened = true;
+
+
+    cover.style.transform =
+        "rotateY(-180deg)";
+
+
+    setTimeout(() => {
+
+
+        cover.style.visibility =
+            "hidden";
+
+
+    }, 800);
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   PAGE DRAGGING
+========================================================== */
+
+
+openBook.addEventListener(
+    "pointerdown",
+    startPageDrag
+);
+
+
+
+
+
+function startPageDrag(event) {
+
+
+    if (!bookOpened) return;
+
+
+    startX = event.clientX;
+
+
+    draggingPage = true;
+
+
+    let pageSide =
+        event.clientX >
+        window.innerWidth / 2
+            ? "forward"
+            : "backward";
+
+
+
+    turningPage.dataset.direction =
+        pageSide;
+
+
+
+}
+
+
+
+
+
+openBook.addEventListener(
+    "pointermove",
+    dragPage
+);
+
+
+
+
+
+function dragPage(event) {
+
+
+    if (!draggingPage) return;
+
+
+    currentX = event.clientX;
+
+
+    let movement =
+        currentX - startX;
+
+
+
+    if (
+        turningPage.dataset.direction ===
+        "forward"
+    ) {
+
+
+        if (movement < 0) {
+
+
+            showTurningPage();
+
+
+            let rotation =
+                Math.max(
+                    -180,
+                    movement / 3
+                );
+
+
+            turningPage.style.display =
+                "block";
+
+
+            turningPage.style.transform =
+                `rotateY(${rotation}deg)`;
+
+
+        }
+
+
+    } else {
+
+
+        if (movement > 0) {
+
+
+            showTurningPage();
+
+
+            let rotation =
+                Math.min(
+                    180,
+                    movement / 3
+                );
+
+
+            turningPage.style.display =
+                "block";
+
+
+            turningPage.style.transform =
+                `rotateY(${rotation}deg)`;
+
+
+        }
+
 
     }
 
 
 }
+
+
+
+
+
+openBook.addEventListener(
+    "pointerup",
+    finishPageDrag
+);
+
+
+
+
+
+function finishPageDrag() {
+
+
+    if (!draggingPage) return;
+
+
+    draggingPage = false;
+
+
+    let distance =
+        currentX - startX;
+
+
+
+    let direction =
+        turningPage.dataset.direction;
+
+
+
+    if (
+        direction === "forward" &&
+        distance < -150
+    ) {
+
+
+        turnForward();
+
+
+    }
+    else if (
+        direction === "backward" &&
+        distance > 150
+    ) {
+
+
+        turnBackward();
+
+
+    }
+    else {
+
+
+        resetTurningPage();
+
+
+    }
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   PAGE TURN FUNCTIONS
+========================================================== */
+
+
+
+function showTurningPage() {
+
+
+    turningPageImage.src =
+        rightPageImage.src;
+
+
+}
+
+
+
+
+
+function turnForward() {
+
+
+    if (currentPage >= totalPages)
+        return;
+
+
+
+    currentPage += 2;
+
+
+
+    updateSpread();
+
+
+
+    resetTurningPage();
+
+
+    saveBookmark();
+
+
+}
+
+
+
+
+
+function turnBackward() {
+
+
+    if (currentPage <= 1)
+        return;
+
+
+
+    currentPage -= 2;
+
+
+
+    updateSpread();
+
+
+
+    resetTurningPage();
+
+
+    saveBookmark();
+
+
+}
+
+
+
+
+
+function updateSpread() {
+
+
+    let left =
+        currentPage + 1;
+
+
+    let right =
+        currentPage + 2;
+
+
+
+    leftPageImage.src =
+        getPagePath(left);
+
+
+
+    rightPageImage.src =
+        getPagePath(right);
+
+
+
+}
+
+
+
+
+
+function getPagePath(pageNumber) {
+
+
+    const chapters = {
+
+
+        1: "one",
+
+        19: "two",
+
+        40: "three",
+
+        60: "four",
+
+        80: "five",
+
+        105: "six",
+
+        131: "seven",
+
+        160: "eight",
+
+        184: "nine",
+
+        210: "ten",
+
+        234: "eleven",
+
+        257: "twelve",
+
+        282: "thirteen"
+
+
+    };
+
+
+
+    let folder =
+        "one";
+
+
+
+    for (let start in chapters) {
+
+
+        if (
+            pageNumber >=
+            Number(start)
+        ) {
+
+
+            folder =
+                chapters[start];
+
+
+        }
+
+
+    }
+
+
+
+    let chapterName =
+        folder.charAt(0).toUpperCase()
+        +
+        folder.slice(1);
+
+
+
+    return (
+        `chapters/${folder}/` +
+        `Chapter-${chapterName}-Page-${pageNumber}.png`
+    );
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   RESET PAGE TURN
+========================================================== */
+
+
+function resetTurningPage() {
+
+
+    turningPage.style.transform =
+        "rotateY(0deg)";
+
+
+    turningPage.style.display =
+        "none";
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   SAVE / RESUME
+========================================================== */
+
+
+function saveBookmark() {
+
+
+    localStorage.setItem(
+
+        bookmarkKey,
+
+        currentPage
+
+    );
+
+
+}
+
+
+
+
+
+function loadBookmark() {
+
+
+    let saved =
+        localStorage.getItem(
+            bookmarkKey
+        );
+
+
+    if(saved) {
+
+
+        currentPage =
+            Number(saved);
+
+
+        updateSpread();
+
+
+    }
+
+
+}
+
+
+
+
+
+/* ==========================================================
+   KEYBOARD CONTROLS
+========================================================== */
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+
+        if(!bookOpened)
+            return;
+
+
+
+        if(event.key === "ArrowRight") {
+
+
+            turnForward();
+
+
+        }
+
+
+
+        if(event.key === "ArrowLeft") {
+
+
+            turnBackward();
+
+
+        }
+
+
+    }
+);
