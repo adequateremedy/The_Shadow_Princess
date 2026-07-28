@@ -4,129 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Shadow Princess - Interactive Book</title>
+    <title>The Shadow Princess</title>
 
-    css/style.css?v=10
+    css/style.css
+    js/main.jsscript>
 </head>
 
 <body>
 
-    <!-- Background Video -->
-    <div id="background-container">
-        <video id="background-video" autoplay muted loop playsinline>
+    <!-- =====================================================
+         BACKGROUND VIDEO
+         This fades in after the book is selected/opened.
+         ===================================================== -->
+    <div id="background-video-layer" aria-hidden="true">
+        <video id="background-video" autoplay muted loop playsinline preload="auto">
             assets/background.webm
-            Your browser does not support the video tag.
         </video>
     </div>
 
 
-    <!-- Main Reader -->
-    <main id="book-reader">
+    <!-- =====================================================
+         APP WRAPPER
+         ===================================================== -->
+    <main id="shadow-princess-app">
 
-        <!-- Loading Screen -->
-        <div id="loading-screen">
-            <div class="loading-text">
-                Opening The Shadow Princess...
+
+        <!-- =================================================
+             LOADING SCREEN
+             ================================================= -->
+        <section id="loading-screen" aria-label="Loading The Shadow Princess">
+            <div id="loading-card">
+                <div class="loading-title">The Shadow Princess</div>
+                <div class="loading-subtitle">Opening the book...</div>
             </div>
-        </div>
+        </section>
 
 
-        <!-- Book Container -->
-        <section id="book-container" aria-label="The Shadow Princess interactive book">
+        <!-- =================================================
+             BOOK SELECTION / SHELF SCENE
+             Uses your shelf image and spine image.
+             ================================================= -->
+        <section id="library-scene" aria-label="Book selection scene">
 
-            <!-- Front Cover -->
-            <div
-                id="front-cover"
-                class="book-cover"
-                aria-label="Front cover. Drag left to open the book."
-            >
-                assets/front-cover.png
-            </div>
+            <div id="shelf-stage">
 
+                assets/Empty-Book-Shelf.png
 
-            <!-- Open Book -->
-            <div id="open-book" aria-label="Open book">
-
-                <!-- Left Page -->
-                <div id="left-page" class="page" aria-label="Left page">
-                    
-                </div>
-
-
-                <!-- Right Page -->
-                <div id="right-page" class="page" aria-label="Right page">
-                    
-                </div>
-
-
-                <!-- Turning Page Layer -->
-                <div id="page-turn-layer" aria-hidden="true">
-                    
-                </div>
+                <button
+                    id="spine-button"
+                    type="button"
+                    aria-label="Select The Shadow Princess"
+                >
+                    assets/spine.png
+                </button>
 
             </div>
 
         </section>
 
 
-        <!-- Floating Table of Contents Button -->
-        <button
-            id="toc-button"
-            type="button"
-            aria-label="Return to Table of Contents"
-            title="Return to Table of Contents"
-        >
-            ☰
-        </button>
+        <!-- =================================================
+             READER SCENE
+             This is the actual interactive book.
+             ================================================= -->
+        <section id="reader-scene" aria-label="The Shadow Princess reader">
+
+            <div id="book-stage">
+
+                <!-- Closed front cover -->
+                <div
+                    id="front-cover"
+                    aria-label="Front cover. Drag left to open the book."
+                >
+                    assets/front-cover.png
+                </div>
 
 
-        <!-- Resume Reading Window -->
-        <div id="resume-window" aria-hidden="true">
+                <!-- Open book spread -->
+                <div id="open-book" aria-label="Open book">
+
+                    <!-- LEFT SIDE OF THE PHYSICAL BOOK
+                         This is a display container only.
+                         Your files are still numbered pages.
+                         Even-numbered story pages will appear here.
+                         The TOC also appears here at the beginning. -->
+                    <div id="book-left-page" class="book-page" aria-label="Left side of open book">
+                        
+                    </div>
+
+
+                    <!-- RIGHT SIDE OF THE PHYSICAL BOOK
+                         This is a display container only.
+                         Your files are still numbered pages.
+                         Odd-numbered story pages will appear here. -->
+                    <div id="book-right-page" class="book-page" aria-label="Right side of open book">
+                        
+                    </div>
+
+
+                    <!-- Temporary animated page used while dragging/turning -->
+                    <div id="turning-page" aria-hidden="true">
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Floating Table of Contents button -->
+            <button
+                id="toc-button"
+                type="button"
+                aria-label="Return to Table of Contents"
+                title="Return to Table of Contents"
+            >
+                ☰
+            </button>
+
+
+            <!-- Small helper text -->
+            <div id="reader-help" aria-hidden="true">
+                Drag the cover or page corner to turn. Use ← and → keys to navigate.
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RESUME NOTICE
+             main.js will control whether this appears.
+             ================================================= -->
+        <section id="resume-panel" aria-label="Resume reading" aria-hidden="true">
             <div id="resume-box">
                 <h2>Welcome Back</h2>
 
-                <p>
-                    Continue reading from where you last left off?
+                <p id="resume-message">
+                    Your place has been saved.
                 </p>
 
-                <div class="resume-buttons">
-                    <button id="resume-yes" type="button">
+                <div id="resume-actions">
+                    <button id="resume-button" type="button">
                         Resume Reading
                     </button>
 
-                    <button id="resume-no" type="button">
+                    <button id="restart-button" type="button">
                         Start From Beginning
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
+
+
+        <!-- =================================================
+             NO SCRIPT FALLBACK
+             ================================================= -->
+        <noscript>
+            <div id="noscript-message">
+                This interactive book requires JavaScript to turn pages.
+            </div>
+        </noscript>
 
     </main>
-
-
-    <!-- Safety fallback so loading screen cannot trap the site forever -->
-    <script>
-        window.addEventListener("load", function () {
-            setTimeout(function () {
-                const loadingScreen = document.getElementById("loading-screen");
-
-                if (loadingScreen) {
-                    loadingScreen.classList.add("hidden");
-                    loadingScreen.style.opacity = "0";
-                    loadingScreen.style.visibility = "hidden";
-                    loadingScreen.style.pointerEvents = "none";
-
-                    setTimeout(function () {
-                        loadingScreen.style.display = "none";
-                    }, 500);
-                }
-            }, 3000);
-        });
-    </script>
-
-
-    <!-- Main Reader Script -->
-    js/main.js?v=10script>
 
 </body>
 </html>
