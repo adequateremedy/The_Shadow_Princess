@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Shadow Princess - Interactive Flipbook</title>
+    <title>The Shadow Princess</title>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -17,15 +17,14 @@
 <body>
 
 
-<!-- =====================================================
-     LOOPING MAGICAL BACKGROUND
-====================================================== -->
+    <!-- ======================================================
+         BACKGROUND VIDEO
+         Loads paused.
+         JavaScript starts playback when the cover opens.
+    ======================================================= -->
 
-<div id="background-container">
-
-    <video 
+    <video
         id="background-video"
-        autoplay
         muted
         loop
         playsinline>
@@ -34,30 +33,23 @@
 
     </video>
 
-</div>
 
 
 
 
-<!-- =====================================================
-     PHYSICAL BOOK
-====================================================== -->
+    <!-- ======================================================
+         BOOK CONTAINER
+         Represents the physical book.
+    ======================================================= -->
 
-<main id="book-stage">
-
-
-
-    <div id="book">
+    <main id="book">
 
 
-
-        <!-- =============================================
+        <!-- ==================================================
              CLOSED FRONT COVER
-             User drags this open
-        ============================================== -->
+        =================================================== -->
 
-        <div id="front-cover"
-             class="cover">
+        <div id="front-cover">
 
 
             <img
@@ -71,30 +63,50 @@
 
 
 
-
-        <!-- =============================================
+        <!-- ==================================================
              OPEN BOOK
-             Always exists underneath cover
-        ============================================== -->
-
+             The cover remains underneath.
+        =================================================== -->
 
         <div id="open-book">
 
 
 
+            <!-- ==============================================
+                 INSIDE COVER / REVERSED FRONT COVER
+
+                 This remains visible underneath all pages.
+            =============================================== -->
+
+            <div id="inside-cover">
 
 
-            <!-- =========================================
-                 LEFT SIDE OF BOOK
-            ========================================== -->
+                <img
+                    src="assets/front-cover.png"
+                    alt="Inside Cover">
 
 
-            <div id="left-stack"
-                 class="page-stack">
+            </div>
 
 
-                <div class="page"
-                     id="left-page">
+
+
+
+            <!-- ==============================================
+                 PAGE SPREAD
+
+                 Centered around the book fold.
+            =============================================== -->
+
+            <div id="page-spread">
+
+
+
+                <!-- LEFT PAGE -->
+
+                <div
+                    id="left-page"
+                    class="page">
 
 
                     <img
@@ -106,38 +118,14 @@
                 </div>
 
 
-            </div>
 
 
 
+                <!-- RIGHT PAGE -->
 
-
-
-
-            <!-- =========================================
-                 CENTER SPINE
-            ========================================== -->
-
-
-            <div id="book-spine"></div>
-
-
-
-
-
-
-
-            <!-- =========================================
-                 RIGHT SIDE OF BOOK
-            ========================================== -->
-
-
-            <div id="right-stack"
-                 class="page-stack">
-
-
-                <div class="page"
-                     id="right-page">
+                <div
+                    id="right-page"
+                    class="page">
 
 
                     <img
@@ -149,6 +137,7 @@
                 </div>
 
 
+
             </div>
 
 
@@ -156,33 +145,22 @@
 
 
 
-
-
-            <!-- =========================================
+            <!-- ==============================================
                  ACTIVE TURNING PAGE
 
-                 JavaScript moves this layer during
-                 drag interactions
-            ========================================== -->
-
+                 Used for realistic drag turning.
+            =============================================== -->
 
             <div id="turning-page">
 
 
-                <div id="turning-page-inner">
-
-
-                    <img
-                        id="turning-page-image"
-                        src=""
-                        alt="">
-
-
-                </div>
+                <img
+                    id="turning-page-image"
+                    src=""
+                    alt="">
 
 
             </div>
-
 
 
 
@@ -194,40 +172,51 @@
 
 
 
-    </div>
+
+
+        <!-- ==================================================
+             BOOK CENTER FOLD
+             Single axis for cover and pages.
+        =================================================== -->
+
+        <div id="book-fold"></div>
 
 
 
 
 
-    <!-- =============================================
-         OPTIONAL CONTROLS
-         Keyboard and accessibility support
-    ============================================== -->
 
+        <!-- ==================================================
+             RETURN TO TABLE OF CONTENTS BUTTON
 
-    <button
-        id="toc-button"
-        aria-label="Return to Table of Contents">
+             Hidden until JavaScript activates it.
+        =================================================== -->
 
-        ☰
+        <button
+            id="toc-button"
+            aria-label="Return to Table of Contents">
 
-    </button>
+            ☰
 
-
-
-
-</main>
+        </button>
 
 
 
 
 
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
+    </main>
 
-<script src="js/main.js"></script>
+
+
+
+
+
+    <!-- ======================================================
+         JAVASCRIPT
+    ======================================================= -->
+
+    <script src="js/main.js"></script>
+
 
 
 </body>
