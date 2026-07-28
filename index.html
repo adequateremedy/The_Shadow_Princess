@@ -12,107 +12,70 @@
 
 <body>
 
-    <!-- =====================================================
-         BACKGROUND VIDEO
-         This fades in after the book is selected/opened.
-         ===================================================== -->
-    <div id="background-video-layer" aria-hidden="true">
+    <!-- Background WebM Video -->
+    <div id="background-video-layer">
         <video id="background-video" autoplay muted loop playsinline preload="auto">
             assets/background.webm
         </video>
     </div>
 
 
-    <!-- =====================================================
-         APP WRAPPER
-         ===================================================== -->
+    <!-- Main App -->
     <main id="shadow-princess-app">
 
 
-        <!-- =================================================
-             LOADING SCREEN
-             ================================================= -->
-        <section id="loading-screen" aria-label="Loading The Shadow Princess">
+        <!-- Loading Screen -->
+        <section id="loading-screen">
             <div id="loading-card">
-                <div class="loading-title">The Shadow Princess</div>
-                <div class="loading-subtitle">Opening the book...</div>
+                <h1>The Shadow Princess</h1>
+                <p>Opening the book...</p>
             </div>
         </section>
 
 
-        <!-- =================================================
-             BOOK SELECTION / SHELF SCENE
-             Uses your shelf image and spine image.
-             ================================================= -->
-        <section id="library-scene" aria-label="Book selection scene">
-
-            <div id="shelf-stage">
-
-                assets/Empty-Book-Shelf.png
-
-                <button
-                    id="spine-button"
-                    type="button"
-                    aria-label="Select The Shadow Princess"
-                >
-                    assets/spine.png
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             READER SCENE
-             This is the actual interactive book.
-             ================================================= -->
-        <section id="reader-scene" aria-label="The Shadow Princess reader">
+        <!-- Book Reader Scene -->
+        <section id="reader-scene">
 
             <div id="book-stage">
 
-                <!-- Closed front cover -->
-                <div
-                    id="front-cover"
-                    aria-label="Front cover. Drag left to open the book."
-                >
+
+                <!-- Closed Front Cover -->
+                <div id="front-cover" aria-label="Front cover. Drag left to open the book.">
                     assets/front-cover.png
                 </div>
 
 
-                <!-- Open book spread -->
+                <!-- Open Book -->
                 <div id="open-book" aria-label="Open book">
 
-                    <!-- LEFT SIDE OF THE PHYSICAL BOOK
-                         This is a display container only.
-                         Your files are still numbered pages.
-                         Even-numbered story pages will appear here.
-                         The TOC also appears here at the beginning. -->
-                    <div id="book-left-page" class="book-page" aria-label="Left side of open book">
+
+                    <!-- Left side of the physical book.
+                         TOC appears here first.
+                         After that, even-numbered pages appear here. -->
+                    <div id="book-left-page" class="book-page">
                         
                     </div>
 
 
-                    <!-- RIGHT SIDE OF THE PHYSICAL BOOK
-                         This is a display container only.
-                         Your files are still numbered pages.
-                         Odd-numbered story pages will appear here. -->
-                    <div id="book-right-page" class="book-page" aria-label="Right side of open book">
+                    <!-- Right side of the physical book.
+                         Odd-numbered pages appear here. -->
+                    <div id="book-right-page" class="book-page">
                         
                     </div>
 
 
-                    <!-- Temporary animated page used while dragging/turning -->
-                    <div id="turning-page" aria-hidden="true">
+                    <!-- Temporary animated page used during page turns -->
+                    <div id="turning-page">
                         
                     </div>
+
 
                 </div>
 
             </div>
 
 
-            <!-- Floating Table of Contents button -->
+            <!-- Floating Table of Contents Button -->
             <button
                 id="toc-button"
                 type="button"
@@ -123,19 +86,16 @@
             </button>
 
 
-            <!-- Small helper text -->
-            <div id="reader-help" aria-hidden="true">
+            <!-- Reader Help Text -->
+            <div id="reader-help">
                 Drag the cover or page corner to turn. Use ← and → keys to navigate.
             </div>
 
         </section>
 
 
-        <!-- =================================================
-             RESUME NOTICE
-             main.js will control whether this appears.
-             ================================================= -->
-        <section id="resume-panel" aria-label="Resume reading" aria-hidden="true">
+        <!-- Resume Reading Panel -->
+        <section id="resume-panel" aria-hidden="true">
             <div id="resume-box">
                 <h2>Welcome Back</h2>
 
@@ -156,9 +116,7 @@
         </section>
 
 
-        <!-- =================================================
-             NO SCRIPT FALLBACK
-             ================================================= -->
+        <!-- No JavaScript Message -->
         <noscript>
             <div id="noscript-message">
                 This interactive book requires JavaScript to turn pages.
