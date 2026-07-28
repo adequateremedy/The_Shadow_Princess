@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>The Shadow Princess</title>
+    <title>The Shadow Princess - Interactive Flipbook</title>
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -17,11 +17,11 @@
 <body>
 
 
-    <!-- ======================================================
-         BACKGROUND VIDEO
-         Loads paused.
-         JavaScript starts playback when the cover opens.
-    ======================================================= -->
+<!-- ======================================================
+     BACKGROUND VIDEO
+====================================================== -->
+
+<div id="background-container">
 
     <video
         id="background-video"
@@ -33,137 +33,134 @@
 
     </video>
 
+</div>
 
 
 
 
-    <!-- ======================================================
-         BOOK CONTAINER
-         Represents the physical book.
-    ======================================================= -->
+<!-- ======================================================
+     BOOK STAGE
+====================================================== -->
 
-    <main id="book">
+<div id="book-stage">
 
 
-        <!-- ==================================================
-             CLOSED FRONT COVER
-        =================================================== -->
 
-        <div id="front-cover">
+    <!-- ==================================================
+         CLOSED BOOK COVER
+    =================================================== -->
+
+    <div id="book-cover">
+
+        <img
+            id="front-cover-image"
+            src="assets/front-cover.png"
+            alt="The Shadow Princess Front Cover">
+
+    </div>
+
+
+
+
+
+    <!-- ==================================================
+         OPEN BOOK
+    =================================================== -->
+
+    <div id="book">
+
+
+
+        <!-- Inside Cover Surface -->
+
+        <div id="inside-cover">
+
+
+
+            <!-- LEFT INSIDE COVER -->
+
+            <div id="inside-left-cover"></div>
+
+
+
+            <!-- RIGHT INSIDE COVER -->
+
+            <div id="inside-right-cover"></div>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <!-- =================================================
+             LEFT PAGE STACK
+        ================================================== -->
+
+        <div id="left-page-stack">
+
+
+            <div class="page-layer"></div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- =================================================
+             RIGHT PAGE STACK
+        ================================================== -->
+
+        <div id="right-page-stack">
+
+
+            <div class="page-layer"></div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- =================================================
+             CURRENT OPEN SPREAD
+        ================================================== -->
+
+
+
+        <div id="left-page">
+
+            <img
+                id="left-page-image"
+                src="assets/Table-of-Contents1.png"
+                alt="Table of Contents">
+
+        </div>
+
+
+
+
+
+        <div id="right-page">
 
 
             <img
-                src="assets/front-cover.png"
-                alt="The Shadow Princess Front Cover">
-
-
-        </div>
-
-
-
-
-
-        <!-- ==================================================
-             OPEN BOOK
-             The cover remains underneath.
-        =================================================== -->
-
-        <div id="open-book">
-
-
-
-            <!-- ==============================================
-                 INSIDE COVER / REVERSED FRONT COVER
-
-                 This remains visible underneath all pages.
-            =============================================== -->
-
-            <div id="inside-cover">
-
-
-                <img
-                    src="assets/front-cover.png"
-                    alt="Inside Cover">
-
-
-            </div>
-
-
-
-
-
-            <!-- ==============================================
-                 PAGE SPREAD
-
-                 Centered around the book fold.
-            =============================================== -->
-
-            <div id="page-spread">
-
-
-
-                <!-- LEFT PAGE -->
-
-                <div
-                    id="left-page"
-                    class="page">
-
-
-                    <img
-                        id="left-page-image"
-                        src="assets/Table-of-Contents1.png"
-                        alt="Table of Contents">
-
-
-                </div>
-
-
-
-
-
-                <!-- RIGHT PAGE -->
-
-                <div
-                    id="right-page"
-                    class="page">
-
-
-                    <img
-                        id="right-page-image"
-                        src="chapters/one/Chapter-One-Page-1.png"
-                        alt="Chapter One Page One">
-
-
-                </div>
-
-
-
-            </div>
-
-
-
-
-
-
-            <!-- ==============================================
-                 ACTIVE TURNING PAGE
-
-                 Used for realistic drag turning.
-            =============================================== -->
-
-            <div id="turning-page">
-
-
-                <img
-                    id="turning-page-image"
-                    src=""
-                    alt="">
-
-
-            </div>
-
-
-
+                id="right-page-image"
+                src="chapters/one/Chapter-One-Page-1.png"
+                alt="Chapter One Page One">
 
 
         </div>
@@ -174,49 +171,66 @@
 
 
 
-        <!-- ==================================================
-             BOOK CENTER FOLD
-             Single axis for cover and pages.
-        =================================================== -->
-
-        <div id="book-fold"></div>
 
 
+        <!-- =================================================
+             TURNING PAGE
+             Controlled by JavaScript
+        ================================================== -->
+
+        <div id="turning-page">
 
 
+            <img
+                id="turning-page-image"
+                src=""
+                alt="">
 
 
-        <!-- ==================================================
-             RETURN TO TABLE OF CONTENTS BUTTON
-
-             Hidden until JavaScript activates it.
-        =================================================== -->
-
-        <button
-            id="toc-button"
-            aria-label="Return to Table of Contents">
-
-            ☰
-
-        </button>
-
-
-
-
-
-    </main>
+        </div>
 
 
 
 
 
 
-    <!-- ======================================================
-         JAVASCRIPT
-    ======================================================= -->
+        <!-- CENTER FOLD -->
 
-    <script src="js/main.js"></script>
+        <div id="center-fold"></div>
 
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ======================================================
+     CONTROLS
+====================================================== -->
+
+
+<button
+    id="toc-button"
+    aria-label="Return to Table of Contents">
+
+    ☰
+
+</button>
+
+
+
+
+<script src="js/main.js"></script>
 
 
 </body>
