@@ -5,16 +5,11 @@
 ========================================================== */
 
 
-/* ==========================================================
-   GLOBAL RESET
-========================================================== */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 
 
 html,
@@ -25,19 +20,26 @@ body {
 
     overflow: hidden;
 
-    font-family: "Georgia", serif;
-
     background: #000;
+
+    font-family: Georgia, serif;
 
 }
 
 
+
+body {
+
+    position: relative;
+
+}
 
 
 
 /* ==========================================================
    BACKGROUND VIDEO
 ========================================================== */
+
 
 #background-container {
 
@@ -63,27 +65,22 @@ body {
 
     object-fit: cover;
 
-    pointer-events: none;
-
 }
 
 
 
 
 
-
-
 /* ==========================================================
-   MAIN READER AREA
+   MAIN READER
 ========================================================== */
 
 
 #book-reader {
 
-    position: relative;
-
     width: 100%;
-    height: 100%;
+
+    height: 100vh;
 
     display: flex;
 
@@ -91,9 +88,11 @@ body {
 
     align-items: center;
 
+    overflow: hidden;
+
+    position: relative;
+
 }
-
-
 
 
 
@@ -110,7 +109,7 @@ body {
 
     inset: 0;
 
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,.85);
 
     display: flex;
 
@@ -128,17 +127,11 @@ body {
 
     color: #f5deb3;
 
-    font-size: 2rem;
+    font-size: 28px;
 
-    letter-spacing: 2px;
-
-    text-shadow:
-
-        0 0 15px rgba(255,215,120,0.8);
+    text-shadow: 0 0 20px #d8b46a;
 
 }
-
-
 
 
 
@@ -153,17 +146,17 @@ body {
 
     position: relative;
 
-    width: min(1200px, 90vw);
+    width: 950px;
 
-    height: min(850px, 85vh);
+    height: 650px;
 
+    max-width: 85vw;
 
-    perspective: 2000px;
+    max-height: 75vh;
 
+    perspective: 1800px;
 
 }
-
-
 
 
 
@@ -176,34 +169,29 @@ body {
 
 #front-cover {
 
-
     position: absolute;
 
     width: 50%;
 
     height: 100%;
 
-
     left: 25%;
 
     top: 0;
 
-
     transform-origin: left center;
-
 
     z-index: 20;
 
-
     cursor: grab;
 
+    transition: transform 1s ease;
 
     filter:
 
         drop-shadow(
-            0 25px 40px rgba(0,0,0,0.75)
+            0 20px 35px rgba(0,0,0,.75)
         );
-
 
 }
 
@@ -211,21 +199,13 @@ body {
 
 #front-cover img {
 
-
     width: 100%;
 
     height: 100%;
 
-
-    object-fit: cover;
-
-
-    border-radius: 4px;
-
+    object-fit: contain;
 
 }
-
-
 
 
 
@@ -238,23 +218,15 @@ body {
 
 #open-book {
 
-
     position: absolute;
 
-
-    width: 100%;
-
-    height: 100%;
-
+    inset: 0;
 
     display: flex;
 
-
-    transform-style: preserve-3d;
-
-
     opacity: 0;
 
+    transform-style: preserve-3d;
 
 }
 
@@ -262,106 +234,62 @@ body {
 
 
 
-
-
 /* ==========================================================
-   INDIVIDUAL PAGES
+   PAGES
 ========================================================== */
 
 
 .page {
 
-
-    position: relative;
-
-
     width: 50%;
 
     height: 100%;
 
-
-    background: #f5ecd8;
-
+    position: relative;
 
     overflow: hidden;
 
+    background: #f4ead5;
 
     box-shadow:
 
-        inset 0 0 30px rgba(0,0,0,0.25);
-
-
+        inset 0 0 35px rgba(0,0,0,.25);
 
 }
-
 
 
 
 .page img {
 
-
     width: 100%;
 
     height: 100%;
 
-
     object-fit: contain;
-
 
     display: block;
 
-
 }
 
-
-
-
-
-
-
-/* ==========================================================
-   LEFT PAGE
-========================================================== */
 
 
 #left-page {
 
-
-    transform-origin: right center;
-
-
     border-radius:
 
-        8px 0 0 8px;
-
+        10px 0 0 10px;
 
 }
 
-
-
-
-
-
-
-/* ==========================================================
-   RIGHT PAGE
-========================================================== */
 
 
 #right-page {
 
-
-    transform-origin: left center;
-
-
     border-radius:
 
-        0 8px 8px 0;
-
+        0 10px 10px 0;
 
 }
-
-
 
 
 
@@ -374,27 +302,19 @@ body {
 
 #open-book::after {
 
-
     content: "";
-
 
     position: absolute;
 
+    top: 0;
 
     left: 50%;
 
-
-    top: 0;
-
-
-    width: 35px;
-
-
-    height: 100%;
-
-
     transform: translateX(-50%);
 
+    width: 40px;
+
+    height: 100%;
 
     background:
 
@@ -402,17 +322,17 @@ body {
 
             to right,
 
-            rgba(0,0,0,0.25),
+            rgba(0,0,0,.25),
 
             transparent,
 
-            rgba(0,0,0,0.25)
+            rgba(0,0,0,.25)
 
         );
 
 
-    pointer-events: none;
 
+    pointer-events: none;
 
 }
 
@@ -420,42 +340,28 @@ body {
 
 
 
-
-
 /* ==========================================================
-   PAGE TURNING LAYER
+   TURNING PAGE
 ========================================================== */
 
 
 #page-turn-layer {
 
-
     position: absolute;
-
 
     top: 0;
 
-
     left: 50%;
-
 
     width: 50%;
 
-
     height: 100%;
-
 
     transform-origin: left center;
 
-
-    z-index: 50;
-
-
     display: none;
 
-
-    pointer-events: none;
-
+    z-index: 50;
 
 }
 
@@ -463,21 +369,19 @@ body {
 
 #turning-page-image {
 
-
     width: 100%;
 
     height: 100%;
 
-
     object-fit: contain;
-
 
     filter:
 
         drop-shadow(
-            -15px 20px 30px rgba(0,0,0,0.6)
-        );
 
+            -15px 20px 30px rgba(0,0,0,.6)
+
+        );
 
 }
 
@@ -485,35 +389,26 @@ body {
 
 
 
-
-
 /* ==========================================================
-   FLOATING TABLE OF CONTENTS BUTTON
+   TOC BUTTON
 ========================================================== */
 
 
 #toc-button {
 
-
     position: fixed;
 
+    left: 25px;
 
-    left: 30px;
-
-
-    bottom: 30px;
-
+    bottom: 25px;
 
     width: 55px;
 
     height: 55px;
 
-
     border-radius: 50%;
 
-
-    border: 1px solid rgba(255,215,150,0.7);
-
+    border: 1px solid #c8a45d;
 
     background:
 
@@ -521,55 +416,25 @@ body {
 
             circle,
 
-            #5c3b1e,
+            #6b421f,
 
-            #241304
+            #1d0d03
 
         );
 
-
     color: #f5deb3;
-
 
     font-size: 24px;
 
-
     cursor: pointer;
-
 
     z-index: 200;
 
-
     box-shadow:
 
-        0 10px 25px rgba(0,0,0,0.6);
-
-
-    transition:
-
-        transform .3s ease,
-
-        box-shadow .3s ease;
-
+        0 10px 25px rgba(0,0,0,.7);
 
 }
-
-
-
-#toc-button:hover {
-
-
-    transform: scale(1.1);
-
-
-    box-shadow:
-
-        0 0 20px rgba(255,215,120,0.8);
-
-
-}
-
-
 
 
 
@@ -582,43 +447,31 @@ body {
 
 #resume-window {
 
-
     position: fixed;
-
 
     inset: 0;
 
-
-    background:
-
-        rgba(0,0,0,0.75);
-
-
     display: none;
-
 
     justify-content: center;
 
-
     align-items: center;
 
+    background: rgba(0,0,0,.75);
 
     z-index: 500;
-
 
 }
 
 
 
-
 #resume-box {
 
-
-    width: 400px;
-
+    width: 380px;
 
     padding: 35px;
 
+    text-align: center;
 
     background:
 
@@ -632,134 +485,79 @@ body {
 
         );
 
-
     color: #f5deb3;
-
-
-    text-align: center;
-
 
     border-radius: 12px;
 
-
     box-shadow:
 
-        0 20px 60px rgba(0,0,0,0.8);
-
+        0 20px 60px rgba(0,0,0,.8);
 
 }
-
 
 
 
 #resume-box h2 {
 
-
     margin-bottom: 20px;
 
-
 }
-
 
 
 
 #resume-box p {
 
-
-    margin-bottom: 30px;
-
+    margin-bottom: 25px;
 
 }
-
 
 
 
 .resume-buttons {
 
-
     display: flex;
-
-
-    gap: 15px;
-
 
     justify-content: center;
 
+    gap: 15px;
 
 }
-
 
 
 
 .resume-buttons button {
 
-
-    padding: 12px 20px;
-
-
-    cursor: pointer;
-
-
-    border-radius: 6px;
-
+    padding: 12px 18px;
 
     border: none;
 
+    border-radius: 6px;
+
+    cursor: pointer;
 
     background: #8b5a2b;
 
-
     color: white;
 
-
-    font-family: Georgia, serif;
-
-
 }
-
-
-
-.resume-buttons button:hover {
-
-
-    background: #b07a3f;
-
-
-}
-
-
 
 
 
 
 
 /* ==========================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE
 ========================================================== */
 
 
-@media (max-width: 900px) {
+@media(max-width: 1000px) {
 
 
     #book-container {
 
+        width: 90vw;
 
-        width: 95vw;
-
-        height: 70vh;
-
-
-    }
-
-
-
-    #toc-button {
-
-
-        left: 15px;
-
-        bottom: 15px;
-
+        height: 65vh;
 
     }
 
@@ -768,26 +566,14 @@ body {
 
 
 
-
-
-
-@media (max-width: 600px) {
+@media(max-width: 600px) {
 
 
     #book-container {
 
+        width: 95vw;
 
-        height: 60vh;
-
-
-    }
-
-
-    .loading-text {
-
-
-        font-size: 1.2rem;
-
+        height: 55vh;
 
     }
 
