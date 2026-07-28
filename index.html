@@ -7,15 +7,9 @@
 
     <title>The Shadow Princess - Interactive Book</title>
 
-    css/style.css?v=5
+    css/style.css?v=6
 
     <style>
-        /*
-            Emergency inline safety styles.
-            These make sure the loading screen can be removed
-            even if the external CSS is cached or delayed.
-        */
-
         #loading-screen.force-hide {
             opacity: 0 !important;
             visibility: hidden !important;
@@ -116,10 +110,7 @@
     </main>
 
 
-    <!-- Emergency fallback:
-         If main.js fails or GitHub Pages serves an old cached JS file,
-         this removes the loading screen so the page is not trapped forever.
-    -->
+    <!-- Emergency fallback -->
     <script>
         window.addEventListener("load", function () {
             console.log("Index.html loaded. Emergency fallback armed.");
@@ -144,7 +135,7 @@
 
 
     <!-- Main Reader Script -->
-    js/main.js?v=5script>
+    js/main.js?v=6script>
 
 </body>
 </html>
