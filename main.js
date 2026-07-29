@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         "assets/Copyright-Page.png",      // [7] Copyright Page (Left)
         "assets/Dedication-Page.png",     // [8] Dedication (Right)
         "assets/Blank-Page.png",          // [9] Back of Dedication (Left)
-        "assets/Table-of-Contents1.png",  // [10] TOC (Right)
+        "assets/Table-of-Contents.png",   // [10] TOC (Right)
         "assets/Blank-Page.png"           // [11] Back of TOC (Left)
     ];
 
