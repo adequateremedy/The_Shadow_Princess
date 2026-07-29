@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 400, // Base width of one page
         height: 600, // Base height of one page
         size: "stretch", // Scales to fit the container natively
-        minWidth: 250, // Prevents pages from shrinking to an unreadable size
-        maxWidth: 400, // Caps the desktop size so it doesn't take over the screen
-        minHeight: 350,
+        minWidth: 150, // Allows shrinking on mobile
+        maxWidth: 400, // Caps the desktop size
+        minHeight: 225, // Allows shrinking on mobile
         maxHeight: 600,
         drawShadow: true, 
         showCover: true, 
-        usePortrait: true, // Automatically switches to single-page view on mobile vertical screens
+        usePortrait: false, // Forces 2-page spread on all devices
         flippingTime: 1000,
         maxShadowOpacity: 0.5
     });
