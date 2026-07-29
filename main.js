@@ -19,10 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { dir: "Thirteen", pages: Array.from({length: 30}, (_, i) => i + 282) } 
     ];
 
-    // Front matter layout to ensure proper right/left alignments
     let imagePaths = [
         "assets/front-cover.png",         // [0] Cover (Closed book, Right)
-        "assets/Blank-Page.png",          // [1] Inside Front Cover (Left)
+        "assets/front-cover-inside.png",  // [1] Inside Front Cover (Left)
         "assets/Blank-Page.png",          // [2] Flyleaf (Right)
         "assets/Blank-Page.png",          // [3] Back of Flyleaf (Left)
         "assets/Half-Title-Page.png",     // [4] Half Title (Right)
