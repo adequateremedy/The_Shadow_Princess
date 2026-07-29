@@ -19,19 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
         { dir: "Thirteen", pages: Array.from({length: 30}, (_, i) => i + 282) } 
     ];
 
+    // Front matter layout to ensure proper right/left alignments
     let imagePaths = [
-        "assets/front-cover.png",
-        "assets/front-cover-inside.png",
-        "assets/Blank-Page.png",
-        "assets/Blank-Page.png",
-        "assets/Half-Title-Page.png",
-        "assets/Frontispiece.png",
-        "assets/Title-Page.png",
-        "assets/Copyright-Page.png",
-        "assets/Dedication-Page.png",
-        "assets/Blank-Page.png",
-        "assets/Table-of-Contents1.png",
-        "assets/Blank-Page.png"
+        "assets/front-cover.png",         // [0] Cover (Closed book, Right)
+        "assets/Blank-Page.png",          // [1] Inside Front Cover (Left)
+        "assets/Blank-Page.png",          // [2] Flyleaf (Right)
+        "assets/Blank-Page.png",          // [3] Back of Flyleaf (Left)
+        "assets/Half-Title-Page.png",     // [4] Half Title (Right)
+        "assets/Frontispiece.png",        // [5] Frontispiece (Left)
+        "assets/Title-Page.png",          // [6] Title Page (Right)
+        "assets/Copyright-Page.png",      // [7] Copyright Page (Left)
+        "assets/Dedication-Page.png",     // [8] Dedication (Right)
+        "assets/Blank-Page.png",          // [9] Back of Dedication (Left)
+        "assets/Table-of-Contents1.png",  // [10] TOC (Right)
+        "assets/Blank-Page.png"           // [11] Back of TOC (Left)
     ];
 
     chapterMap.forEach(ch => {
@@ -55,10 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const pageFlip = new St.PageFlip(bookElement, {
         width: 400, // Base width of one page
         height: 600, // Base height of one page
-        size: "fixed", // Renders the book at a fixed size in the center
-        drawShadow: true, // Realistic curl shadows
-        showCover: true, // Keeps cover as a single page, opening to a spread
-        usePortrait: false, // Forces spread view
+        size: "stretch", // Scales to fit the container natively
+        minWidth: 250, // Prevents pages from shrinking to an unreadable size
+        maxWidth: 400, // Caps the desktop size so it doesn't take over the screen
+        minHeight: 350,
+        maxHeight: 600,
+        drawShadow: true, 
+        showCover: true, 
+        usePortrait: true, // Automatically switches to single-page view on mobile vertical screens
         flippingTime: 1000,
         maxShadowOpacity: 0.5
     });
